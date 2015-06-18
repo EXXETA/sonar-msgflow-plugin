@@ -33,7 +33,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetId() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertEquals("FCMComposite_1_1", mf.getFileInputNodes().get(0).getId());
 	}
@@ -43,7 +43,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetName() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertEquals("File Input", mf.getFileInputNodes().get(0).getName());
 	}
@@ -53,7 +53,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetType() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertEquals("FileInput", mf.getFileInputNodes().get(0).getType());
 	}
@@ -63,7 +63,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsBuildTreeUsingSchema() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertTrue(mf.getFileInputNodes().get(0).isBuildTreeUsingSchema());
 	}
@@ -73,7 +73,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsMixedContentRetainMode() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertTrue(mf.getFileInputNodes().get(0).isMixedContentRetainMode());
 	}
@@ -83,7 +83,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsCommentsRetainMode() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertTrue(mf.getFileInputNodes().get(0).isCommentsRetainMode());
 	}
@@ -93,7 +93,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsValidateMaster() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertTrue(mf.getFileInputNodes().get(0).isValidateMaster());
 	}
@@ -103,7 +103,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetMessageDomainProperty() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertEquals("XMLNSC", mf.getFileInputNodes().get(0).getMessageDomainProperty());
 	}
@@ -113,7 +113,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetMessageSetProperty() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\FileInput.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/FileInput.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFileInputNodes().size());
 		assertEquals("TestHttp", mf.getFileInputNodes().get(0).getMessageSetProperty());
 	}
@@ -123,7 +123,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetRequestMsgLocationInTree() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\HttpRequest.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/HttpRequest.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getHttpRequestNodes().size());
 		assertEquals("InputRoot.XMLNSC", mf.getHttpRequestNodes().get(0).getRequestMsgLocationInTree());
 	}
@@ -133,7 +133,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetMessageDomain() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\ResetContentDescriptor.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/ResetContentDescriptor.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getResetContentDescriptorNodes().size());
 		assertEquals("XMLNSC", mf.getResetContentDescriptorNodes().get(0).getMessageDomain());
 	}
@@ -143,7 +143,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetMessageSet() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\ResetContentDescriptor.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/ResetContentDescriptor.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getResetContentDescriptorNodes().size());
 		assertEquals("TestHttp", mf.getResetContentDescriptorNodes().get(0).getMessageSet());
 	}
@@ -153,7 +153,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsResetMessageDomain() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\ResetContentDescriptor.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/ResetContentDescriptor.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getResetContentDescriptorNodes().size());
 		assertTrue(mf.getResetContentDescriptorNodes().get(0).isResetMessageDomain());
 	}
@@ -163,7 +163,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsResetMessageSet() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\ResetContentDescriptor.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/ResetContentDescriptor.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getResetContentDescriptorNodes().size());
 		assertTrue(mf.getResetContentDescriptorNodes().get(0).isResetMessageSet());
 	}
@@ -173,7 +173,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsResetMessageType() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\ResetContentDescriptor.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/ResetContentDescriptor.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getResetContentDescriptorNodes().size());
 		assertTrue(mf.getResetContentDescriptorNodes().get(0).isResetMessageType());
 	}
@@ -183,7 +183,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testIsResetMessageFormat() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\ResetContentDescriptor.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/ResetContentDescriptor.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getResetContentDescriptorNodes().size());
 		assertTrue(mf.getResetContentDescriptorNodes().get(0).isResetMessageFormat());
 	}
@@ -193,7 +193,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetInputTerminals() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\Collector.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/Collector.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getCollectorNodes().size());
 		
 		assertTrue("No InTerminal.control found.", mf.getCollectorNodes().get(0).getInputTerminals().contains("InTerminal.control"));
@@ -204,7 +204,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetOutputTerminals() {
-		MessageFlow mf = new MessageFlow("src\\test\\resources\\Collector.msgflow", new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/Collector.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getCollectorNodes().size());
 		
 		assertTrue("No OutTerminal.failure found.", mf.getCollectorNodes().get(0).getOutputTerminals().contains("OutTerminal.failure"));
