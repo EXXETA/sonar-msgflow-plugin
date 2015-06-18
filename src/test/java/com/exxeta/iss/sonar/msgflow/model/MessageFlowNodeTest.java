@@ -19,8 +19,6 @@ package com.exxeta.iss.sonar.msgflow.model;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-
 import org.junit.Test;
 
 /**
@@ -206,7 +204,7 @@ public class MessageFlowNodeTest {
 	 */
 	@Test
 	public final void testGetOutputTerminals() {
-		MessageFlow mf = new MessageFlow(new File("src/test/resources/Collector.msgflow").getAbsolutePath(), new MessageFlowParser());
+		MessageFlow mf = new MessageFlow("src/test/resources/Collector.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getCollectorNodes().size());
 		
 		assertTrue("No OutTerminal.failure found.", mf.getCollectorNodes().get(0).getOutputTerminals().contains("OutTerminal.failure"));

@@ -45,12 +45,12 @@ public class MessageFlowProjectTest {
 		MessageFlowProject mfp = MessageFlowProject.getInstance();
 		
 		long start = System.nanoTime();
-		MessageFlow mf = mfp.getMessageFlow("src\\test\\resources\\Collector.msgflow");
+		MessageFlow mf = mfp.getMessageFlow("src/test/resources/Collector.msgflow");
 		long stop = System.nanoTime();
 		long diff1 = stop - start;
 		
 		start = System.nanoTime();
-		mf = mfp.getMessageFlow("src\\test\\resources\\Collector.msgflow");
+		mf = mfp.getMessageFlow("src/test/resources/Collector.msgflow");
 		stop = System.nanoTime();
 		long diff2 = stop - start;
 		
