@@ -1,46 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
-  <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
-  <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" path="M2_REPO/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2.jar"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-plugin-api/4.5.2/sonar-plugin-api-4.5.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-check-api/4.5.2/sonar-check-api-4.5.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-colorizer/4.5.2/sonar-colorizer-4.5.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/google/guava/guava/10.0.1/guava-10.0.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-channel/4.1/sonar-channel-4.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-duplications/4.5.2/sonar-duplications-4.5.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-graph/4.5.2/sonar-graph-4.5.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-squid/4.1/sonar-squid-4.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/picocontainer/picocontainer/2.14.3/picocontainer-2.14.3.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-annotations/3.4.0.GA/hibernate-annotations-3.4.0.GA.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/hibernate/ejb3-persistence/1.0.2.GA/ejb3-persistence-1.0.2.GA.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-commons-annotations/3.1.0.GA/hibernate-commons-annotations-3.1.0.GA.jar"/>
-  <classpathentry kind="var" path="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.8/commons-codec-1.8.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.7.5/jcl-over-slf4j-1.7.5.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/log4j-over-slf4j/1.7.5/log4j-over-slf4j-1.7.5.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/xpp3/xpp3/1.1.3.3/xpp3-1.1.3.3.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/woodstox/woodstox-core-lgpl/4.4.0/woodstox-core-lgpl-4.4.0.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/staxmate/staxmate/2.0.1/staxmate-2.0.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-testing-harness/4.5.2/sonar-testing-harness-4.5.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/easytesting/fest-assert/1.4/fest-assert-1.4.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/easytesting/fest-util/1.1.6/fest-util-1.1.6.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/skyscreamer/jsonassert/1.2.3/jsonassert-1.2.3.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/json/json/20090211/json-20090211.jar"/>
-  <classpathentry kind="var" path="M2_REPO/junit/junit/4.11/junit-4.11.jar" sourcepath="M2_REPO/junit/junit/4.11/junit-4.11-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-all/1.3/hamcrest-all-1.3.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.9.5/mockito-core-1.9.5.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**/*.java" including="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry kind="var" path="M2_REPO/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-plugin-api/4.5.2/sonar-plugin-api-4.5.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-check-api/4.5.2/sonar-check-api-4.5.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-colorizer/4.5.2/sonar-colorizer-4.5.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava/10.0.1/guava-10.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-channel/4.1/sonar-channel-4.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-duplications/4.5.2/sonar-duplications-4.5.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-graph/4.5.2/sonar-graph-4.5.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-squid/4.1/sonar-squid-4.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/picocontainer/picocontainer/2.14.3/picocontainer-2.14.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-annotations/3.4.0.GA/hibernate-annotations-3.4.0.GA.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hibernate/ejb3-persistence/1.0.2.GA/ejb3-persistence-1.0.2.GA.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-commons-annotations/3.1.0.GA/hibernate-commons-annotations-3.1.0.GA.jar"/>
+	<classpathentry kind="var" path="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.8/commons-codec-1.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.7.5/jcl-over-slf4j-1.7.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/log4j-over-slf4j/1.7.5/log4j-over-slf4j-1.7.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xpp3/xpp3/1.1.3.3/xpp3-1.1.3.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/woodstox/woodstox-core-lgpl/4.4.0/woodstox-core-lgpl-4.4.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/staxmate/staxmate/2.0.1/staxmate-2.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/sonar/sonar-testing-harness/4.5.2/sonar-testing-harness-4.5.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/easytesting/fest-assert/1.4/fest-assert-1.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/easytesting/fest-util/1.1.6/fest-util-1.1.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/skyscreamer/jsonassert/1.2.3/jsonassert-1.2.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/json/json/20090211/json-20090211.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/4.11/junit-4.11.jar" sourcepath="M2_REPO/junit/junit/4.11/junit-4.11-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-all/1.3/hamcrest-all-1.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.9.5/mockito-core-1.9.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
