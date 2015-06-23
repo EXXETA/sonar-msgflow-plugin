@@ -56,11 +56,13 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "CollectorNodeOutTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "CollectorNodeExpireTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "CollectorNodeCatchTerminal"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "CollectorNodeMonitoringEvents"), null);
 		
 		/* ComputeNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ComputeNodeInTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ComputeNodeFailureTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ComputeNodeOutTerminal"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ComputeNodeMonitoringEvents"), null);
 		
 		/* File Input Node rules */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileInputNodeFailureTerminal"), null);
@@ -73,6 +75,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileInputNodeValidation"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileInputNodeMessageDomain"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileInputNodeMessageSet"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileInputNodeMonitoringEvents"), null);
 		
 		/* FileOutputNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileOutputNodeInTerminal"), null);
@@ -81,6 +84,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileOutputNodeOutTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileOutputNodeOutEODTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileOutputNodeValidation"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FileOutputNodeMonitoringEvents"), null);
 
 		/* HttpInputNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpInputNodeFailureTerminal"), null);
@@ -93,6 +97,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpInputNodeValidation"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpInputNodeMessageDomain"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpInputNodeMessageSet"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpInputNodeMonitoringEvents"), null);
 
 		/* HttpRequestNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpRequestNodeHTTPHeader"), null);
@@ -107,6 +112,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpRequestNodeValidation"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpRequestNodeMessageDomain"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpRequestNodeMessageSet"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpRequestNodeMonitoringEvents"), null);
 		
 		/* MQInputNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQInputNodeFailureTerminal"), null);
@@ -118,12 +124,14 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQInputNodeValidation"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQInputNodeMessageDomain"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQInputNodeMessageSet"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQInputNodeMonitoringEvents"), null);
 
 		/* MQOutputNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQOutputNodeInTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQOutputNodeFailureTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQOutputNodeOutTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQOutputNodeValidation"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQOutputNodeMonitoringEvents"), null);
 
 		/* ResetContentDescriptorNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ResetContentDescriptorNodeMessageDomain"), null);
@@ -132,6 +140,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ResetContentDescriptorNodeResetMessageSet"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ResetContentDescriptorNodeResetMessageType"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ResetContentDescriptorNodeResetMessageFormat"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ResetContentDescriptorNodeMonitoringEvents"), null);
 
 		/* SoapInputNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapInputNodeFailureTerminal"), null);
@@ -140,6 +149,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapInputNodeCatchTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapInputNodeBuildTree"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapInputNodeValidation"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapInputNodeMonitoringEvents"), null);
 
 		/* SoapRequestNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestNodeInTerminal"), null);
@@ -148,22 +158,26 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestNodeFaultTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestNodeBuildTree"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestNodeValidation"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestNodeMonitoringEvents"), null);
 
 		/* TimeoutControlNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutControlNodeInTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutControlNodeFailureTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutControlNodeOutTerminal"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutControlNodeMonitoringEvents"), null);
 
 		/* TimeoutNotificationNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutNotificationNodeFailureTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutNotificationNodeOutTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutNotificationNodeCatchTerminal"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TimeoutNotificationNodeMonitoringEvents"), null);
 
 		/* TryCatchNode */
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeTryCatch"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeInTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeTryTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeCatchTerminal"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeMonitoringEvents"), null);
 		
 		// add more rules here
 		

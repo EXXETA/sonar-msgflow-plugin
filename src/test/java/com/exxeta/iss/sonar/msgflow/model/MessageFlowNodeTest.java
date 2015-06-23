@@ -189,6 +189,45 @@ public class MessageFlowNodeTest {
 	}
 
 	/**
+	 * Test method for {@link com.exxeta.iss.sonar.msgflow.model.MessageFlowNode#areMonitoringEventsEnabled()}.
+	 */
+	@Test
+	public final void testAreMonitoringEventsEnabledNoMonitoringEvents() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MonitoringNone.msgflow", new MessageFlowParser());
+		
+		/* check whether there is the expected compute node in the test file */
+		assertEquals(1, mf.getComputeNodes().size());
+		
+		assertFalse(mf.getComputeNodes().get(0).areMonitoringEventsEnabled());
+	}
+	
+	/**
+	 * Test method for {@link com.exxeta.iss.sonar.msgflow.model.MessageFlowNode#areMonitoringEventsEnabled()}.
+	 */
+	@Test
+	public final void testAreMonitoringEventsEnabledMonitoringEventsEnabled() {
+		MessageFlow mf = new MessageFlow("src/test/resources/Monitoring.msgflow", new MessageFlowParser());
+		
+		/* check whether there is the expected compute node in the test file */
+		assertEquals(1, mf.getComputeNodes().size());
+		
+		assertTrue(mf.getComputeNodes().get(0).areMonitoringEventsEnabled());
+	}
+	
+	/**
+	 * Test method for {@link com.exxeta.iss.sonar.msgflow.model.MessageFlowNode#areMonitoringEventsEnabled()}.
+	 */
+	@Test
+	public final void testAreMonitoringEventsEnabledMonitoringEventsDisabled() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MonitoringDisabled.msgflow", new MessageFlowParser());
+		
+		/* check whether there is the expected compute node in the test file */
+		assertEquals(1, mf.getComputeNodes().size());
+		
+		assertFalse(mf.getComputeNodes().get(0).areMonitoringEventsEnabled());
+	}
+	
+	/**
 	 * Test method for {@link com.exxeta.iss.sonar.msgflow.model.MessageFlowNode#getInputTerminals()}.
 	 */
 	@Test

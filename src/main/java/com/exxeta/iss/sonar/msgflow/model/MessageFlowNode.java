@@ -114,6 +114,11 @@ public class MessageFlowNode {
 	private boolean resetMessageFormat;
 	
 	/**
+	 * the flag for "Monitoring / Monitoring events"
+	 */
+	private boolean areMonitoringEventsEnabled;
+	
+	/**
 	 * the list of input terminals of a message flow node
 	 */
 	private ArrayList<String> inputTerminals;
@@ -144,6 +149,7 @@ public class MessageFlowNode {
 					   	   boolean resetMessageSet,
 					   	   boolean resetMessageType,
 					   	   boolean resetMessageFormat,
+					   	   boolean areMonitoringEventsEnabled,
 					   	   ArrayList<String> inputTerminals,
 					   	   ArrayList<String> outputTerminals) {
 		this.id							= id;
@@ -162,6 +168,7 @@ public class MessageFlowNode {
 		this.resetMessageSet			= resetMessageSet;
 		this.resetMessageType			= resetMessageType;
 		this.resetMessageFormat			= resetMessageFormat;
+		this.areMonitoringEventsEnabled	= areMonitoringEventsEnabled;
 		this.inputTerminals				= inputTerminals;
 		this.outputTerminals			= outputTerminals;
 	}
@@ -275,7 +282,7 @@ public class MessageFlowNode {
 	}
 
 	/**
-	 * The method returns a the flag for 'reset Message Domain' of a message flow node.
+	 * The method returns the flag for 'reset Message Domain' of a message flow node.
 	 * 
 	 * @return the flag for 'reset Message Domain' of a message flow node
 	 */
@@ -284,7 +291,7 @@ public class MessageFlowNode {
 	}
 
 	/**
-	 * The method returns a the flag for 'reset Message Set' of a message flow node.
+	 * The method returns the flag for 'reset Message Set' of a message flow node.
 	 * 
 	 * @return the flag for 'reset Message Set' of a message flow node
 	 */
@@ -293,7 +300,7 @@ public class MessageFlowNode {
 	}
 
 	/**
-	 * The method returns a the flag for 'reset Message Type' of a message flow node.
+	 * The method returns the flag for 'reset Message Type' of a message flow node.
 	 * 
 	 * @return the flag for 'reset Message Type' of a message flow node
 	 */
@@ -302,12 +309,21 @@ public class MessageFlowNode {
 	}
 
 	/**
-	 * The method returns a the flag for 'reset Message Format' of a message flow node.
+	 * The method returns the flag for 'reset Message Format' of a message flow node.
 	 * 
 	 * @return the flag for 'reset Message Format' of a message flow node
 	 */
 	public boolean isResetMessageFormat() {
 		return resetMessageFormat;
+	}
+	
+	/**
+	 * The method returns the flag for 'areMonitoringEventsEnabled' of the message flow node.
+	 * 
+	 *  @return the flag for 'areMonitoringEventsEnabled' of the message flow node
+	 */
+	public boolean areMonitoringEventsEnabled() {
+		return areMonitoringEventsEnabled;
 	}
 	
 	/**

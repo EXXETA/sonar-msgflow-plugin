@@ -123,6 +123,16 @@ public class TimeoutNotificationNodeSensor implements Sensor {
 				    	        	  .line(1)
 				    	        	  .build());
 				}
+				
+				if (!msgFlowNode.areMonitoringEventsEnabled()) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "TimeoutNotificationNodeMonitoringEvents"))
+				    	        	  .message("There are no monitoring events defined or the "
+				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
+				    	        	  .line(1)
+				    	        	  .build());
+				}
 			}
 		}
 	}

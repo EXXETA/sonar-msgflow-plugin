@@ -60,6 +60,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the control terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/* 
 		 * CollectorNodeFailureTerminal
 		 */
@@ -68,6 +69,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/* 
 		 * CollectorNodeOutTerminal
 		 */
@@ -76,6 +78,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/* 
 		 * CollectorNodeExpireTerminal
 		 */
@@ -84,6 +87,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The expire terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/* 
 		 * CollectorNodeCatchTerminal
 		 */
@@ -94,6 +98,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * CollectorNodeMonitoringEvents
+		 */
+		repository.createRule("CollectorNodeMonitoringEvents")
+					.setName("Collector Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * ComputeNodeInTerminal
 		 */
 		repository.createRule("ComputeNodeInTerminal")
@@ -101,6 +117,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the in terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * ComputeNodeFailureTerminal
 		 */
@@ -109,6 +126,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * ComputeNodeOutTerminal
 		 */
@@ -119,6 +137,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * ComputeNodeMonitoringEvents
+		 */
+		repository.createRule("ComputeNodeMonitoringEvents")
+					.setName("Compute Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * FileInputNodeFailureTerminal
 		 */
 		repository.createRule("FileInputNodeFailureTerminal")
@@ -126,7 +156,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
 		/*
 		 * FileInputNodeOutTerminal
 		 */
@@ -135,7 +165,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
 		/*
 		 * FileInputNodeEODTerminal
 		 */
@@ -144,7 +174,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If all messages in a file are processed, the end-of-data message is sent to this terminal. Connect the terminal if you need the end-of-data message.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
 		/*
 		 * FileInputNodeCatchTerminal
 		 */
@@ -162,7 +192,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("XML schema types are retained only if this option is enabled. Validation has to be enabled in order to select this option. (see validation)")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
 		/*
 		 * FileInputNodeRetainMixedContent
 		 */
@@ -171,7 +201,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If messages contain mixed content, this checkbox should be enabled to have access to the content.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
 		/*
 		 * FileInputNodeRetainComments
 		 */
@@ -189,7 +219,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Validation should be enabled to make sure incoming resp. outgoing messages are valid according to the given message set.")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
 		/*
 		 * FileInputNodeMessageDomain
 		 */
@@ -198,7 +228,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The message domain should be set in order to get the message tree parsed for later access to the message. (see also message set settings)")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
 		/*
 		 * FileInputNodeMessageSet
 		 */
@@ -207,7 +237,19 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The message set should be set in order to get the message tree parsed for later access to the message. (see also message domain settings)")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
+		/*
+		 * FileInputNodeMonitoringEvents
+		 */
+		repository.createRule("FileInputNodeMonitoringEvents")
+					.setName("File Input Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
 		/*
 		 * FileOutputNodeInTerminal
 		 */
@@ -216,6 +258,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the in terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * FileOutputNodeEODTerminal
 		 */
@@ -224,6 +267,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The terminal is used to signal end-of-data. Therefore, the terminal should be connected in order to trigger the end-if-file processing.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * FileOutputNodeFailureTerminal
 		 */
@@ -232,6 +276,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * FileOutputNodeOutTerminal
 		 */
@@ -240,6 +285,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * FileOutputNodeEODTerminal
 		 */
@@ -248,6 +294,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If the file is processed correctly, this terminal is used to send an end-of-data message. Connect the terminal, if you need the result of the processing.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * FileOutputNodeValidation
 		 */
@@ -258,6 +305,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * FileOutputNodeMonitoringEvents
+		 */
+		repository.createRule("FileOutputNodeMonitoringEvents")
+					.setName("File Output Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * HttpInputNodeFailureTerminal
 		 */
 		repository.createRule("HttpInputNodeFailureTerminal")
@@ -265,6 +324,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeOutTerminal
 		 */
@@ -273,6 +333,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeTimeoutTerminal
 		 */
@@ -281,6 +342,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The timeout terminal should be connected for a correct error handling in case of a timeout.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeCatchTerminal
 		 */
@@ -289,6 +351,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The catch terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeBuildTree
 		 */
@@ -297,6 +360,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("XML schema types are retained only if this option is enabled. Validation has to be enabled in order to select this option. (see validation)")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeRetainMixedContent
 		 */
@@ -305,6 +369,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If messages contain mixed content, this checkbox should be enabled to have access to the content.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeRetainComments
 		 */
@@ -313,6 +378,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If messages contain comments, this checkbox should be enabled to have access to the comments.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeValidation
 		 */
@@ -321,6 +387,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Validation should be enabled to make sure incoming resp. outgoing messages are valid according to the given message set.")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeMessageDomain
 		 */
@@ -329,6 +396,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The message domain should be set in order to get the message tree parsed for later access to the message. (see also message set settings)")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpInputNodeMessageSet
 		 */
@@ -339,6 +407,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * HttpInputNodeMonitoringEvents
+		 */
+		repository.createRule("HttpInputNodeMonitoringEvents")
+					.setName("Http Input Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * HttpRequestNodeHTTPHeader
 		 */
 		repository.createRule("HttpRequestNodeHTTPHeader")
@@ -346,6 +426,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The HTTP header should contain certain values, e.g. the value for the host. Make sure you set the values in your ESQL code.")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeMessageLocationTree
 		 */
@@ -354,6 +435,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The HTTP payload has a certain position in the message tree (see your ESQL code). Make sure you set the correct path in the property section.")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeInTerminal
 		 */
@@ -362,6 +444,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the in terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeFailureTerminal
 		 */
@@ -370,6 +453,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeOutTerminal
 		 */
@@ -378,6 +462,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeErrorTerminal
 		 */
@@ -386,6 +471,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The error terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeBuildTree
 		 */
@@ -394,6 +480,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("XML schema types are retained only if this option is enabled. Validation has to be enabled in order to select this option. (see validation)")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeRetainMixedContent
 		 */
@@ -402,6 +489,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If messages contain mixed content, this checkbox should be enabled to have access to the content.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeRetainComments
 		 */
@@ -410,6 +498,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If messages contain comments, this checkbox should be enabled to have access to the comments.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeValidation
 		 */
@@ -418,6 +507,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Validation should be enabled to make sure incoming resp. outgoing messages are valid according to the given message set.")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeMessageDomain
 		 */
@@ -426,6 +516,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The message domain should be set in order to get the message tree parsed for later access to the message. (see also message set settings)")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * HttpRequestNodeMessageSet
 		 */
@@ -436,6 +527,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * HttpRequestNodeMonitoringEvents
+		 */
+		repository.createRule("HttpRequestNodeMonitoringEvents")
+					.setName("Http Request Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * MQInputNodeFailureTerminal
 		 */
 		repository.createRule("MQInputNodeFailureTerminal")
@@ -443,6 +546,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeOutTerminal
 		 */
@@ -451,6 +555,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeCatchTerminal
 		 */
@@ -459,6 +564,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The catch terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeBuildTree
 		 */
@@ -467,6 +573,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("XML schema types are retained only if this option is enabled. Validation has to be enabled in order to select this option. (see validation)")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeRetainMixedContent
 		 */
@@ -475,6 +582,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If messages contain mixed content, this checkbox should be enabled to have access to the content.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeRetainComments
 		 */
@@ -483,6 +591,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("If messages contain comments, this checkbox should be enabled to have access to the comments.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeValidation
 		 */
@@ -491,6 +600,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Validation should be enabled to make sure incoming resp. outgoing messages are valid according to the given message set.")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeMessageDomain
 		 */
@@ -499,6 +609,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The message domain should be set in order to get the message tree parsed for later access to the message. (see also message set settings)")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQInputNodeMessageSet
 		 */
@@ -509,6 +620,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * MQInputNodeMonitoringEvents
+		 */
+		repository.createRule("MQInputNodeMonitoringEvents")
+					.setName("MQ Input Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * MQOutputNodeInTerminal
 		 */
 		repository.createRule("MQOutputNodeInTerminal")
@@ -516,6 +639,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the in terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQOutputNodeFailureTerminal
 		 */
@@ -524,6 +648,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQOutputNodeOutTerminal
 		 */
@@ -532,6 +657,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * MQOutputNodeValidation
 		 */
@@ -540,6 +666,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Validation should be enabled to make sure incoming resp. outgoing messages are valid according to the given message set.")
 					.setSeverity(Severity.INFO)
 					.setTags(Tags.BAD_PRACTICE);
+
+		/*
+		 * MQOutputNodeMonitoringEvents
+		 */
+		repository.createRule("MQOutputNodeMonitoringEvents")
+					.setName("MQ Output Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
 
 		/*
 		 * ResetContentDescriptorNodeMessageDomain
@@ -594,7 +732,19 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Reset should be enabled in order to get the message tree parsed again using the given message format.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
-		
+
+		/*
+		 * ResetContentDescriptorNodeMonitoringEvents
+		 */
+		repository.createRule("ResetContentDescriptorNodeMonitoringEvents")
+					.setName("Reset Content Descriptor Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
 		/*
 		 * SoapInputNodeFailureTerminal
 		 */
@@ -603,6 +753,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapInputNodeOutTerminal
 		 */
@@ -611,6 +762,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapInputNodeTimeoutTerminal
 		 */
@@ -619,6 +771,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The timeout terminal should be connected for a correct error handling in case of a timeout.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapInputNodeCatchTerminal
 		 */
@@ -627,6 +780,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The catch terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapInputNodeBuildTree
 		 */
@@ -635,6 +789,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("XML schema types are retained only if this option is enabled. Validation has to be enabled in order to select this option. (see validation)")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapInputNodeValidation
 		 */
@@ -645,6 +800,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * SoapInputNodeMonitoringEvents
+		 */
+		repository.createRule("SoapInputNodeMonitoringEvents")
+					.setName("Soap Input Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * SoapRequestNodeInTerminal
 		 */
 		repository.createRule("SoapRequestNodeInTerminal")
@@ -652,6 +819,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the in terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapRequestNodeOutTerminal
 		 */
@@ -660,6 +828,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapRequestNodeFailureTerminal
 		 */
@@ -668,6 +837,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapRequestNodeFaultTerminal
 		 */
@@ -676,6 +846,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The fault terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapRequestNodeBuildTree
 		 */
@@ -684,6 +855,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("XML schema types are retained only if this option is enabled. Validation has to be enabled in order to select this option. (see validation)")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * SoapRequestNodeValidation
 		 */
@@ -694,6 +866,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * SoapRequestNodeMonitoringEvents
+		 */
+		repository.createRule("SoapRequestNodeMonitoringEvents")
+					.setName("Soap Request Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * TimeoutControlNodeInTerminal
 		 */
 		repository.createRule("TimeoutControlNodeInTerminal")
@@ -701,6 +885,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the in terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * TimeoutControlNodeFailureTerminal
 		 */
@@ -709,6 +894,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * TimeoutControlNodeOutTerminal
 		 */
@@ -719,6 +905,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setTags(Tags.BAD_PRACTICE);
 
 		/*
+		 * TimeoutControlNodeMonitoringEvents
+		 */
+		repository.createRule("TimeoutControlNodeMonitoringEvents")
+					.setName("Timeout Control Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
+
+		/*
 		 * TimeoutNotificationNodeFailureTerminal
 		 */
 		repository.createRule("TimeoutNotificationNodeFailureTerminal")
@@ -726,6 +924,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The failure terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * TimeoutNotificationNodeOutTerminal
 		 */
@@ -734,6 +933,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the out terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * TimeoutNotificationNodeCatchTerminal
 		 */
@@ -742,6 +942,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("The catch terminal should be connected for a correct error handling.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+		
+		/*
+		 * TimeoutNotificationNodeMonitoringEvents
+		 */
+		repository.createRule("TimeoutNotificationNodeMonitoringEvents")
+					.setName("Timeout Notification Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+
+
 
 		/*
 		 * TryCatchNodeTryCatch
@@ -751,6 +963,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Using a Try Catch Node is a good way to implement the exception handling for a message flow.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * TryCatchNodeInTerminal
 		 */
@@ -759,6 +972,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is received by the in terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * TryCatchNodeTryTerminal
 		 */
@@ -767,6 +981,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setHtmlDescription("Data is passed on to the next node over the try terminal. Therefore, this terminal should be connected.")
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
+
 		/*
 		 * TryCatchNodeCatchTerminal
 		 */
@@ -776,6 +991,16 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 					.setSeverity(Severity.MINOR)
 					.setTags(Tags.BAD_PRACTICE);
 
+		/*
+		 * TryCatchNodeMonitoringEvents
+		 */
+		repository.createRule("TryCatchNodeMonitoringEvents")
+					.setName("Try Catch Node - No active monitoring events found.")
+					.setHtmlDescription("Events are used to support transaction monitoring, transaction auditing and business process monitoring. "
+									  + "Enable monitoring events if you need that support.")
+					.setSeverity(Severity.MINOR)
+					.setTags(Tags.BAD_PRACTICE);
+		
 		// add more rules here
 		
 		repository.done();

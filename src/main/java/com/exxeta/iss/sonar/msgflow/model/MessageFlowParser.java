@@ -90,24 +90,26 @@ public class MessageFlowParser {
 			for (; non > 0; non--) {
 				LOG.debug("Prepare expressions - START");
 				
-				XPathExpression idExpr							= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@id");
-				XPathExpression nameExpr						= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/translation/@string");
-				XPathExpression typeExpr						= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@type");
-				XPathExpression buildTreeUsingSchemaExpr		= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@parserXmlnscBuildTreeUsingXMLSchema");
-				XPathExpression mixedContentRetainModeExpr		= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@parserXmlnscMixedContentRetainMode");
-				XPathExpression commentsRetainModeExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@parserXmlnscCommentsRetainMode");
-				XPathExpression validateMasterExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@validateMaster");
-				XPathExpression messageDomainPropertyExpr		= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@messageDomainProperty");
-				XPathExpression messageSetPropertyExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@messageSetProperty");
-				XPathExpression requestMsgLocationInTreeExpr	= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@requestMsgLocationInTree");
+				XPathExpression idExpr								= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@id");
+				XPathExpression nameExpr							= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/translation/@string");
+				XPathExpression typeExpr							= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@type");
+				XPathExpression buildTreeUsingSchemaExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@parserXmlnscBuildTreeUsingXMLSchema");
+				XPathExpression mixedContentRetainModeExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@parserXmlnscMixedContentRetainMode");
+				XPathExpression commentsRetainModeExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@parserXmlnscCommentsRetainMode");
+				XPathExpression validateMasterExpr					= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@validateMaster");
+				XPathExpression messageDomainPropertyExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@messageDomainProperty");
+				XPathExpression messageSetPropertyExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@messageSetProperty");
+				XPathExpression requestMsgLocationInTreeExpr		= XPathFactory.newInstance().newXPath().compile("//nodes[" + non + "]/@requestMsgLocationInTree");
 
-				XPathExpression messageDomainExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@messageDomain");
-				XPathExpression messageSetExpr					= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@messageSet");
-				XPathExpression resetMessageDomainExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageDomain");
-				XPathExpression resetMessageSetExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageSet");
-				XPathExpression resetMessageTypeExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageType");
-				XPathExpression resetMessageFormatExpr			= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageFormat");
-				
+				XPathExpression messageDomainExpr					= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@messageDomain");
+				XPathExpression messageSetExpr						= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@messageSet");
+				XPathExpression resetMessageDomainExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageDomain");
+				XPathExpression resetMessageSetExpr					= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageSet");
+				XPathExpression resetMessageTypeExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageType");
+				XPathExpression resetMessageFormatExpr				= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/@resetMessageFormat");
+				XPathExpression monitoringEventsExpr				= XPathFactory.newInstance().newXPath().compile("count(//nodes[" + non +  "]/monitorEvents)");
+				XPathExpression monitoringEventsEventEnabledExpr	= XPathFactory.newInstance().newXPath().compile("//nodes[" + non +  "]/monitorEvents/@eventEnabled");
+
 				LOG.debug("Prepare expressions - END");
 				LOG.debug("Evaluate expressions - START");
 
@@ -130,7 +132,7 @@ public class MessageFlowParser {
 				String requestMsgLocationInTree	= (String)requestMsgLocationInTreeExpr.evaluate(document, XPathConstants.STRING);
 				String messageDomain			= (String)messageDomainExpr.evaluate(document, XPathConstants.STRING);
 				String messageSet				= (String)messageSetExpr.evaluate(document, XPathConstants.STRING);
-				type = type.substring(0, type.indexOf(".")).replace("ComIbm", "");
+				type 							= type.substring(0, type.indexOf(".")).replace("ComIbm", "");
 				boolean buildTreeUsingSchema 	= Boolean.parseBoolean((String)buildTreeUsingSchemaExpr.evaluate(document, XPathConstants.STRING));
 				boolean mixedContentRetainMode	= ((String)mixedContentRetainModeExpr.evaluate(document, XPathConstants.STRING)).equals("all");
 				boolean commentsRetainMode		= ((String)commentsRetainModeExpr.evaluate(document, XPathConstants.STRING)).equals("all");
@@ -139,6 +141,21 @@ public class MessageFlowParser {
 				boolean resetMessageSet 		= Boolean.parseBoolean((String)resetMessageSetExpr.evaluate(document, XPathConstants.STRING));
 				boolean resetMessageType 		= Boolean.parseBoolean((String)resetMessageTypeExpr.evaluate(document, XPathConstants.STRING));
 				boolean resetMessageFormat 		= Boolean.parseBoolean((String)resetMessageFormatExpr.evaluate(document, XPathConstants.STRING));
+				
+				int monitoringEvents				= Integer.parseInt((String)monitoringEventsExpr.evaluate(document, XPathConstants.STRING));
+				String monitoringEventsEventEnabled	= (String)monitoringEventsEventEnabledExpr.evaluate(document, XPathConstants.STRING);
+				boolean areMonitoringEventsEnabled	= true;
+				
+				/* 
+				 * monitoring events are enabled unless defined otherwise
+				 * 
+				 * - monitoring events are missing
+				 * - existing monitoring events are disabled 
+				 */
+				if (monitoringEvents == 0 ||
+					monitoringEventsEventEnabled.equals("false")) {
+					areMonitoringEventsEnabled = false;
+				}
 				
 				XPathExpression numberOfInputTerminals = XPathFactory.newInstance().newXPath().compile("count(//connections[@targetNode='" + id + "'])");
 				int noit = Integer.parseInt((String)numberOfInputTerminals.evaluate(document, XPathConstants.STRING));
@@ -166,72 +183,72 @@ public class MessageFlowParser {
 					/* Collector */
 					LOG.debug("Collector");
 
-					collectorNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					collectorNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("Compute")) {
 					/* Compute */
 					LOG.debug("Compute");
 					
-					computeNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					computeNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("FileInput")) {
 					LOG.debug("FileInput");
 					
 					/* FileInput */
-					fileInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					fileInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("FileOutput")) {
 					LOG.debug("FileOutput");
 					
 					/* FileOutput */
-					fileOutputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					fileOutputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("WSInput")) {
 					LOG.debug("WSInput");
 					
 					/* HTTPInput */
-					httpInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					httpInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("WSRequest")) {
 					LOG.debug("WSRequest");
 					
 					/* HTTPRequest */
-					httpRequestNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					httpRequestNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("MQInput")) {
 					LOG.debug("MQInput");
 					
 					/* MQInput */
-					mqInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					mqInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("MQOutput")) {
 					LOG.debug("MQOutput");
 					
 					/* MQOutput */
-					mqOutputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					mqOutputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("ResetContentDescriptor")) {
 					LOG.debug("ResetContentDescriptor");
 					
 					/* ResetContentDescriptor */
-					resetContentDescriptorNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					resetContentDescriptorNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("SOAPInput")) {
 					LOG.debug("SOAPInput");
 					
 					/* SOAPInput */
-					soapInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					soapInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("SOAPRequest")) {
 					LOG.debug("SOAPRequest");
 					
 					/* SOAPRequest */
-					soapRequestNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					soapRequestNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("TimeoutControl")) {
 					LOG.debug("TimeoutControl");
 					
 					/* TimeoutControl */
-					timeoutControlNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					timeoutControlNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("TimeoutNotification")) {
 					LOG.debug("TimeoutNotification");
 					
 					/* TimeoutNotification */
-					timeoutNotificationNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					timeoutNotificationNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				} else if (type.equals("TryCatch")) {
 					LOG.debug("TryCatch");
 					
 					/* TryCatch */
-					tryCatchNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, inputTerminals, outputTerminals));
+					tryCatchNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
 				}
 				
 				LOG.debug("Fill nodes - END");
