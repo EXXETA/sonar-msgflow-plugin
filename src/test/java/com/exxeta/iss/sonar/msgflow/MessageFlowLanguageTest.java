@@ -35,8 +35,9 @@ public class MessageFlowLanguageTest {
 	@Test
 	public final void testGetFileSuffixes() {
 		MessageFlowLanguage mfl = new MessageFlowLanguage(new Settings());
-		assertEquals(1, mfl.getFileSuffixes().length);
+		assertEquals(2, mfl.getFileSuffixes().length);
 		assertEquals(".msgflow", mfl.getFileSuffixes()[0]);
+		assertEquals(".subflow", mfl.getFileSuffixes()[1]);
 	}
 
 }

@@ -57,7 +57,7 @@ public class MessageFlowPlugin extends SonarPlugin {
 	/**
 	 * The FILE_SUFFIXES_DEFAULTVALUE for the plug-in.
 	 */
-	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow";
+	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow";
 	
 	/* (non-Javadoc)
 	 * @see org.sonar.api.Plugin#getExtensions()
