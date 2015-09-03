@@ -102,7 +102,6 @@ public class ComputeNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeInTerminal"))
 				    	        	  .message("The in terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -111,7 +110,6 @@ public class ComputeNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeFailureTerminal"))
 				    	        	  .message("The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -120,7 +118,6 @@ public class ComputeNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeOutTerminal"))
 				    	        	  .message("The out terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -130,7 +127,6 @@ public class ComputeNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 			}

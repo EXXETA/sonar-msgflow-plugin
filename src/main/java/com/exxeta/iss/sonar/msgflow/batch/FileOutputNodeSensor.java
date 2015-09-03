@@ -102,7 +102,6 @@ public class FileOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeInTerminal"))
 				    	        	  .message("The in terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -111,7 +110,6 @@ public class FileOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeInEODTerminal"))
 				    	        	  .message("The EOD terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -120,7 +118,6 @@ public class FileOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeFailureTerminal"))
 				    	        	  .message("The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -129,7 +126,6 @@ public class FileOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeOutTerminal"))
 				    	        	  .message("The out terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -138,7 +134,6 @@ public class FileOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeOutEODTerminal"))
 				    	        	  .message("The EOD terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -147,7 +142,6 @@ public class FileOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeValidation"))
 				    	        	  .message("'Validate' under 'Validation' is not set to 'Content and Value' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -157,7 +151,6 @@ public class FileOutputNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 			}

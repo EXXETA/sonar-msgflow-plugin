@@ -102,7 +102,6 @@ public class HttpRequestNodeSensor implements Sensor {
 			    issuable1.addIssue(issuable1.newIssueBuilder()
 			    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeHTTPHeader"))
 			    	        	  .message("Make sure the HTTP header for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") contains a 'Host' element, e.g. InputRoot.HTTPRequestHeader.\"Host\".")
-			    	        	  .line(1)
 			    	        	  .build());
 				
 				Issuable issuable2 = perspectives.as(Issuable.class, inputFile);
@@ -110,7 +109,6 @@ public class HttpRequestNodeSensor implements Sensor {
 			    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeMessageLocationTree"))
 			    	        	  .message("Make sure the value of 'Request message location tree*' (see Properties 'Advanced') for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") refers to the correct element, e.g. 'InputRoot.XMLNSC'. "
 			    	        	  		+ "The current value is '" + msgFlowNode.getRequestMsgLocationInTree() + "'.")
-			    	        	  .line(1)
 			    	        	  .build());
 				/* general hints are given here - end */
 				
@@ -128,7 +126,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeFailureTerminal"))
 				    	        	  .message("The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -137,7 +134,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeOutTerminal"))
 				    	        	  .message("The out terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -146,7 +142,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeErrorTerminal"))
 				    	        	  .message("The error terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -155,7 +150,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeBuildTree"))
 				    	        	  .message("Loss of data types: 'Build tree using XML schema data types' under 'Parser Options' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -164,7 +158,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeRetainMixedContent"))
 				    	        	  .message("Possible loss of data: 'Retain mixed content' under 'Parser Options' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -173,7 +166,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeRetainComments"))
 				    	        	  .message("Possible loss of data: 'Retain comments' under 'Parser Options' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -182,7 +174,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeValidation"))
 				    	        	  .message("'Validate' under 'Validation' is not set to 'Content and Value' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -191,7 +182,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeMessageDomain"))
 				    	        	  .message("'Message domain' under 'Response Message Parsing' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -200,7 +190,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeMessageSet"))
 				    	        	  .message("'Message set' under 'Response Message Parsing' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -210,7 +199,6 @@ public class HttpRequestNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "HttpRequestNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 			}

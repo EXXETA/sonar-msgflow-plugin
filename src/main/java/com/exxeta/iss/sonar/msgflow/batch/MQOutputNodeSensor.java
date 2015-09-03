@@ -99,7 +99,6 @@ public class MQOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "MQOutputNodeInTerminal"))
 				    	        	  .message("The in terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -108,7 +107,6 @@ public class MQOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "MQOutputNodeFailureTerminal"))
 				    	        	  .message("The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -117,7 +115,6 @@ public class MQOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "MQOutputNodeOutTerminal"))
 				    	        	  .message("The out terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -126,7 +123,6 @@ public class MQOutputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "MQOutputNodeValidation"))
 				    	        	  .message("'Validate' under 'Validation' is not set to 'Content and Value' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -136,7 +132,6 @@ public class MQOutputNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "MQOutputNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 			}

@@ -102,7 +102,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeFailureTerminal"))
 				    	        	  .message("The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -111,7 +110,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeOutTerminal"))
 				    	        	  .message("The out terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -120,7 +118,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeEODTerminal"))
 				    	        	  .message("The EOD terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -129,7 +126,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeCatchTerminal"))
 				    	        	  .message("The catch terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -138,7 +134,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeBuildTree"))
 				    	        	  .message("Loss of data types: 'Build tree using XML schema data types' under 'Parser Options' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -147,7 +142,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeRetainMixedContent"))
 				    	        	  .message("Possible loss of data: 'Retain mixed content' under 'Parser Options' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -156,7 +150,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeRetainComments"))
 				    	        	  .message("Possible loss of data: 'Retain comments' under 'Parser Options' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -165,7 +158,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeValidation"))
 				    	        	  .message("'Validate' under 'Validation' is not set to 'Content and Value' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -174,7 +166,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeMessageDomain"))
 				    	        	  .message("'Message domain' under 'Input Message Parsing' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -183,7 +174,6 @@ public class FileInputNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeMessageSet"))
 				    	        	  .message("'Message set' under 'Input Message Parsing' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -193,7 +183,6 @@ public class FileInputNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 			}

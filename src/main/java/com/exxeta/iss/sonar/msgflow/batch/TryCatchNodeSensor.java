@@ -98,7 +98,6 @@ public class TryCatchNodeSensor implements Sensor {
 			    issuable.addIssue(issuable.newIssueBuilder()
 			    	        	  .ruleKey(RuleKey.of("msgflow", "TryCatchNodeTryCatch"))
 			    	        	  .message("No TryCatch node found in message flow. Check exception handling of the message flow.")
-			    	        	  .line(1)
 			    	        	  .build());
 			}
 			
@@ -112,7 +111,6 @@ public class TryCatchNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "TryCatchNodeInTerminal"))
 				    	        	  .message("The in terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -121,7 +119,6 @@ public class TryCatchNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "TryCatchNodeTryTerminal"))
 				    	        	  .message("The try terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 					
@@ -130,7 +127,6 @@ public class TryCatchNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "TryCatchNodeCatchTerminal"))
 				    	        	  .message("The catch terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -140,7 +136,6 @@ public class TryCatchNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "TryCatchNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 			}

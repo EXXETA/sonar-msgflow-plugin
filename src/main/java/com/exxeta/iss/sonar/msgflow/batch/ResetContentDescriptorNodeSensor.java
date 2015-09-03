@@ -102,7 +102,6 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeMessageDomain"))
 				    	        	  .message("'Message Domain' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -111,7 +110,6 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeMessageSet"))
 				    	        	  .message("'Message Set' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -120,7 +118,6 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageDomain"))
 				    	        	  .message("'Message Domain' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -129,7 +126,6 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageSet"))
 				    	        	  .message("'Reset Message Set' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -138,7 +134,6 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageType"))
 				    	        	  .message("'Reset Message Type' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -147,7 +142,6 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageFormat"))
 				    	        	  .message("'Reset Message Format' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 				
@@ -157,7 +151,6 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .line(1)
 				    	        	  .build());
 				}
 			}
