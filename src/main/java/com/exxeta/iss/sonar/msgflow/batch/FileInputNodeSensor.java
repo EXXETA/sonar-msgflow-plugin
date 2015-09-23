@@ -169,7 +169,14 @@ public class FileInputNodeSensor implements Sensor {
 				    	        	  .build());
 				}
 				
-				if (msgFlowNode.getMessageSetProperty().equals("")) {
+				/* 
+				 * The setting of a message set is only checked for the following domains:
+				 * MRM, XMLNSC and DataObject.
+				 */
+				if (msgFlowNode.getMessageSetProperty().equals("") &&
+					(msgFlowNode.getMessageDomainProperty().equals("MRM") ||
+					 msgFlowNode.getMessageDomainProperty().equals("XMLNSC") ||
+					 msgFlowNode.getMessageDomainProperty().equals("DataObject"))) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileInputNodeMessageSet"))

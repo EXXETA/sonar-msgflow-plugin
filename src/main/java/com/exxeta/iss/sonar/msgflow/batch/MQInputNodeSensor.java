@@ -160,8 +160,15 @@ public class MQInputNodeSensor implements Sensor {
 				    	        	  .message("'Message domain' under 'Input Message Parsing' is not set for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
 				    	        	  .build());
 				}
-					
-				if (msgFlowNode.getMessageSetProperty().equals("")) {
+
+				/* 
+				 * The setting of a message set is only checked for the following domains:
+				 * MRM, XMLNSC and DataObject.
+				 */
+				if (msgFlowNode.getMessageSetProperty().equals("") &&
+					(msgFlowNode.getMessageDomainProperty().equals("MRM") ||
+					 msgFlowNode.getMessageDomainProperty().equals("XMLNSC") ||
+					 msgFlowNode.getMessageDomainProperty().equals("DataObject"))) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "MQInputNodeMessageSet"))
