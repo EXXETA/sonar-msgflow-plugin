@@ -105,7 +105,8 @@ public class FileOutputNodeSensor implements Sensor {
 				    	        	  .build());
 				}
 				
-				if (!msgFlowNode.getInputTerminals().contains("InTerminal.EOD")) {
+				if (!msgFlowNode.getInputTerminals().contains("InTerminal.EOD") &&
+					!msgFlowNode.getRecordDefinition().equals("")) { /* "Record is Whole File" - element "recordDefinition" does not exist */
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "FileOutputNodeInEODTerminal"))

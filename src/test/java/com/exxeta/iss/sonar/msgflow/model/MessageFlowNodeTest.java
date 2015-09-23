@@ -147,6 +147,16 @@ public class MessageFlowNodeTest {
 		assertEquals(1, mf.getResetContentDescriptorNodes().size());
 		assertEquals("TestHttp", mf.getResetContentDescriptorNodes().get(0).getMessageSet());
 	}
+	
+	/**
+	 * Test method for {@link com.exxeta.iss.sonar.msgflow.model.MessageFlowNode#getRecordDefinition()}.
+	 */
+	@Test
+	public final void testGetRecordDefinition() {
+		MessageFlow mf = new MessageFlow("src/test/resources/FileOutput_RecordIsDelimitedData.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getFileOutputNodes().size());
+		assertEquals("delimited", mf.getFileOutputNodes().get(0).getRecordDefinition());
+	}
 
 	/**
 	 * Test method for {@link com.exxeta.iss.sonar.msgflow.model.MessageFlowNode#isResetMessageDomain()}.

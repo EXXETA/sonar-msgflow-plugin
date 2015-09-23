@@ -79,6 +79,15 @@ public class MessageFlowNode {
 	private String messageSetProperty;
 	
 	/**
+	 * the record definition of a message flow node
+	 * 
+	 * e.g. for File Output Node
+	 * "Record is Whole File", "Record is Unmodified Data",
+	 * "Record is Fixed Length Data", "Record is Delimited Data" 
+	 */
+	private String recordDefinition;
+	
+	/**
 	 * the request message location of a message flow node
 	 */
 	private String requestMsgLocationInTree;
@@ -145,6 +154,7 @@ public class MessageFlowNode {
 					   	   String requestMsgLocationInTree,
 					   	   String messageDomain,
 					   	   String messageSet,
+					   	   String recordDefinition,
 					   	   boolean resetMessageDomain,
 					   	   boolean resetMessageSet,
 					   	   boolean resetMessageType,
@@ -164,6 +174,7 @@ public class MessageFlowNode {
 		this.requestMsgLocationInTree	= requestMsgLocationInTree;
 		this.messageDomain 				= messageDomain; 
 		this.messageSet					= messageSet;
+		this.recordDefinition			= recordDefinition;
 		this.resetMessageDomain 		= resetMessageDomain;
 		this.resetMessageSet			= resetMessageSet;
 		this.resetMessageType			= resetMessageType;
@@ -342,5 +353,14 @@ public class MessageFlowNode {
 	 */
 	public ArrayList<String> getOutputTerminals() {
 		return outputTerminals;
+	}
+	
+	/**
+	 * The method returns the record definition of a message flow node.
+	 * 
+	 * @return the recordDefinition
+	 */
+	public String getRecordDefinition() {
+		return recordDefinition;
 	}
 }
