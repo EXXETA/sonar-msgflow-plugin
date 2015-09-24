@@ -92,7 +92,7 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			// the actual rule ...
-			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMqOutputNodes().iterator();
+			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getResetContentDescriptorNodes().iterator();
 			
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
@@ -110,9 +110,9 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				 * MRM, XMLNSC and DataObject.
 				 */
 				if (msgFlowNode.getMessageSet().equals("") &&
-					(msgFlowNode.getMessageDomainProperty().equals("MRM") ||
-					 msgFlowNode.getMessageDomainProperty().equals("XMLNSC") ||
-					 msgFlowNode.getMessageDomainProperty().equals("DataObject"))) {
+					(msgFlowNode.getMessageDomain().equals("MRM") ||
+					 msgFlowNode.getMessageDomain().equals("XMLNSC") ||
+					 msgFlowNode.getMessageDomain().equals("DataObject"))) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeMessageSet"))
@@ -128,7 +128,14 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				    	        	  .build());
 				}
 				
-				if (msgFlowNode.isResetMessageSet() == false) {
+				/* 
+				 * The resetting of a message set is only checked for the following domains:
+				 * MRM, XMLNSC and DataObject.
+				 */
+				if ((msgFlowNode.isResetMessageSet() == false) &&
+					(msgFlowNode.getMessageDomain().equals("MRM") ||
+					 msgFlowNode.getMessageDomain().equals("XMLNSC") ||
+					 msgFlowNode.getMessageDomain().equals("DataObject"))) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageSet"))
