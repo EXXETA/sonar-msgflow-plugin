@@ -180,77 +180,80 @@ public class MessageFlowParser {
 
 				LOG.debug("Evaluate expressions - END");
 				LOG.debug("Fill nodes - START");
+
+				/* create new MessageFlowNode using values extracted from msgflow file */
+				MessageFlowNode mfn = new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals);
 				
 				if (type.equals("Collector")) {
 					/* Collector */
 					LOG.debug("Collector");
 
-					collectorNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					collectorNodes.add(mfn);
 				} else if (type.equals("Compute")) {
 					/* Compute */
 					LOG.debug("Compute");
 					
-					computeNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					computeNodes.add(mfn);
 				} else if (type.equals("FileInput")) {
 					LOG.debug("FileInput");
 					
 					/* FileInput */
-					fileInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					fileInputNodes.add(mfn);
 				} else if (type.equals("FileOutput")) {
 					LOG.debug("FileOutput");
 					
 					/* FileOutput */
-					fileOutputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					fileOutputNodes.add(mfn);
 				} else if (type.equals("WSInput")) {
 					LOG.debug("WSInput");
 					
 					/* HTTPInput */
-					httpInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					httpInputNodes.add(mfn);
 				} else if (type.equals("WSRequest")) {
 					LOG.debug("WSRequest");
 					
 					/* HTTPRequest */
-					httpRequestNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					httpRequestNodes.add(mfn);
 				} else if (type.equals("MQInput")) {
 					LOG.debug("MQInput");
 					
 					/* MQInput */
-					mqInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					mqInputNodes.add(mfn);
 				} else if (type.equals("MQOutput")) {
 					LOG.debug("MQOutput");
 					
 					/* MQOutput */
-					mqOutputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					mqOutputNodes.add(mfn);
 				} else if (type.equals("ResetContentDescriptor")) {
 					LOG.debug("ResetContentDescriptor");
 					
 					/* ResetContentDescriptor */
-					resetContentDescriptorNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					resetContentDescriptorNodes.add(mfn);
 				} else if (type.equals("SOAPInput")) {
 					LOG.debug("SOAPInput");
 					
 					/* SOAPInput */
-					soapInputNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					soapInputNodes.add(mfn);
 				} else if (type.equals("SOAPRequest")) {
 					LOG.debug("SOAPRequest");
 					
 					/* SOAPRequest */
-					soapRequestNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					soapRequestNodes.add(mfn);
 				} else if (type.equals("TimeoutControl")) {
 					LOG.debug("TimeoutControl");
 					
 					/* TimeoutControl */
-					timeoutControlNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					timeoutControlNodes.add(mfn);
 				} else if (type.equals("TimeoutNotification")) {
 					LOG.debug("TimeoutNotification");
 					
 					/* TimeoutNotification */
-					timeoutNotificationNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					timeoutNotificationNodes.add(mfn);
 				} else if (type.equals("TryCatch")) {
 					LOG.debug("TryCatch");
 					
 					/* TryCatch */
-					tryCatchNodes.add(new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals));
+					tryCatchNodes.add(mfn);
 				}
 				
 				LOG.debug("Fill nodes - END");
