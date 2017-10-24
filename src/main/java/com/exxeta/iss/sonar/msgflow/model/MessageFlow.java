@@ -71,6 +71,11 @@ public class MessageFlow {
 	 * a list of MQ Output Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> mqOutputNodes;
+
+	/**
+	 * a list of MQ Output Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> mqGetNodes;
 	
 	/**
 	 * a list of Reset Content Descriptor Nodes of a message flow
@@ -101,11 +106,23 @@ public class MessageFlow {
 	 * a list of Try Catch Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> tryCatchNodes;
+	
+	/**
+	 * a list of IMS Request Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> imsRequestNodes;
+	
+	/**
+	 * a list of Connections of a message flow "Added for ABN"
+	 */
+	private ArrayList<MessageFlowConnection> connections;
+
+	
 
 	/**
 	 * Constructor
 	 * 
-	 * Parses message flow files and adds the result to the message flow model.
+	 * Parses message flow files and adds the result to the message flow model.("Updated for ABN")
 	 */
 	public MessageFlow(String file,
 					   MessageFlowParser messageFlowParser) {
@@ -117,12 +134,15 @@ public class MessageFlow {
 		httpRequestNodes			= new ArrayList<MessageFlowNode>();
 		mqInputNodes				= new ArrayList<MessageFlowNode>();
 		mqOutputNodes				= new ArrayList<MessageFlowNode>();
+		mqGetNodes					= new ArrayList<MessageFlowNode>();
 		resetContentDescriptorNodes	= new ArrayList<MessageFlowNode>();
 		soapInputNodes				= new ArrayList<MessageFlowNode>();
 		soapRequestNodes			= new ArrayList<MessageFlowNode>();
 		timeoutControlNodes			= new ArrayList<MessageFlowNode>();
 		timeoutNotificationNodes	= new ArrayList<MessageFlowNode>();
 		tryCatchNodes				= new ArrayList<MessageFlowNode>();
+		imsRequestNodes				= new ArrayList<MessageFlowNode>();
+		connections					= new ArrayList<MessageFlowConnection>();
 		
 		messageFlowParser.parse(file,
 								collectorNodes,
@@ -133,12 +153,15 @@ public class MessageFlow {
 								httpRequestNodes,
 								mqInputNodes,
 								mqOutputNodes,
+								mqGetNodes,
 								resetContentDescriptorNodes,
 								soapInputNodes,
 								soapRequestNodes,
 								timeoutControlNodes,
 								timeoutNotificationNodes,
-								tryCatchNodes);
+								tryCatchNodes,
+								imsRequestNodes,
+								connections);
 	}
 	
 	/**
@@ -214,6 +237,15 @@ public class MessageFlow {
 	}
 
 	/**
+	 * The method returns a list of the MQGet Nodes of Message Flow. "Added for ABN"
+	 * 
+	 * @return a list of the MQGet Nodes of Message Flow
+	 */
+	public ArrayList<MessageFlowNode> getMqGetNodes() {
+		return mqGetNodes;
+	}
+
+	/**
 	 * The method returns a list of the Reset Content Descriptor Nodes of Message Flow.
 	 * 
 	 * @return a list of the Reset Content Descriptor Nodes of Message Flow
@@ -265,5 +297,23 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getTryCatchNodes() {
 		return tryCatchNodes;
+	}
+	
+	/**
+	 * The method returns a list of IMS Request nodes of Message Flow "Added for ABN"
+	 * 
+	 * @return a list of the IMS Request Nodes of Message Flow
+	 */
+	public ArrayList<MessageFlowNode> getImsRequestNodes() {
+		return imsRequestNodes;
+	}
+
+	/**
+	 * The method returns a list of the connections of Message Flow. "Added for ABN"
+	 * 
+	 * @return a list of the Try Catch Nodes of Message Flow
+	 */
+	public ArrayList<MessageFlowConnection> getConnections() {
+		return connections;
 	}
 }

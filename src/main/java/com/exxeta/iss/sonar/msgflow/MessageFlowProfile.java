@@ -179,6 +179,13 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeCatchTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeMonitoringEvents"), null);
 		
+		/* SelfConnectin Nodes "Added for ABN"*/
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SelfConnectingNodes"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQNodeNameMatchesQueueName"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestDescription"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestNodeDefinedProperties"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestCommitMode"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestMessageDomain"), null);
 		// add more rules here
 		
 		LOG.debug("created profile: " + profile.toString());

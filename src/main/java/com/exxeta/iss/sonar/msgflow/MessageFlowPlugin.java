@@ -28,8 +28,11 @@ import com.exxeta.iss.sonar.msgflow.batch.FileInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileOutputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.HttpInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.HttpRequestNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.IMSRequestNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MQGetNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQOutputNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageFlowConnectionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ResetContentDescriptorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapRequestNodeSensor;
@@ -85,13 +88,15 @@ public class MessageFlowPlugin extends SonarPlugin {
 			HttpRequestNodeSensor.class, // class extends Sensor
 			MQInputNodeSensor.class, // class extends Sensor
 			MQOutputNodeSensor.class, // class extends Sensor
+			MQGetNodeSensor.class, // class extends Sensor
 			ResetContentDescriptorNodeSensor.class, // class extends Sensor
 			SoapInputNodeSensor.class, // class extends Sensor
 			SoapRequestNodeSensor.class, // class extends Sensor
 			TimeoutControlNodeSensor.class, // class extends Sensor
 			TimeoutNotificationNodeSensor.class, // class extends Sensor
-			TryCatchNodeSensor.class // class extends Sensor
-
+			TryCatchNodeSensor.class,		// class extends Sensor
+			MessageFlowConnectionSensor.class,		// class extends Sensor "Added for ABN"
+			IMSRequestNodeSensor.class		// class extends Sensor "Added for ABN"
 			// UI
 			// ...
 		);

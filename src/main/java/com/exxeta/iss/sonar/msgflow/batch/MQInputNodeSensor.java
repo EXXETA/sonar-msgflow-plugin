@@ -184,6 +184,14 @@ public class MQInputNodeSensor implements Sensor {
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
 				    	        	  .build());
 				}
+				
+				if(!((String)msgFlowNode.getProperties().get("queueName")).equals(msgFlowNode.getName())){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    		.ruleKey(RuleKey.of("msgflow", "MQNodeNameMatchesQueueName"))
+				    		.message("The name of MQ Node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") does not match the underlaying queue name.")
+				    	        	  .build());
+				}
 			}
 		}
 	}

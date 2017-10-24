@@ -18,6 +18,7 @@
 package com.exxeta.iss.sonar.msgflow.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * The class is a model of a message flow node. The model contains variables 
@@ -138,9 +139,14 @@ public class MessageFlowNode {
 	private ArrayList<String> outputTerminals;
 	
 	/**
+	 * the list of custom properties of a message flow node "Added for ABN"
+	 */
+	private Map<String, Object> properties;
+	
+	/**
 	 * Constructor
 	 * 
-	 * Creates a new message flow node (model) and initialises its properties.
+	 * Creates a new message flow node (model) and initializes its properties.
 	 */
 	public MessageFlowNode(String id,
 					   	   String name,
@@ -161,7 +167,8 @@ public class MessageFlowNode {
 					   	   boolean resetMessageFormat,
 					   	   boolean areMonitoringEventsEnabled,
 					   	   ArrayList<String> inputTerminals,
-					   	   ArrayList<String> outputTerminals) {
+					   	   ArrayList<String> outputTerminals,
+					   	   Map<String, Object> properties) {
 		this.id							= id;
 		this.name						= name;
 		this.type						= type;
@@ -182,6 +189,7 @@ public class MessageFlowNode {
 		this.areMonitoringEventsEnabled	= areMonitoringEventsEnabled;
 		this.inputTerminals				= inputTerminals;
 		this.outputTerminals			= outputTerminals;
+		this.properties					=properties;
 	}
 	
 	/**
@@ -354,7 +362,16 @@ public class MessageFlowNode {
 	public ArrayList<String> getOutputTerminals() {
 		return outputTerminals;
 	}
-	
+
+	/**
+	 * This method returns the list of Custom Properties for the node
+	 * 
+	 * @return the properties
+	 */
+	public Map<String, Object> getProperties() {
+		return properties;
+	}
+
 	/**
 	 * The method returns the record definition of a message flow node.
 	 * 
@@ -363,4 +380,8 @@ public class MessageFlowNode {
 	public String getRecordDefinition() {
 		return recordDefinition;
 	}
+
+	
 }
+
+

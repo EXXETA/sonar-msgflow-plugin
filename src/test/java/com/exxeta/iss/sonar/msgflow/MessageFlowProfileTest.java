@@ -17,7 +17,8 @@
  */
 package com.exxeta.iss.sonar.msgflow;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,7 +43,7 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		assertEquals(71, rp.getActiveRules().size());
+		assertEquals(77, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -153,6 +154,12 @@ public class MessageFlowProfileTest {
 		assertTrue("TryCatchNodeTryTerminal is not defined as a rule.", ruleKeys.contains("TryCatchNodeTryTerminal"));
 		assertTrue("TryCatchNodeCatchTerminal is not defined as a rule.", ruleKeys.contains("TryCatchNodeCatchTerminal"));
 		assertTrue("TryCatchNodeMonitoringEvents is not defined as a rule.", ruleKeys.contains("TryCatchNodeMonitoringEvents"));
+		assertTrue("SelfConnectingNodes is not defined as a rule.", ruleKeys.contains("SelfConnectingNodes"));
+		assertTrue("MQNodeNameMatchesQueueName is not defined as a rule.", ruleKeys.contains("MQNodeNameMatchesQueueName"));
+		assertTrue("IMSRequestDescription is not defined as a rule.", ruleKeys.contains("IMSRequestDescription"));
+		assertTrue("IMSRequestNodeDefinedProperties is not defined as a rule.", ruleKeys.contains("IMSRequestNodeDefinedProperties"));
+		assertTrue("IMSRequestCommitMode is not defined as a rule.", ruleKeys.contains("IMSRequestCommitMode"));
+		assertTrue("IMSRequestMessageDomain is not defined as a rule.", ruleKeys.contains("IMSRequestMessageDomain"));
 	}
 
 }

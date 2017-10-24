@@ -185,5 +185,23 @@ public class MessageFlowTest {
 		
 		/* TODO: insert additional tests here */
 	}
-
+	
+	@Test
+	public final void testMQGetNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MQNodes.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getMqGetNodes().size());
+		assertNotEquals(mf.getMqGetNodes().get(0).getName(), mf.getMqGetNodes().get(0).getProperties().get("queueName"));
+	}
+	@Test
+	public final void testIMSRequestNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/IMSRequest.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getImsRequestNodes().size());
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("shortDescription"), "Short Description");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("longDescription"), "Long Description goes here");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("commitMode"), "commitThenSend");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("configurableService"), "XYZ");
+		assertEquals(mf.getImsRequestNodes().get(0).getMessageDomainProperty(), "BLOB");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("useNodeProperties"), "false");
+	}
 }
+
