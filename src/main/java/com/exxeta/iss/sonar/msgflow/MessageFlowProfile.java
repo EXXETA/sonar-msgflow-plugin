@@ -186,6 +186,8 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestNodeDefinedProperties"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestCommitMode"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestMessageDomain"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MessageFlowComments"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQHeaderNodeDetection"), null);
 		// add more rules here
 		
 		LOG.debug("created profile: " + profile.toString());

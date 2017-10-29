@@ -271,14 +271,7 @@ public class MessageFlowNodeTest {
 		assertNotEquals(mf1.getMqOutputNodes().get(0).getName(),mf1.getMqOutputNodes().get(0).getProperties().get("queueName"));
 		assertNotEquals(mf1.getMqGetNodes().get(0).getName(),mf1.getMqGetNodes().get(0).getProperties().get("queueName"));
 	}
-	@Test
-	public final void testConnections() {
-		MessageFlow mf = new MessageFlow("src/test/resources/SelfConnectingNode.msgflow", new MessageFlowParser());
-		assertEquals(4, mf.getConnections().size());
-		/*checking Self connecting Nodes*/ 
-		assertEquals(mf.getConnections().get(1).getSrcNode(), mf.getConnections().get(1).getTargetNode());
-		assertNotEquals(mf.getConnections().get(2).getSrcNode(), mf.getConnections().get(2).getTargetNode());
-	}
+	
 	
 
 }

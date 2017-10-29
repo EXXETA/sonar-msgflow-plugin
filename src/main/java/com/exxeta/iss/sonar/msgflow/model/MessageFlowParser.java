@@ -77,6 +77,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> mqInputNodes,
 					  ArrayList<MessageFlowNode> mqOutputNodes,
 					  ArrayList<MessageFlowNode> mqGetNodes,
+					  ArrayList<MessageFlowNode> mqHeaderNodes,
 					  ArrayList<MessageFlowNode> resetContentDescriptorNodes,
 					  ArrayList<MessageFlowNode> soapInputNodes,
 					  ArrayList<MessageFlowNode> soapRequestNodes,
@@ -84,7 +85,8 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> timeoutNotificationNodes,
 					  ArrayList<MessageFlowNode> tryCatchNodes,
 					  ArrayList<MessageFlowNode> imsRequestNodes,
-					  ArrayList<MessageFlowConnection> connections) {
+					  ArrayList<MessageFlowConnection> connections,
+					  ArrayList<MessageFlowComment> comments) {
 		LOG.debug("START");
 
 		try {
@@ -263,6 +265,11 @@ public class MessageFlowParser {
 					
 					/* MQGet */
 					mqGetNodes.add(mfn);
+				} else if (type.equals("MQHeader")) {
+					LOG.debug("MQHeader");
+					
+					/* MQMQHeader */
+					mqHeaderNodes.add(mfn);
 				} else if (type.equals("ResetContentDescriptor")) {
 					LOG.debug("ResetContentDescriptor");
 					
@@ -329,6 +336,25 @@ public class MessageFlowParser {
 				
 				MessageFlowConnection conection = new MessageFlowConnection(srcNode,srcNodeName,targetNode,targetNodeName,srcTerminal,targetTerminal);
 				connections.add(conection);
+			}
+			
+			XPathExpression numberOfStickyNotes = XPathFactory.newInstance().newXPath().compile("count(//stickyNote)");
+			int nos = Integer.parseInt((String)numberOfStickyNotes.evaluate(document, XPathConstants.STRING));
+			
+			for (; nos > 0; nos--) {
+				XPathExpression associationExp =  XPathFactory.newInstance().newXPath().compile("//stickyNote[" + nos +  "]/@association");
+				XPathExpression commentExp =  XPathFactory.newInstance().newXPath().compile("//stickyNote[" + nos +  "]/body/@string");
+				XPathExpression locationExp =  XPathFactory.newInstance().newXPath().compile("//stickyNote[" + nos +  "]/@location");
+				String associationList = (String) associationExp.evaluate(document,XPathConstants.STRING);
+				ArrayList<String> association = new ArrayList<String>();
+				for(String nodeId : associationList.split(" ")) {
+					association.add(nodeId);
+				}
+				String comment = (String)commentExp.evaluate(document,XPathConstants.STRING);
+				int locationX = Integer.parseInt(((String)locationExp.evaluate(document, XPathConstants.STRING)).split(",")[0]);
+				int locationY = Integer.parseInt(((String)locationExp.evaluate(document, XPathConstants.STRING)).split(",")[1]);
+				MessageFlowComment msgFlowComment = new MessageFlowComment(association, comment, locationX, locationY);
+				comments.add(msgFlowComment);
 			}
 			
 			/**

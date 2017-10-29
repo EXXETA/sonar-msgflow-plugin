@@ -73,9 +73,14 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> mqOutputNodes;
 
 	/**
-	 * a list of MQ Output Nodes of a message flow
+	 * a list of MQ Get Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> mqGetNodes;
+
+	/**
+	 * a list of MQ Header Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> mqHeaderNodes;
 	
 	/**
 	 * a list of Reset Content Descriptor Nodes of a message flow
@@ -116,6 +121,12 @@ public class MessageFlow {
 	 * a list of Connections of a message flow "Added for ABN"
 	 */
 	private ArrayList<MessageFlowConnection> connections;
+	
+	/**
+	 * a list of Connections of a message flow "Added for ABN"
+	 */
+	private ArrayList<MessageFlowComment> comments;
+	
 
 	
 
@@ -135,6 +146,7 @@ public class MessageFlow {
 		mqInputNodes				= new ArrayList<MessageFlowNode>();
 		mqOutputNodes				= new ArrayList<MessageFlowNode>();
 		mqGetNodes					= new ArrayList<MessageFlowNode>();
+		mqHeaderNodes				= new ArrayList<MessageFlowNode>();
 		resetContentDescriptorNodes	= new ArrayList<MessageFlowNode>();
 		soapInputNodes				= new ArrayList<MessageFlowNode>();
 		soapRequestNodes			= new ArrayList<MessageFlowNode>();
@@ -143,6 +155,7 @@ public class MessageFlow {
 		tryCatchNodes				= new ArrayList<MessageFlowNode>();
 		imsRequestNodes				= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
+		comments					= new ArrayList<MessageFlowComment>();
 		
 		messageFlowParser.parse(file,
 								collectorNodes,
@@ -154,6 +167,7 @@ public class MessageFlow {
 								mqInputNodes,
 								mqOutputNodes,
 								mqGetNodes,
+								mqHeaderNodes,
 								resetContentDescriptorNodes,
 								soapInputNodes,
 								soapRequestNodes,
@@ -161,7 +175,8 @@ public class MessageFlow {
 								timeoutNotificationNodes,
 								tryCatchNodes,
 								imsRequestNodes,
-								connections);
+								connections,
+								comments);
 	}
 	
 	/**
@@ -246,6 +261,15 @@ public class MessageFlow {
 	}
 
 	/**
+	 * The method returns a list of the MQHeader Nodes of Message Flow. "Added for ABN"
+	 * 
+	 * @return a list of the MQHeader Nodes of Message Flow
+	 */
+	public ArrayList<MessageFlowNode> getMqHeaderNodes() {
+		return mqHeaderNodes;
+	}
+
+	/**
 	 * The method returns a list of the Reset Content Descriptor Nodes of Message Flow.
 	 * 
 	 * @return a list of the Reset Content Descriptor Nodes of Message Flow
@@ -311,9 +335,18 @@ public class MessageFlow {
 	/**
 	 * The method returns a list of the connections of Message Flow. "Added for ABN"
 	 * 
-	 * @return a list of the Try Catch Nodes of Message Flow
+	 * @return a list of connections of the message flow
 	 */
 	public ArrayList<MessageFlowConnection> getConnections() {
 		return connections;
+	}
+
+	/**
+	 * The method returns a list of comment object of Message Flow. "Added for ABN"
+	 * 
+	 * @return a list of comment objects
+	 */
+	public ArrayList<MessageFlowComment> getComments() {
+		return comments;
 	}
 }

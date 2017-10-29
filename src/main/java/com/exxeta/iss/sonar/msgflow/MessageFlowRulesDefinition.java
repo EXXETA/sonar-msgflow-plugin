@@ -1005,7 +1005,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 
 		/*
-		 * MQNodeNameMatchesQueueName "Added for ABN"
+		 * IMSRequestDescription "Added for ABN"
 		 */
 		repository.createRule("IMSRequestDescription")
 				.setName("IMSRequest nodes should have the short and long description.")
@@ -1013,25 +1013,39 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 						"Enter the short and Long Description for the IMS Request Node to include the transaction name and view number of the transaction being invoked.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
-		 * MQNodeNameMatchesQueueName "Added for ABN"
+		 * IMSRequestNodeDefinedProperties "Added for ABN"
 		 */
 		repository.createRule("IMSRequestNodeDefinedProperties")
 				.setName("'Use Node Defined Properties' option is checked for IMSRequest.")
 				.setHtmlDescription("Uncheck the option 'Use connection properties defined on Node'. Instead set Configurable service to 'IMSConnectService'")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
-		 * MQNodeNameMatchesQueueName "Added for ABN"
+		 * IMSRequestCommitMode "Added for ABN"
 		 */
 		repository.createRule("IMSRequestCommitMode")
 				.setName("Wrong value set for the property 'CommitMode' for IMSRequest.")
 				.setHtmlDescription("Ensure Commit mode is set to 0:COMMIT_THEN_SEND.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
-		 * MQNodeNameMatchesQueueName "Added for ABN"
+		 * IMSRequestMessageDomain "Added for ABN"
 		 */
 		repository.createRule("IMSRequestMessageDomain")
 				.setName("Wrong message domain property for IMSRequest .")
 				.setHtmlDescription("Ensure Message Domain is set to 'BLOB'.")
+				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+		/*
+		 * MessageFlowComments "Added for ABN"
+		 */
+		repository.createRule("MessageFlowComments")
+				.setName("Message Flow comments are not Present.")
+				.setHtmlDescription("Always mention flow description inside the message flow.")
+				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+		/*
+		 * MQHeaderNodeDetection "Added for ABN"
+		 */
+		repository.createRule("MQHeaderNodeDetection")
+				.setName("Usage of MQ Header node is discouraged.")
+				.setHtmlDescription("MQ Header node should not be used unless the standards are agreed. Instead manipulate the hedaers using ESQL.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 
 		// add more rules here

@@ -203,5 +203,25 @@ public class MessageFlowTest {
 		assertEquals(mf.getImsRequestNodes().get(0).getMessageDomainProperty(), "BLOB");
 		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("useNodeProperties"), "false");
 	}
+	@Test
+	public final void testConnections() {
+		MessageFlow mf = new MessageFlow("src/test/resources/SelfConnectingNode.msgflow", new MessageFlowParser());
+		assertEquals(4, mf.getConnections().size());
+		/*checking Self connecting Nodes*/ 
+		assertEquals(mf.getConnections().get(1).getSrcNode(), mf.getConnections().get(1).getTargetNode());
+		assertNotEquals(mf.getConnections().get(2).getSrcNode(), mf.getConnections().get(2).getTargetNode());
+	}
+	@Test
+	public final void testComments() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MessageFlowComment.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getComments().size());
+		/*checking Self connecting Nodes*/ 
+		}
+	@Test
+	public final void testMqHeaderNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MessageFlowComment.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getMqHeaderNodes().size());
+		/*checking Self connecting Nodes*/ 
+		}
 }
 
