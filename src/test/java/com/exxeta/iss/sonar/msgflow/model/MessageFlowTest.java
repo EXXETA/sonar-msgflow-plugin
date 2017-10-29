@@ -17,7 +17,9 @@
  */
 package com.exxeta.iss.sonar.msgflow.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -221,7 +223,11 @@ public class MessageFlowTest {
 	public final void testMqHeaderNodes() {
 		MessageFlow mf = new MessageFlow("src/test/resources/MessageFlowComment.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getMqHeaderNodes().size());
-		/*checking Self connecting Nodes*/ 
 		}
+	@Test
+	public final void testFilterNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/FilterNode.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getFilterNodes().size());
+	}
 }
 

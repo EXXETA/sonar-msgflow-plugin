@@ -17,7 +17,7 @@
  */
 package com.exxeta.iss.sonar.msgflow;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.sonar.api.config.Settings;

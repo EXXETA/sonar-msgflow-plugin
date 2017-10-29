@@ -1,5 +1,8 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
+import java.util.Iterator;
+import java.util.regex.Pattern;
+
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -10,27 +13,29 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
+import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**
- * The class (sensor) contains the method to analyse the comment notes of the
- * message flow "Added for ABN"
+ * The class (sensor) contains the method to analyse the connections and
+ * configuration of a MQ Header Node.
  * 
  * @author Arjav Shah
  */
-public class MessageFlowCommentSensor implements Sensor {
+public class FilterNodeSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
 	 */
 	// private static final Logger LOG =
-	// LoggerFactory.getLogger(ComputeNodeSensor.class);
+	// LoggerFactory.getLogger(MQOutputNodeSensor.class);
 
 	/**
 	 * Variable to hold file system information, e.g. the file names of the project
 	 * files.
 	 */
 	private final FileSystem fs;
+	public final static String PATTERN_STRING = "(Is|Has|Can|TrueIf|FalseIf)[A-Z][a-zA-Z0-9]*$";
 
 	/**
 	 * 
@@ -40,7 +45,7 @@ public class MessageFlowCommentSensor implements Sensor {
 	/**
 	 * Use of IoC to get FileSystem and ResourcePerspectives
 	 */
-	public MessageFlowCommentSensor(FileSystem fs, ResourcePerspectives perspectives) {
+	public FilterNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
 		this.fs = fs;
 		this.perspectives = perspectives;
 	}
@@ -50,9 +55,6 @@ public class MessageFlowCommentSensor implements Sensor {
 	 * 
 	 * @see org.sonar.api.batch.CheckProject#shouldExecuteOnProject(org.sonar.api.
 	 * resources.Project)
-	 */
-	/**
-	 * The method defines the language of the file to be analysed.
 	 */
 	@Override
 	public boolean shouldExecuteOnProject(Project arg0) {
@@ -79,13 +81,27 @@ public class MessageFlowCommentSensor implements Sensor {
 			 */
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 
-			if (msgFlow.getComments().size() == 0) {
-				Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MessageFlowComments"))
-						.message("Comments for the message flow '" + inputFile.relativePath()
-								+ "' is not present. Always mention flow description inside the message flow.")
-						.build());
+			// the actual rule ...
+			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMqGetNodes().iterator();
+
+			while (iMsgFlowNodes.hasNext()) {
+				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
+				if (CheckFilterNodeName(msgFlowNode.getName())) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "FilterNodeNameCheck"))
+							.message(
+									"The name of Node '" + msgFlowNode.getName() + "' (type: \"" + msgFlowNode.getType() + "\") should follow '"+PATTERN_STRING+"' pattern.")
+							.build());
+
+				}
 			}
 		}
+	}
+	public static boolean CheckFilterNodeName(String name) {
+		
+		Pattern pattern = Pattern.compile(PATTERN_STRING);
+//		Matcher matcher = 
+		return pattern.matcher(name).find();
+		
 	}
 }

@@ -1,7 +1,5 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
-import java.util.Iterator;
-
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -12,7 +10,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
-import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**

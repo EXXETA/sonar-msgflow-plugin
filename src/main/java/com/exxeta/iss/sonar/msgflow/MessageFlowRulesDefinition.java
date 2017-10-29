@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.rule.Severity;
 import org.sonar.api.server.rule.RulesDefinition;
 
+import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
+
 /**
  * The class defines the rules. The name, the description, the severity and the
  * tag of the rules is define in the current class.
@@ -1047,8 +1049,15 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setName("Usage of MQ Header node is discouraged.")
 				.setHtmlDescription("MQ Header node should not be used unless the standards are agreed. Instead manipulate the hedaers using ESQL.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+		/*
+		 * FilterNodeNameCheck "Added for ABN"
+		 */
+		repository.createRule("FilterNodeNameCheck")
+				.setName("Incorrect naming convention for Filter Node.")
+				.setHtmlDescription("Filter Node Name should follow "+FilterNodeSensor.PATTERN_STRING+" pattern.")
+				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 
-		// add more rules here
+				// add more rules here
 
 		repository.done();
 

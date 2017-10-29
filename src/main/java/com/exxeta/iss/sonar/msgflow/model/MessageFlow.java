@@ -118,6 +118,11 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> imsRequestNodes;
 	
 	/**
+	 * a list of IMS Request Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> filterNodes;
+	
+	/**
 	 * a list of Connections of a message flow "Added for ABN"
 	 */
 	private ArrayList<MessageFlowConnection> connections;
@@ -154,6 +159,7 @@ public class MessageFlow {
 		timeoutNotificationNodes	= new ArrayList<MessageFlowNode>();
 		tryCatchNodes				= new ArrayList<MessageFlowNode>();
 		imsRequestNodes				= new ArrayList<MessageFlowNode>();
+		filterNodes					= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowComment>();
 		
@@ -175,6 +181,7 @@ public class MessageFlow {
 								timeoutNotificationNodes,
 								tryCatchNodes,
 								imsRequestNodes,
+								filterNodes,
 								connections,
 								comments);
 	}
@@ -330,6 +337,15 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getImsRequestNodes() {
 		return imsRequestNodes;
+	}
+
+	/**
+	 *The method returns a list of IMS Request nodes of Message Flow "Added for ABN"
+	 * 
+	 * @return a list of the filter Nodes of Message Flow
+	 */
+	public ArrayList<MessageFlowNode> getFilterNodes() {
+		return filterNodes;
 	}
 
 	/**

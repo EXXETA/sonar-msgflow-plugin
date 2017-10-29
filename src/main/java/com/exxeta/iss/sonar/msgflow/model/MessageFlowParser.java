@@ -85,6 +85,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> timeoutNotificationNodes,
 					  ArrayList<MessageFlowNode> tryCatchNodes,
 					  ArrayList<MessageFlowNode> imsRequestNodes,
+					  ArrayList<MessageFlowNode> filterNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowComment> comments) {
 		LOG.debug("START");
@@ -305,6 +306,11 @@ public class MessageFlowParser {
 					
 					/* IMS Request */
 					imsRequestNodes.add(mfn);
+				} else if (type.equals("Filter")) {
+					LOG.debug("Filter");
+					
+					/* Filter */
+					filterNodes.add(mfn);
 				}
 				
 				LOG.debug("Fill nodes - END");
