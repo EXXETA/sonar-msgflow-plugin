@@ -100,7 +100,6 @@ public class FilterNodeSensor implements Sensor {
 	public static boolean CheckFilterNodeName(String name) {
 		
 		Pattern pattern = Pattern.compile(PATTERN_STRING);
-//		Matcher matcher = 
 		return pattern.matcher(name).find();
 		
 	}

@@ -23,6 +23,7 @@ import org.sonar.api.rule.Severity;
 import org.sonar.api.server.rule.RulesDefinition;
 
 import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.IMSRequestNodeSensor;
 
 /**
  * The class defines the rules. The name, the description, the severity and the
@@ -1038,8 +1039,8 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		/*
 		 * MessageFlowComments "Added for ABN"
 		 */
-		repository.createRule("MessageFlowComments")
-				.setName("Message Flow comments are not Present.")
+		repository.createRule("MessageFlowDescription")
+				.setName("Message flow description is not Present.")
 				.setHtmlDescription("Always mention flow description inside the message flow.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
@@ -1056,7 +1057,13 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setName("Incorrect naming convention for Filter Node.")
 				.setHtmlDescription("Filter Node Name should follow "+FilterNodeSensor.PATTERN_STRING+" pattern.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
-
+		/*
+		 * IMSRequestNodeName "Added for ABN"
+		 */
+		repository.createRule("IMSRequestNodeName")
+				.setName("Incorrect naming convention for IMS Request Node.")
+				.setHtmlDescription("IMS Request Node Name should follow "+IMSRequestNodeSensor.PATTERN_STRING+" pattern.")
+				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 				// add more rules here
 
 		repository.done();

@@ -128,11 +128,17 @@ public class MessageFlow {
 	private ArrayList<MessageFlowConnection> connections;
 	
 	/**
-	 * a list of Connections of a message flow "Added for ABN"
+	 * a list of comment notes of a message flow "Added for ABN"
 	 */
-	private ArrayList<MessageFlowComment> comments;
-	
-
+	private ArrayList<MessageFlowCommentNote> comments;
+	/**
+	 * a short description of a message flow "Added for ABN"
+	 */
+	private String shortDescription;
+	/**
+	 * a long description of a message flow "Added for ABN"
+	 */
+	private String longDescription;
 	
 
 	/**
@@ -161,7 +167,7 @@ public class MessageFlow {
 		imsRequestNodes				= new ArrayList<MessageFlowNode>();
 		filterNodes					= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
-		comments					= new ArrayList<MessageFlowComment>();
+		comments					= new ArrayList<MessageFlowCommentNote>();
 		
 		messageFlowParser.parse(file,
 								collectorNodes,
@@ -183,7 +189,9 @@ public class MessageFlow {
 								imsRequestNodes,
 								filterNodes,
 								connections,
-								comments);
+								comments,
+								shortDescription,
+								longDescription);
 	}
 	
 	/**
@@ -362,7 +370,25 @@ public class MessageFlow {
 	 * 
 	 * @return a list of comment objects
 	 */
-	public ArrayList<MessageFlowComment> getComments() {
+	public ArrayList<MessageFlowCommentNote> getComments() {
 		return comments;
+	}
+
+	/**
+	 * The method returns a short description of a Message Flow. "Added for ABN"
+	 * 
+	 * @return the short description of the message flow
+	 */
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	/**
+	 * The method returns a long description of a Message Flow. "Added for ABN"
+	 * 
+	 * @return the long description of the message flow
+	 */
+	public String getLongDescription() {
+		return longDescription;
 	}
 }

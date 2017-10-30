@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Arjav Shah
  *
  */
-public class MessageFlowComment {
+public class MessageFlowCommentNote {
 	/**
 	 * an id of the node to which the comment note is associated with
 	 */
@@ -34,7 +34,7 @@ public class MessageFlowComment {
 	 * @param locationX
 	 * @param locationY
 	 */
-	public MessageFlowComment(ArrayList<String> association, String comment, int locationX, int locationY) {
+	public MessageFlowCommentNote(ArrayList<String> association, String comment, int locationX, int locationY) {
 		super();
 		this.association = association;
 		this.comment = comment;

@@ -16,6 +16,7 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -49,6 +50,7 @@ public class IMSRequestNodeSensor implements Sensor {
 	 * project files.
 	 */
 	private final FileSystem fs;
+	public final static String PATTERN_STRING = "(IMS Request )[0-9]$";
 
 	/**
 	 * 
@@ -139,9 +141,26 @@ public class IMSRequestNodeSensor implements Sensor {
 									+ "' (type: " + msgFlowNode.getType() + ").")
 							.build());
 				}
+				
+				if(!CheckIMSNodeName(msgFlowNode.getName())){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "IMSRequestNodeName"))
+							.message("Node name for'" + msgFlowNode.getName()
+									+ "' (type: " + msgFlowNode.getType() + ") should follow the pattern '"+PATTERN_STRING+"'.")
+							.build());
+				}
+				
+				
 
 			}
 		}
+	}
+	
+public static boolean CheckIMSNodeName(String name) {
+		
+		Pattern pattern = Pattern.compile(PATTERN_STRING);
+		return pattern.matcher(name).find();
+		
 	}
 
 }

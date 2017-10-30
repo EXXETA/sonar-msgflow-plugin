@@ -87,7 +87,9 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> imsRequestNodes,
 					  ArrayList<MessageFlowNode> filterNodes,
 					  ArrayList<MessageFlowConnection> connections,
-					  ArrayList<MessageFlowComment> comments) {
+					  ArrayList<MessageFlowCommentNote> comments,
+					  String shortDescription,
+					  String longDescription) {
 		LOG.debug("START");
 
 		try {
@@ -194,13 +196,13 @@ public class MessageFlowParser {
 					properties.put("queueName",queueName);
 				}
 				else if (type.equals("IMSRequest")) {
-					XPathExpression shortDescriptionExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/shortDescription/@string");
-					String shortDescription = (String) shortDescriptionExp.evaluate(document,XPathConstants.STRING);
-					properties.put("shortDescription", shortDescription);
+					XPathExpression shortDescriptionIMSExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/shortDescription/@string");
+					String shortDescriptionIMS = (String) shortDescriptionIMSExp.evaluate(document,XPathConstants.STRING);
+					properties.put("shortDescription", shortDescriptionIMS);
 					
-					XPathExpression longDescriptionExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/longDescription/@string");
-					String longDescription = (String) longDescriptionExp.evaluate(document,XPathConstants.STRING);
-					properties.put("longDescription", longDescription);
+					XPathExpression longDescriptionIMSExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/longDescription/@string");
+					String longDescriptionIMS = (String) longDescriptionIMSExp.evaluate(document,XPathConstants.STRING);
+					properties.put("longDescription", longDescriptionIMS);
 					
 					XPathExpression useNodePropertiesExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@useNodeProperties");
 					String useNodeProperties = (String) useNodePropertiesExp.evaluate(document,XPathConstants.STRING);
@@ -316,6 +318,10 @@ public class MessageFlowParser {
 				LOG.debug("Fill nodes - END");
 			}
 			
+			XPathExpression shortDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/shortDescription/@string");
+			XPathExpression longDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/longDescription/@string");
+			shortDescription = (String) shortDescriptionExp.evaluate(document,XPathConstants.STRING);
+			longDescription = (String) longDescriptionExp.evaluate(document,XPathConstants.STRING);
 			/**
 			 * Added to identify all the connections for the message flow "Added for ABN" change starts
 			 */
@@ -359,7 +365,7 @@ public class MessageFlowParser {
 				String comment = (String)commentExp.evaluate(document,XPathConstants.STRING);
 				int locationX = Integer.parseInt(((String)locationExp.evaluate(document, XPathConstants.STRING)).split(",")[0]);
 				int locationY = Integer.parseInt(((String)locationExp.evaluate(document, XPathConstants.STRING)).split(",")[1]);
-				MessageFlowComment msgFlowComment = new MessageFlowComment(association, comment, locationX, locationY);
+				MessageFlowCommentNote msgFlowComment = new MessageFlowCommentNote(association, comment, locationX, locationY);
 				comments.add(msgFlowComment);
 			}
 			

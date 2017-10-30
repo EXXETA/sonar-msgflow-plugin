@@ -18,7 +18,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  * 
  * @author Arjav Shah
  */
-public class MessageFlowCommentSensor implements Sensor {
+public class MessageFlowDescriptionSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
@@ -40,7 +40,7 @@ public class MessageFlowCommentSensor implements Sensor {
 	/**
 	 * Use of IoC to get FileSystem and ResourcePerspectives
 	 */
-	public MessageFlowCommentSensor(FileSystem fs, ResourcePerspectives perspectives) {
+	public MessageFlowDescriptionSensor(FileSystem fs, ResourcePerspectives perspectives) {
 		this.fs = fs;
 		this.perspectives = perspectives;
 	}
@@ -79,10 +79,10 @@ public class MessageFlowCommentSensor implements Sensor {
 			 */
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 
-			if (msgFlow.getComments().size() == 0) {
+			if ((msgFlow.getShortDescription()==null)||(msgFlow.getShortDescription().isEmpty()) && ((msgFlow.getLongDescription()==null)||(msgFlow.getLongDescription().isEmpty()))) {
 				Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MessageFlowComments"))
-						.message("Comments for the message flow '" + inputFile.relativePath()
+				issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MessageFlowDescription"))
+						.message("Description for the message flow '" + inputFile.relativePath()
 								+ "' is not present. Always mention flow description inside the message flow.")
 						.build());
 			}
