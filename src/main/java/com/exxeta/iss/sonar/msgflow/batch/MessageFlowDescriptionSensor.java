@@ -79,7 +79,7 @@ public class MessageFlowDescriptionSensor implements Sensor {
 			 */
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 
-			if ((msgFlow.getShortDescription()==null)||(msgFlow.getShortDescription().isEmpty()) && ((msgFlow.getLongDescription()==null)||(msgFlow.getLongDescription().isEmpty()))) {
+			if ((msgFlow.getShortDescription()==null)||(msgFlow.getShortDescription().toString().isEmpty()) && ((msgFlow.getLongDescription()==null)||(msgFlow.getLongDescription().toString().isEmpty()))) {
 				Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MessageFlowDescription"))
 						.message("Description for the message flow '" + inputFile.relativePath()

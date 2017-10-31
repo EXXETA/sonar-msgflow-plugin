@@ -88,8 +88,8 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> filterNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
-					  String shortDescription,
-					  String longDescription) {
+					  StringBuilder shortDescription,
+					  StringBuilder longDescription) {
 		LOG.debug("START");
 
 		try {
@@ -320,8 +320,11 @@ public class MessageFlowParser {
 			
 			XPathExpression shortDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/shortDescription/@string");
 			XPathExpression longDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/longDescription/@string");
-			shortDescription = (String) shortDescriptionExp.evaluate(document,XPathConstants.STRING);
-			longDescription = (String) longDescriptionExp.evaluate(document,XPathConstants.STRING);
+			shortDescription.delete(0, shortDescription.length());
+			shortDescription.append((String) shortDescriptionExp.evaluate(document,XPathConstants.STRING));
+			longDescription.delete(0, longDescription.length());
+			longDescription.append((String) longDescriptionExp.evaluate(document,XPathConstants.STRING));
+			
 			/**
 			 * Added to identify all the connections for the message flow "Added for ABN" change starts
 			 */

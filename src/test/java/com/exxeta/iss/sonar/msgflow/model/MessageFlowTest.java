@@ -214,10 +214,12 @@ public class MessageFlowTest {
 		assertNotEquals(mf.getConnections().get(2).getSrcNode(), mf.getConnections().get(2).getTargetNode());
 	}
 	@Test
-	public final void testComments() {
-		MessageFlow mf = new MessageFlow("src/test/resources/MessageFlowComment.msgflow", new MessageFlowParser());
-		assertEquals(1, mf.getComments().size());
+	public final void testDescription() {
+		MessageFlow mf = new MessageFlow("src/test/resources/IMSRequest.msgflow", new MessageFlowParser());
+		assertEquals("Short Description", mf.getShortDescription().toString());
+		assertEquals("Long Description goes here", mf.getLongDescription().toString());
 		/*checking Self connecting Nodes*/ 
+		
 		}
 	@Test
 	public final void testMqHeaderNodes() {
@@ -229,5 +231,6 @@ public class MessageFlowTest {
 		MessageFlow mf = new MessageFlow("src/test/resources/FilterNode.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFilterNodes().size());
 	}
+	
 }
 

@@ -134,11 +134,11 @@ public class MessageFlow {
 	/**
 	 * a short description of a message flow "Added for ABN"
 	 */
-	private String shortDescription;
+	private StringBuilder shortDescription;
 	/**
 	 * a long description of a message flow "Added for ABN"
 	 */
-	private String longDescription;
+	private StringBuilder longDescription;
 	
 
 	/**
@@ -168,7 +168,8 @@ public class MessageFlow {
 		filterNodes					= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowCommentNote>();
-		
+		shortDescription			= new StringBuilder("");
+		longDescription				= new StringBuilder("");
 		messageFlowParser.parse(file,
 								collectorNodes,
 								computeNodes,
@@ -192,6 +193,7 @@ public class MessageFlow {
 								comments,
 								shortDescription,
 								longDescription);
+
 	}
 	
 	/**
@@ -379,7 +381,7 @@ public class MessageFlow {
 	 * 
 	 * @return the short description of the message flow
 	 */
-	public String getShortDescription() {
+	public StringBuilder getShortDescription() {
 		return shortDescription;
 	}
 
@@ -388,7 +390,7 @@ public class MessageFlow {
 	 * 
 	 * @return the long description of the message flow
 	 */
-	public String getLongDescription() {
+	public StringBuilder getLongDescription() {
 		return longDescription;
 	}
 }
