@@ -995,7 +995,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		/*
 		 * SelfConnectingNodes "Added for ABN"
 		 */
-		repository.createRule("SelfConnectingNodes").setName("Self Connecting Nodes were found.")
+		repository.createRule("SelfConnectingNodes").setName("All Nodes - Self Connecting Nodes were found.")
 				.setHtmlDescription("Use of Self Connecting node is discouraged.").setSeverity(Severity.MINOR)
 				.setTags(Tags.BAD_PRACTICE);
 
@@ -1003,7 +1003,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * MQNodeNameMatchesQueueName "Added for ABN"
 		 */
 		repository.createRule("MQNodeNameMatchesQueueName")
-				.setName("MQ Node name and the underlaying queue name should match.")
+				.setName("MQ Nodes - MQ Node name and the underlaying queue name should match.")
 				.setHtmlDescription("MQ Nodes Should be named using the underlaying queue name for clarity.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 
@@ -1011,7 +1011,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * IMSRequestDescription "Added for ABN"
 		 */
 		repository.createRule("IMSRequestDescription")
-				.setName("IMSRequest nodes should have the short and long description.")
+				.setName("IMS Request Node - IMSRequest nodes should have the short and long description.")
 				.setHtmlDescription(
 						"Enter the short and Long Description for the IMS Request Node to include the transaction name and view number of the transaction being invoked.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
@@ -1019,49 +1019,49 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * IMSRequestNodeDefinedProperties "Added for ABN"
 		 */
 		repository.createRule("IMSRequestNodeDefinedProperties")
-				.setName("'Use Node Defined Properties' option is checked for IMSRequest.")
+				.setName("IMS Request Node - 'Use Node Defined Properties' option is checked for IMSRequest.")
 				.setHtmlDescription("Uncheck the option 'Use connection properties defined on Node'. Instead set Configurable service to 'IMSConnectService'")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
 		 * IMSRequestCommitMode "Added for ABN"
 		 */
 		repository.createRule("IMSRequestCommitMode")
-				.setName("Wrong value set for the property 'CommitMode' for IMSRequest.")
+				.setName("IMS Request Node - Wrong value set for the property 'CommitMode' for IMSRequest.")
 				.setHtmlDescription("Ensure Commit mode is set to 0:COMMIT_THEN_SEND.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
 		 * IMSRequestMessageDomain "Added for ABN"
 		 */
 		repository.createRule("IMSRequestMessageDomain")
-				.setName("Wrong message domain property for IMSRequest .")
+				.setName("IMS Request Node - Wrong message domain property for IMSRequest .")
 				.setHtmlDescription("Ensure Message Domain is set to 'BLOB'.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
 		 * MessageFlowComments "Added for ABN"
 		 */
 		repository.createRule("MessageFlowDescription")
-				.setName("Message flow description is not Present.")
+				.setName("Message Flow - Message flow description is not Present.")
 				.setHtmlDescription("Always mention flow description inside the message flow.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
 		 * MQHeaderNodeDetection "Added for ABN"
 		 */
 		repository.createRule("MQHeaderNodeDetection")
-				.setName("Usage of MQ Header node is discouraged.")
+				.setName("MQ Header Node - Usage of MQ Header node is discouraged.")
 				.setHtmlDescription("MQ Header node should not be used unless the standards are agreed. Instead manipulate the hedaers using ESQL.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
 		 * FilterNodeNameCheck "Added for ABN"
 		 */
 		repository.createRule("FilterNodeNameCheck")
-				.setName("Incorrect naming convention for Filter Node.")
+				.setName("Filter Node - Incorrect naming convention for Filter Node.")
 				.setHtmlDescription("Filter Node Name should follow "+FilterNodeSensor.PATTERN_STRING+" pattern.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 		/*
 		 * IMSRequestNodeName "Added for ABN"
 		 */
 		repository.createRule("IMSRequestNodeName")
-				.setName("Incorrect naming convention for IMS Request Node.")
+				.setName("IMS Request Node - Incorrect naming convention for IMS Request Node.")
 				.setHtmlDescription("IMS Request Node Name should follow "+IMSRequestNodeSensor.PATTERN_STRING+" pattern.")
 				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
 				// add more rules here
