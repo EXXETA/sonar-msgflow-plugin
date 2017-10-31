@@ -82,11 +82,11 @@ public class FilterNodeSensor implements Sensor {
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 
 			// the actual rule ...
-			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMqGetNodes().iterator();
+			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getFilterNodes().iterator();
 
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
-				if (CheckFilterNodeName(msgFlowNode.getName())) {
+				if (!CheckFilterNodeName(msgFlowNode.getName())) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "FilterNodeNameCheck"))
 							.message(
