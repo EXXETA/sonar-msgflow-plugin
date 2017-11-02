@@ -99,10 +99,10 @@ public class MessageFlowPlugin extends SonarPlugin {
 			TimeoutControlNodeSensor.class, // class extends Sensor
 			TimeoutNotificationNodeSensor.class, // class extends Sensor
 			TryCatchNodeSensor.class,		// class extends Sensor
-			MessageFlowConnectionSensor.class,		// class extends Sensor "Added for ABN"
-			IMSRequestNodeSensor.class,// class extends Sensor "Added for ABN"
-			MessageFlowDescriptionSensor.class, // class extends Sensor "Added for ABN"
-			FilterNodeSensor.class //class extends Sensor "Added for ABN"
+			MessageFlowConnectionSensor.class,		// class extends Sensor 
+			IMSRequestNodeSensor.class,// class extends Sensor 
+			MessageFlowDescriptionSensor.class, // class extends Sensor 
+			FilterNodeSensor.class //class extends Sensor 
 			// UI
 			// ...
 		);

@@ -59,13 +59,20 @@ public class MessageFlowParser {
 	 * @param httpRequestNodes the list of Http Request Nodes to which the new message flow node should be added
 	 * @param mqInputNodes the list of MQ Input Nodes to which the new message flow node should be added
 	 * @param mqOutputNodes the list of MQ Output Nodes to which the new message flow node should be added
+	 * @param mqGetNodes the list of MQ Get Nodes to which the new message flow node should be added
+	 * @param mqHeaderNodes the list of MQ Header Nodes to which the new message flow node should be added
 	 * @param resetContentDescriptorNodes the list of Reset Content Descriptor Nodes to which the new message flow node should be added
 	 * @param soapInputNodes the list of Soap Input Nodes to which the new message flow node should be added
 	 * @param soapRequestNodes the list of Soap Request Nodes to which the new message flow node should be added
 	 * @param timeoutControlNodes the list of Timeout Control Nodes to which the new message flow node should be added
 	 * @param timeoutNotificationNodes the list of Timeout Notification Nodes to which the new message flow node should be added
 	 * @param tryCatchNodes the list of Try Catch Nodes to which the new message flow node should be added
-	 * @param connections the list of all the connections for the message flow "Added for ABN"
+	 * @param imsRequestNodes the list of IMS Request Nodes to which the new message flow node should be added
+	 * @param filterNodes the list of Filter Nodes to which the new message flow node should be added
+	 * @param connections the list of all the connections for the message flow
+	 * @param comments the list of all the comment notes for the message flow
+	 * @param shortDescription the short description of the message flow (Using StringBuilder as String is immutable)
+	 * @param longDescription the long description of the message flow (Using StringBuilder as String is immutable)
 	 */
 	public void parse(String fileName,
 					  ArrayList<MessageFlowNode> collectorNodes,
@@ -188,6 +195,9 @@ public class MessageFlowParser {
 					XPathExpression outputTerminalExpr = XPathFactory.newInstance().newXPath().compile("//connections[@sourceNode='" + id + "'][" + noot + "]/@sourceTerminalName");
 					outputTerminals.add(((String)outputTerminalExpr.evaluate(document, XPathConstants.STRING)));
 				}
+				/**
+				 * Added to extract the values of the node specific properties and the values  
+				 */
 				Map<String, Object> properties = new HashMap<String, Object>();
 				if(type.equals("MQInput")||type.equals("MQOutput")||type.equals("MQGet")){
 					XPathExpression queueNameExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@queueName");
@@ -317,7 +327,9 @@ public class MessageFlowParser {
 				
 				LOG.debug("Fill nodes - END");
 			}
-			
+			/**
+			 * Added the below snippet to get short and long description of the message flow
+			 */
 			XPathExpression shortDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/shortDescription/@string");
 			XPathExpression longDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/longDescription/@string");
 			shortDescription.delete(0, shortDescription.length());
@@ -326,7 +338,7 @@ public class MessageFlowParser {
 			longDescription.append((String) longDescriptionExp.evaluate(document,XPathConstants.STRING));
 			
 			/**
-			 * Added to identify all the connections for the message flow "Added for ABN" change starts
+			 * Added to identify all the connections for the message flow change starts
 			 */
 			XPathExpression numberOfConnections = XPathFactory.newInstance().newXPath().compile("count(//connections)");
 			int noc = Integer.parseInt((String)numberOfConnections.evaluate(document, XPathConstants.STRING));
@@ -353,6 +365,9 @@ public class MessageFlowParser {
 				connections.add(conection);
 			}
 			
+			/**
+			 * Added to identify the comment notes and the contents of it for the message flow
+			 */
 			XPathExpression numberOfStickyNotes = XPathFactory.newInstance().newXPath().compile("count(//stickyNote)");
 			int nos = Integer.parseInt((String)numberOfStickyNotes.evaluate(document, XPathConstants.STRING));
 			
@@ -373,7 +388,7 @@ public class MessageFlowParser {
 			}
 			
 			/**
-			 * Changes "Added for ABN" ends 
+			 * Changes ends 
 			 * */
 			
 		} catch (XPathExpressionException e) {

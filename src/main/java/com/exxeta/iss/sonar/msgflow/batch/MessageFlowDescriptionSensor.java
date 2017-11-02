@@ -14,7 +14,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**
  * The class (sensor) contains the method to analyse the comment notes of the
- * message flow "Added for ABN"
+ * message flow 
  * 
  * @author Arjav Shah
  */

@@ -139,7 +139,7 @@ public class MessageFlowNode {
 	private ArrayList<String> outputTerminals;
 	
 	/**
-	 * the list of custom properties of a message flow node "Added for ABN"
+	 * the list of custom properties of a message flow node
 	 */
 	private Map<String, Object> properties;
 	

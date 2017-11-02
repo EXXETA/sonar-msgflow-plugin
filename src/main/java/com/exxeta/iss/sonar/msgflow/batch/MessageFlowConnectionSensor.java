@@ -15,7 +15,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**
  * The class (sensor) contains the method to analyse the connections and 
- * configuration of a Compute Node. "Added for ABN"
+ * configuration of a Compute Node. 
  * 
  * @author Sapna Singh
  */

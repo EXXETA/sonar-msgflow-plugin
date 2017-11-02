@@ -123,20 +123,20 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> filterNodes;
 	
 	/**
-	 * a list of Connections of a message flow "Added for ABN"
+	 * a list of Connections of a message flow
 	 */
 	private ArrayList<MessageFlowConnection> connections;
 	
 	/**
-	 * a list of comment notes of a message flow "Added for ABN"
+	 * a list of comment notes of a message flow
 	 */
 	private ArrayList<MessageFlowCommentNote> comments;
 	/**
-	 * a short description of a message flow "Added for ABN"
+	 * a short description of a message flow
 	 */
 	private StringBuilder shortDescription;
 	/**
-	 * a long description of a message flow "Added for ABN"
+	 * a long description of a message flow
 	 */
 	private StringBuilder longDescription;
 	
@@ -144,7 +144,7 @@ public class MessageFlow {
 	/**
 	 * Constructor
 	 * 
-	 * Parses message flow files and adds the result to the message flow model.("Updated for ABN")
+	 * Parses message flow files and adds the result to the message flow model.("Updated for implementation of new rules")
 	 */
 	public MessageFlow(String file,
 					   MessageFlowParser messageFlowParser) {
@@ -269,7 +269,7 @@ public class MessageFlow {
 	}
 
 	/**
-	 * The method returns a list of the MQGet Nodes of Message Flow. "Added for ABN"
+	 * The method returns a list of the MQGet Nodes of Message Flow.
 	 * 
 	 * @return a list of the MQGet Nodes of Message Flow
 	 */
@@ -278,7 +278,7 @@ public class MessageFlow {
 	}
 
 	/**
-	 * The method returns a list of the MQHeader Nodes of Message Flow. "Added for ABN"
+	 * The method returns a list of the MQHeader Nodes of Message Flow.
 	 * 
 	 * @return a list of the MQHeader Nodes of Message Flow
 	 */
@@ -341,7 +341,7 @@ public class MessageFlow {
 	}
 	
 	/**
-	 * The method returns a list of IMS Request nodes of Message Flow "Added for ABN"
+	 * The method returns a list of IMS Request nodes of Message Flow
 	 * 
 	 * @return a list of the IMS Request Nodes of Message Flow
 	 */
@@ -350,7 +350,7 @@ public class MessageFlow {
 	}
 
 	/**
-	 *The method returns a list of IMS Request nodes of Message Flow "Added for ABN"
+	 *The method returns a list of IMS Request nodes of Message Flow
 	 * 
 	 * @return a list of the filter Nodes of Message Flow
 	 */
@@ -359,7 +359,7 @@ public class MessageFlow {
 	}
 
 	/**
-	 * The method returns a list of the connections of Message Flow. "Added for ABN"
+	 * The method returns a list of the connections of Message Flow
 	 * 
 	 * @return a list of connections of the message flow
 	 */
@@ -368,7 +368,7 @@ public class MessageFlow {
 	}
 
 	/**
-	 * The method returns a list of comment object of Message Flow. "Added for ABN"
+	 * The method returns a list of comment object of Message Flow
 	 * 
 	 * @return a list of comment objects
 	 */
@@ -377,7 +377,7 @@ public class MessageFlow {
 	}
 
 	/**
-	 * The method returns a short description of a Message Flow. "Added for ABN"
+	 * The method returns a short description of a Message Flow
 	 * 
 	 * @return the short description of the message flow
 	 */
@@ -386,7 +386,7 @@ public class MessageFlow {
 	}
 
 	/**
-	 * The method returns a long description of a Message Flow. "Added for ABN"
+	 * The method returns a long description of a Message Flow
 	 * 
 	 * @return the long description of the message flow
 	 */
