@@ -998,8 +998,8 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * SelfConnectingNodes 
 		 */
 		repository.createRule("SelfConnectingNodes").setName("All Nodes - Self Connecting Nodes were found.")
-				.setHtmlDescription("Use of Self Connecting node is discouraged.").setSeverity(Severity.MINOR)
-				.setTags(Tags.BAD_PRACTICE);
+				.setHtmlDescription("Use of Self Connecting node is discouraged.").setSeverity(Severity.MAJOR)
+				.setTags(Tags.PERFORMANCE);
 
 		/*
 		 * MQNodeNameMatchesQueueName 
@@ -1007,7 +1007,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		repository.createRule("MQNodeNameMatchesQueueName")
 				.setName("MQ Nodes - MQ Node name and the underlaying queue name should match.")
 				.setHtmlDescription("MQ Nodes Should be named using the underlaying queue name for clarity.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.MINOR).setTags(Tags.STANDARD);
 
 		/*
 		 * IMSRequestDescription 
@@ -1016,56 +1016,56 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setName("IMS Request Node - IMSRequest nodes should have the short and long description.")
 				.setHtmlDescription(
 						"Enter the short and Long Description for the IMS Request Node to include the transaction name and view number of the transaction being invoked.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.MAJOR).setTags(Tags.READABILITY);
 		/*
 		 * IMSRequestNodeDefinedProperties 
 		 */
 		repository.createRule("IMSRequestNodeDefinedProperties")
 				.setName("IMS Request Node - 'Use Node Defined Properties' option is checked for IMSRequest.")
 				.setHtmlDescription("Uncheck the option 'Use connection properties defined on Node'. Instead set Configurable service to 'IMSConnectService'")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.BLOCKER).setTags(Tags.PITFALL);
 		/*
 		 * IMSRequestCommitMode 
 		 */
 		repository.createRule("IMSRequestCommitMode")
 				.setName("IMS Request Node - Wrong value set for the property 'CommitMode' for IMSRequest.")
 				.setHtmlDescription("Ensure Commit mode is set to 0:COMMIT_THEN_SEND.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.CRITICAL).setTags(Tags.PERFORMANCE);
 		/*
 		 * IMSRequestMessageDomain 
 		 */
 		repository.createRule("IMSRequestMessageDomain")
 				.setName("IMS Request Node - Wrong message domain property for IMSRequest .")
 				.setHtmlDescription("Ensure Message Domain is set to 'BLOB'.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
 		/*
 		 * MessageFlowComments 
 		 */
 		repository.createRule("MessageFlowDescription")
 				.setName("Message Flow - Message flow description is not Present.")
 				.setHtmlDescription("Always mention flow description inside the message flow.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.MAJOR).setTags(Tags.READABILITY);
 		/*
 		 * MQHeaderNodeDetection 
 		 */
 		repository.createRule("MQHeaderNodeDetection")
 				.setName("MQ Header Node - Usage of MQ Header node is discouraged.")
 				.setHtmlDescription("MQ Header node should not be used unless the standards are agreed. Instead manipulate the hedaers using ESQL.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
 		/*
 		 * FilterNodeNameCheck 
 		 */
 		repository.createRule("FilterNodeNameCheck")
 				.setName("Filter Node - Incorrect naming convention for Filter Node.")
 				.setHtmlDescription("Filter Node Name should follow "+FilterNodeSensor.PATTERN_STRING+" pattern.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
 		/*
 		 * IMSRequestNodeName 
 		 */
 		repository.createRule("IMSRequestNodeName")
 				.setName("IMS Request Node - Incorrect naming convention for IMS Request Node.")
 				.setHtmlDescription("IMS Request Node Name should follow "+IMSRequestNodeSensor.PATTERN_STRING+" pattern.")
-				.setSeverity(Severity.MINOR).setTags(Tags.BAD_PRACTICE);
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
 		
 		// add more rules here
 

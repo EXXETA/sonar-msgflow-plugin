@@ -40,6 +40,20 @@ public final class Tags {
 	public static final String SECURITY = "security";
 	
 	/**
+	 * The string for READABILITY.
+	 */
+	public static final String READABILITY = "readability ";
+	
+	/**
+	 * The string for READABILITY.
+	 */
+	public static final String STANDARD = "standard ";
+	
+	/**
+	 * The string for READABILITY.
+	 */
+	public static final String PITFALL = "pitfall ";
+	/**
 	 * Constructor
 	 * 
 	 * Direct instantiation is not possible.
