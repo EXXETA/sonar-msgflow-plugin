@@ -20,6 +20,8 @@ package com.exxeta.iss.sonar.msgflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.rule.Severity;
+import org.sonar.api.server.debt.DebtRemediationFunction;
+import org.sonar.api.server.debt.internal.DefaultDebtRemediationFunction;
 import org.sonar.api.server.rule.RulesDefinition;
 
 import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
@@ -995,83 +997,107 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		
 		//newly implemented rules starts
 		/*
-		 * SelfConnectingNodes 
+		 * SelfConnectingNodes
 		 */
 		repository.createRule("SelfConnectingNodes").setName("All Nodes - Self Connecting Nodes were found.")
 				.setHtmlDescription("Use of Self Connecting node is discouraged.").setSeverity(Severity.MAJOR)
-				.setTags(Tags.PERFORMANCE);
+				.setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"4h"));
 
 		/*
-		 * MQNodeNameMatchesQueueName 
+		 * MQNodeNameMatchesQueueName
 		 */
 		repository.createRule("MQNodeNameMatchesQueueName")
 				.setName("MQ Nodes - MQ Node name and the underlaying queue name should match.")
 				.setHtmlDescription("MQ Nodes Should be named using the underlaying queue name for clarity.")
-				.setSeverity(Severity.MINOR).setTags(Tags.STANDARD);
+				.setSeverity(Severity.MINOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
 
 		/*
-		 * IMSRequestDescription 
+		 * IMSRequestDescription
 		 */
 		repository.createRule("IMSRequestDescription")
 				.setName("IMS Request Node - IMSRequest nodes should have the short and long description.")
 				.setHtmlDescription(
 						"Enter the short and Long Description for the IMS Request Node to include the transaction name and view number of the transaction being invoked.")
-				.setSeverity(Severity.MAJOR).setTags(Tags.READABILITY);
+				.setSeverity(Severity.MAJOR).setTags(Tags.READABILITY).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
 		/*
-		 * IMSRequestNodeDefinedProperties 
+		 * IMSRequestNodeDefinedProperties
 		 */
 		repository.createRule("IMSRequestNodeDefinedProperties")
 				.setName("IMS Request Node - 'Use Node Defined Properties' option is checked for IMSRequest.")
-				.setHtmlDescription("Uncheck the option 'Use connection properties defined on Node'. Instead set Configurable service to 'IMSConnectService'")
-				.setSeverity(Severity.BLOCKER).setTags(Tags.PITFALL);
+				.setHtmlDescription(
+						"Uncheck the option 'Use connection properties defined on Node'. Instead set Configurable service to 'IMSConnectService'")
+				.setSeverity(Severity.BLOCKER).setTags(Tags.PITFALL).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
 		/*
-		 * IMSRequestCommitMode 
+		 * IMSRequestCommitMode
 		 */
 		repository.createRule("IMSRequestCommitMode")
 				.setName("IMS Request Node - Wrong value set for the property 'CommitMode' for IMSRequest.")
-				.setHtmlDescription("Ensure Commit mode is set to 0:COMMIT_THEN_SEND.")
-				.setSeverity(Severity.CRITICAL).setTags(Tags.PERFORMANCE);
+				.setHtmlDescription("Ensure Commit mode is set to 0:COMMIT_THEN_SEND.").setSeverity(Severity.CRITICAL)
+				.setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
 		/*
-		 * IMSRequestMessageDomain 
+		 * IMSRequestMessageDomain
 		 */
 		repository.createRule("IMSRequestMessageDomain")
 				.setName("IMS Request Node - Wrong message domain property for IMSRequest .")
-				.setHtmlDescription("Ensure Message Domain is set to 'BLOB'.")
-				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
+				.setHtmlDescription("Ensure Message Domain is set to 'BLOB'.").setSeverity(Severity.MAJOR)
+				.setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"30 min"));
 		/*
-		 * MessageFlowComments 
+		 * MessageFlowComments
 		 */
 		repository.createRule("MessageFlowDescription")
 				.setName("Message Flow - Message flow description is not Present.")
 				.setHtmlDescription("Always mention flow description inside the message flow.")
-				.setSeverity(Severity.MAJOR).setTags(Tags.READABILITY);
+				.setSeverity(Severity.MAJOR).setTags(Tags.READABILITY).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
 		/*
-		 * MQHeaderNodeDetection 
+		 * MQHeaderNodeDetection
 		 */
 		repository.createRule("MQHeaderNodeDetection")
 				.setName("MQ Header Node - Usage of MQ Header node is discouraged.")
-				.setHtmlDescription("MQ Header node should not be used unless the standards are agreed. Instead manipulate the hedaers using ESQL.")
-				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
+				.setHtmlDescription(
+						"MQ Header node should not be used unless the standards are agreed. Instead manipulate the hedaers using ESQL.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
 		/*
-		 * FilterNodeNameCheck 
+		 * FilterNodeNameCheck
 		 */
 		repository.createRule("FilterNodeNameCheck")
 				.setName("Filter Node - Incorrect naming convention for Filter Node.")
-				.setHtmlDescription("Filter Node Name should follow "+FilterNodeSensor.PATTERN_STRING+" pattern.")
-				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
+				.setHtmlDescription("Filter Node Name should follow " + FilterNodeSensor.PATTERN_STRING + " pattern.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
 		/*
-		 * IMSRequestNodeName 
+		 * IMSRequestNodeName
 		 */
+
 		repository.createRule("IMSRequestNodeName")
 				.setName("IMS Request Node - Incorrect naming convention for IMS Request Node.")
-				.setHtmlDescription("IMS Request Node Name should follow "+IMSRequestNodeSensor.PATTERN_STRING+" pattern.")
-				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD);
-		
+				.setHtmlDescription(
+						"IMS Request Node Name should follow " + IMSRequestNodeSensor.PATTERN_STRING + " pattern.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
+
 		// add more rules here
 
 		repository.done();
 
 		LOG.debug("created repository: " + repository.toString());
 	}
-
+	
 }

@@ -17,7 +17,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  * The class (sensor) contains the method to analyse the connections and 
  * configuration of a Compute Node. 
  * 
- * @author Sapna Singh
+ * @author Arjav Shah
  */
 public class MessageFlowConnectionSensor implements Sensor {
 

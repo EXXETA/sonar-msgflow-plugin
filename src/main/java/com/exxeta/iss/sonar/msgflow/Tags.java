@@ -42,17 +42,17 @@ public final class Tags {
 	/**
 	 * The string for READABILITY.
 	 */
-	public static final String READABILITY = "readability ";
+	public static final String READABILITY = "readability";
 	
 	/**
 	 * The string for READABILITY.
 	 */
-	public static final String STANDARD = "standard ";
+	public static final String STANDARD = "standard";
 	
 	/**
 	 * The string for READABILITY.
 	 */
-	public static final String PITFALL = "pitfall ";
+	public static final String PITFALL = "pitfall";
 	/**
 	 * Constructor
 	 * 

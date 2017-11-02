@@ -43,8 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		/* Arjav Shah : Added 10 rules */
-		assertEquals(81, rp.getActiveRules().size());
+		/* Arjav Shah : Added 10 rules(9 Active, 1 Inactive) */
+		assertEquals(80, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -156,7 +156,7 @@ public class MessageFlowProfileTest {
 		assertTrue("TryCatchNodeCatchTerminal is not defined as a rule.", ruleKeys.contains("TryCatchNodeCatchTerminal"));
 		assertTrue("TryCatchNodeMonitoringEvents is not defined as a rule.", ruleKeys.contains("TryCatchNodeMonitoringEvents"));
 		assertTrue("SelfConnectingNodes is not defined as a rule.", ruleKeys.contains("SelfConnectingNodes"));
-		assertTrue("MQNodeNameMatchesQueueName is not defined as a rule.", ruleKeys.contains("MQNodeNameMatchesQueueName"));
+//		assertTrue("MQNodeNameMatchesQueueName is not defined as a rule.", ruleKeys.contains("MQNodeNameMatchesQueueName"));
 		assertTrue("IMSRequestDescription is not defined as a rule.", ruleKeys.contains("IMSRequestDescription"));
 		assertTrue("IMSRequestNodeDefinedProperties is not defined as a rule.", ruleKeys.contains("IMSRequestNodeDefinedProperties"));
 		assertTrue("IMSRequestCommitMode is not defined as a rule.", ruleKeys.contains("IMSRequestCommitMode"));

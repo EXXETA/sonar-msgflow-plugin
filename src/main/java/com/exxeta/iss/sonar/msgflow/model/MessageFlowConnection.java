@@ -3,7 +3,7 @@ package com.exxeta.iss.sonar.msgflow.model;
  * The class is a model of a message flow connection the properties of 
  * message flow connections.
  * 
- * @author Sapna Singh
+ * @author Arjav Shah
  */
 public class MessageFlowConnection {
 	/**
