@@ -61,6 +61,7 @@ public class MessageFlowParser {
 	 * @param mqOutputNodes the list of MQ Output Nodes to which the new message flow node should be added
 	 * @param mqGetNodes the list of MQ Get Nodes to which the new message flow node should be added
 	 * @param mqHeaderNodes the list of MQ Header Nodes to which the new message flow node should be added
+	 * @param mqReplyrNodes the list of MQ Reply Nodes to which the new message flow node should be added
 	 * @param resetContentDescriptorNodes the list of Reset Content Descriptor Nodes to which the new message flow node should be added
 	 * @param soapInputNodes the list of Soap Input Nodes to which the new message flow node should be added
 	 * @param soapRequestNodes the list of Soap Request Nodes to which the new message flow node should be added
@@ -85,6 +86,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> mqOutputNodes,
 					  ArrayList<MessageFlowNode> mqGetNodes,
 					  ArrayList<MessageFlowNode> mqHeaderNodes,
+					  ArrayList<MessageFlowNode> mqReplyNodes,
 					  ArrayList<MessageFlowNode> resetContentDescriptorNodes,
 					  ArrayList<MessageFlowNode> soapInputNodes,
 					  ArrayList<MessageFlowNode> soapRequestNodes,
@@ -199,11 +201,18 @@ public class MessageFlowParser {
 				 * Added to extract the values of the node specific properties and the values  
 				 */
 				Map<String, Object> properties = new HashMap<String, Object>();
-				if(type.equals("MQInput")||type.equals("MQOutput")||type.equals("MQGet")){
-					XPathExpression queueNameExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@queueName");
-					String queueName = (String) queueNameExp.evaluate(document,XPathConstants.STRING);
+				if(type.equals("MQInput")||type.equals("MQOutput")||type.equals("MQGet")||type.equals("MQReply")){
+					if(type.equals("MQInput")||type.equals("MQOutput")||type.equals("MQGet")){
+						XPathExpression queueNameExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@queueName");
+						String queueName = (String) queueNameExp.evaluate(document,XPathConstants.STRING);
 					
-					properties.put("queueName",queueName);
+						properties.put("queueName",queueName);
+					}
+					
+					XPathExpression txnModeExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@transactionMode");
+					String txnMode = (String) txnModeExp.evaluate(document,XPathConstants.STRING);
+				
+					properties.put("transactionMode",txnMode);
 				}
 				else if (type.equals("IMSRequest")) {
 					XPathExpression shortDescriptionIMSExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/shortDescription/@string");
@@ -281,8 +290,13 @@ public class MessageFlowParser {
 				} else if (type.equals("MQHeader")) {
 					LOG.debug("MQHeader");
 					
-					/* MQMQHeader */
+					/* MQHeader */
 					mqHeaderNodes.add(mfn);
+				} else if (type.equals("MQReply")) {
+					LOG.debug("MQReply");
+					
+					/* MQReply */
+					mqReplyNodes.add(mfn);
 				} else if (type.equals("ResetContentDescriptor")) {
 					LOG.debug("ResetContentDescriptor");
 					

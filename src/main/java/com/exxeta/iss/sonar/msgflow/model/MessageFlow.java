@@ -83,6 +83,11 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> mqHeaderNodes;
 	
 	/**
+	 * a list of MQ Reply Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> mqReplyNodes;
+	
+	/**
 	 * a list of Reset Content Descriptor Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> resetContentDescriptorNodes;
@@ -158,6 +163,7 @@ public class MessageFlow {
 		mqOutputNodes				= new ArrayList<MessageFlowNode>();
 		mqGetNodes					= new ArrayList<MessageFlowNode>();
 		mqHeaderNodes				= new ArrayList<MessageFlowNode>();
+		mqReplyNodes				= new ArrayList<MessageFlowNode>();
 		resetContentDescriptorNodes	= new ArrayList<MessageFlowNode>();
 		soapInputNodes				= new ArrayList<MessageFlowNode>();
 		soapRequestNodes			= new ArrayList<MessageFlowNode>();
@@ -181,6 +187,7 @@ public class MessageFlow {
 								mqOutputNodes,
 								mqGetNodes,
 								mqHeaderNodes,
+								mqReplyNodes,
 								resetContentDescriptorNodes,
 								soapInputNodes,
 								soapRequestNodes,
@@ -284,6 +291,15 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getMqHeaderNodes() {
 		return mqHeaderNodes;
+	}
+
+	/**
+	 * The method returns a list of MQReply Nodes of Message Flow
+	 * 
+	 * @return the mqReplyNodes
+	 */
+	public ArrayList<MessageFlowNode> getMqReplyNodes() {
+		return mqReplyNodes;
 	}
 
 	/**
