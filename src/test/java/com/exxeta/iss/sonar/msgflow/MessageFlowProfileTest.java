@@ -43,8 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		/* Arjav Shah : Added 11 rules(10 Active, 1 Inactive) */
-		assertEquals(81, rp.getActiveRules().size());
+		/* Arjav Shah : Added 14 rules(13 Active, 1 Inactive) */
+		assertEquals(84, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -155,6 +155,8 @@ public class MessageFlowProfileTest {
 		assertTrue("TryCatchNodeTryTerminal is not defined as a rule.", ruleKeys.contains("TryCatchNodeTryTerminal"));
 		assertTrue("TryCatchNodeCatchTerminal is not defined as a rule.", ruleKeys.contains("TryCatchNodeCatchTerminal"));
 		assertTrue("TryCatchNodeMonitoringEvents is not defined as a rule.", ruleKeys.contains("TryCatchNodeMonitoringEvents"));
+		
+		//new rules
 		assertTrue("SelfConnectingNodes is not defined as a rule.", ruleKeys.contains("SelfConnectingNodes"));
 //		assertTrue("MQNodeNameMatchesQueueName is not defined as a rule.", ruleKeys.contains("MQNodeNameMatchesQueueName"));
 		assertTrue("IMSRequestDescription is not defined as a rule.", ruleKeys.contains("IMSRequestDescription"));
@@ -165,6 +167,11 @@ public class MessageFlowProfileTest {
 		assertTrue("MQHeaderNodeDetection is not defined as a rule.", ruleKeys.contains("MQHeaderNodeDetection"));
 		assertTrue("FilterNodeNameCheck is not defined as a rule.", ruleKeys.contains("FilterNodeNameCheck"));
 		assertTrue("IMSRequestNodeName is not defined as a rule.", ruleKeys.contains("IMSRequestNodeName"));
+		assertTrue("MQNodeTxnMode is not defined as a rule.", ruleKeys.contains("MQNodeTxnMode"));
+		assertTrue("HttpReplyIgnoreTransportFailuresCheck is not defined as a rule.", ruleKeys.contains("HttpReplyIgnoreTransportFailuresCheck"));
+		assertTrue("HttpReplyGenerateDefaultHttpHeadersCheck is not defined as a rule.", ruleKeys.contains("HttpReplyGenerateDefaultHttpHeadersCheck"));
+		assertTrue("ComputeNodeNameCheck is not defined as a rule.", ruleKeys.contains("ComputeNodeNameCheck"));
+		
 	}
 
 }

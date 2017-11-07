@@ -18,6 +18,7 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -49,6 +50,11 @@ public class ComputeNodeSensor implements Sensor {
 	 * Variable to hold file system information, e.g. the file names of the project files.
 	 */
 	private final FileSystem fs;
+	
+	/**
+	 * pattern to check the compute node name
+	 */
+	public final static String PATTERN_STRING = "[A-Z][a-zA-Z0-9]*$";
 	
 	/**
 	 * 
@@ -129,8 +135,24 @@ public class ComputeNodeSensor implements Sensor {
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
 				    	        	  .build());
 				}
+				
+				if (!checkComputeNodeName(msgFlowNode.getName())) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeNameCheck"))
+				    	        	  .message("The name of '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") should be in UpperCamelCase without spaces.")
+				    	        	  .build());
+				}
+				
 			}
 		}
+	}
+	
+	public static boolean checkComputeNodeName(String name) {
+
+		Pattern pattern = Pattern.compile(PATTERN_STRING);
+		return pattern.matcher(name).find();
+
 	}
 
 }

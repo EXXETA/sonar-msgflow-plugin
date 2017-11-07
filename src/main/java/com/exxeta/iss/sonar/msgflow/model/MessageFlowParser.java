@@ -57,6 +57,7 @@ public class MessageFlowParser {
 	 * @param fileOutputNodes the list of File Output Nodes to which the new message flow node should be added
 	 * @param httpInputNodes the list of Http Input Nodes to which the new message flow node should be added
 	 * @param httpRequestNodes the list of Http Request Nodes to which the new message flow node should be added
+	 * @param httpReplyNodes the list of Http Reply Nodes to which the new message flow node should be added
 	 * @param mqInputNodes the list of MQ Input Nodes to which the new message flow node should be added
 	 * @param mqOutputNodes the list of MQ Output Nodes to which the new message flow node should be added
 	 * @param mqGetNodes the list of MQ Get Nodes to which the new message flow node should be added
@@ -82,6 +83,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> fileOutputNodes,
 					  ArrayList<MessageFlowNode> httpInputNodes,
 					  ArrayList<MessageFlowNode> httpRequestNodes,
+					  ArrayList<MessageFlowNode> httpReplyNodes,
 					  ArrayList<MessageFlowNode> mqInputNodes,
 					  ArrayList<MessageFlowNode> mqOutputNodes,
 					  ArrayList<MessageFlowNode> mqGetNodes,
@@ -236,6 +238,14 @@ public class MessageFlowParser {
 					properties.put("commitMode", commitMode);
 					
 				}
+				else if(type.equals("WSReply")) {
+					XPathExpression ignoreTransportFailuresExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@ignoreTransportFailures");
+					String ignoreTransportFailures = (String) ignoreTransportFailuresExp.evaluate(document,XPathConstants.STRING);
+					properties.put("ignoreTransportFailures", ignoreTransportFailures);
+					XPathExpression generateDefaultHttpHeadersExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@generateDefaultHttpHeaders");
+					String generateDefaultHttpHeaders = (String) generateDefaultHttpHeadersExp.evaluate(document,XPathConstants.STRING);
+					properties.put("generateDefaultHttpHeaders", generateDefaultHttpHeaders);
+				}
 				LOG.debug("Evaluate expressions - END");
 				LOG.debug("Fill nodes - START");
 
@@ -272,6 +282,11 @@ public class MessageFlowParser {
 					
 					/* HTTPRequest */
 					httpRequestNodes.add(mfn);
+				}else if (type.equals("WSReply")) {
+					LOG.debug("WSReply");
+					
+					/* HTTPReply */
+					httpReplyNodes.add(mfn);
 				} else if (type.equals("MQInput")) {
 					LOG.debug("MQInput");
 					

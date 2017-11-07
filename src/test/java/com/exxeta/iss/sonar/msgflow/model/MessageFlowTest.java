@@ -238,6 +238,13 @@ public class MessageFlowTest {
 		assertEquals(1, mf.getMqReplyNodes().size());
 		assertFalse(!((String)mf.getMqReplyNodes().get(0).getProperties().get("transactionMode")).isEmpty());
 	}
+	@Test
+	public final void testHttpReplyNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/HttpReply.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getHttpReplyNodes().size());
+		assertEquals("false", mf.getHttpReplyNodes().get(0).getProperties().get("generateDefaultHttpHeaders"));
+		assertEquals("false", mf.getHttpReplyNodes().get(0).getProperties().get("ignoreTransportFailures"));
+	}
 	
 }
 

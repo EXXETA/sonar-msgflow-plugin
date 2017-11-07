@@ -1092,13 +1092,51 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"15 min"));
+		/*
+		 * MQNodeTxnMode
+		 */
 		
 		repository.createRule("MQNodeTxnMode").setName("MQ Nodes - Transacion Mode should be set to automatic.")
 				.setHtmlDescription("For MQ nodes - MQ Input, MQ Output, MQ Get, MQReply, transaction mode property "
 						+ "should be set to Automatic to use transacion mode in case of persistent messages.")
 				.setSeverity(Severity.MAJOR).addTags(Tags.BAD_PRACTICE).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "15 min"));
+		
+		/*
+		 * HttpReplyGenerateDefaultHttpHeadersCheck
+		 */
 
+		repository.createRule("HttpReplyGenerateDefaultHttpHeadersCheck")
+				.setName("HTTP Reply - "
+						+ "'Generate default HTTP headers from reply or response' property should be checked.")
+				.setHtmlDescription("'Generate default HTTP headers from reply or response' property "
+						+ "should be checked for HTTP Reply node to generate default headers automatically.")
+				.setSeverity(Severity.MAJOR).addTags(Tags.BAD_PRACTICE).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
+
+		/*
+		 * HttpReplyIgnoreTransportFailuresCheck
+		 */
+
+		repository.createRule("HttpReplyIgnoreTransportFailuresCheck")
+				.setName("HTTP Reply - " + "'Ignore transport failures' property should be checked.")
+				.setHtmlDescription("'Ignore transport failures' property " + "should be checked for HTTP Reply node.")
+				.setSeverity(Severity.MAJOR).addTags(Tags.BAD_PRACTICE).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
+
+		/*
+		 * ComputeNodeNameCheck
+		 */
+
+		repository.createRule("ComputeNodeNameCheck")
+				.setName("Compute Node - Incorrect naming convention for Compute Node.")
+				.setHtmlDescription("Compute Node Name should be in UpperCamelCase without spaces so that underlying module can be named normally. (example : TransformRequest)")
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"30 min"));
+		
 		// add more rules here
 
 		repository.done();

@@ -28,6 +28,7 @@ import com.exxeta.iss.sonar.msgflow.batch.FileInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileOutputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.HttpInputNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.HttpReplyNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.HttpRequestNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.IMSRequestNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQGetNodeSensor;
@@ -90,6 +91,7 @@ public class MessageFlowPlugin extends SonarPlugin {
 			FileOutputNodeSensor.class, // class extends Sensor
 			HttpInputNodeSensor.class, // class extends Sensor
 			HttpRequestNodeSensor.class, // class extends Sensor
+			HttpReplyNodeSensor.class, // class extends Sensor
 			MQInputNodeSensor.class, // class extends Sensor
 			MQOutputNodeSensor.class, // class extends Sensor
 			MQGetNodeSensor.class, // class extends Sensor

@@ -63,6 +63,11 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> httpRequestNodes;
 	
 	/**
+	 * a list of Http Reply Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> httpReplyNodes;
+	
+	/**
 	 * a list of MQ Input Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> mqInputNodes;
@@ -159,6 +164,7 @@ public class MessageFlow {
 		fileOutputNodes				= new ArrayList<MessageFlowNode>();
 		httpInputNodes				= new ArrayList<MessageFlowNode>();
 		httpRequestNodes			= new ArrayList<MessageFlowNode>();
+		httpReplyNodes				= new ArrayList<MessageFlowNode>();
 		mqInputNodes				= new ArrayList<MessageFlowNode>();
 		mqOutputNodes				= new ArrayList<MessageFlowNode>();
 		mqGetNodes					= new ArrayList<MessageFlowNode>();
@@ -183,6 +189,7 @@ public class MessageFlow {
 								fileOutputNodes,
 								httpInputNodes,
 								httpRequestNodes,
+								httpReplyNodes,
 								mqInputNodes,
 								mqOutputNodes,
 								mqGetNodes,
@@ -255,6 +262,15 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getHttpRequestNodes() {
 		return httpRequestNodes;
+	}
+
+	/**
+	 * The method returns a list of the Http Reply Nodes of Message Flow.
+	 * 
+	 * @return the httpReplyNodes
+	 */
+	public ArrayList<MessageFlowNode> getHttpReplyNodes() {
+		return httpReplyNodes;
 	}
 
 	/**
