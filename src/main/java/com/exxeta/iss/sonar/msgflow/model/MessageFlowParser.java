@@ -71,6 +71,7 @@ public class MessageFlowParser {
 	 * @param tryCatchNodes the list of Try Catch Nodes to which the new message flow node should be added
 	 * @param imsRequestNodes the list of IMS Request Nodes to which the new message flow node should be added
 	 * @param filterNodes the list of Filter Nodes to which the new message flow node should be added
+	 * @param traceNodes the list of Trace Nodes to which the new message flow node should be added
 	 * @param connections the list of all the connections for the message flow
 	 * @param comments the list of all the comment notes for the message flow
 	 * @param shortDescription the short description of the message flow (Using StringBuilder as String is immutable)
@@ -97,6 +98,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> tryCatchNodes,
 					  ArrayList<MessageFlowNode> imsRequestNodes,
 					  ArrayList<MessageFlowNode> filterNodes,
+					  ArrayList<MessageFlowNode> traceNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
 					  StringBuilder shortDescription,
@@ -352,6 +354,11 @@ public class MessageFlowParser {
 					
 					/* Filter */
 					filterNodes.add(mfn);
+				} else if (type.equals("Trace")) {
+					LOG.debug("Trace");
+					
+					/* Trace */
+					traceNodes.add(mfn);
 				}
 				
 				LOG.debug("Fill nodes - END");

@@ -1137,6 +1137,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"30 min"));
 		
+		/*
+		 * 
+		 */
+		
+		repository.createRule("TraceNodeDetection")
+				.setName("Trace Node - Trace node should not be used.")
+				.setHtmlDescription(
+						"Trace Node should not be used in production code.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"15 min"));
+		
 		// add more rules here
 
 		repository.done();

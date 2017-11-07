@@ -43,6 +43,7 @@ import com.exxeta.iss.sonar.msgflow.batch.SoapInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapRequestNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.TimeoutControlNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.TimeoutNotificationNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.TraceNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.TryCatchNodeSensor;
 
 /**
@@ -106,7 +107,8 @@ public class MessageFlowPlugin extends SonarPlugin {
 			MessageFlowConnectionSensor.class,		// class extends Sensor 
 			IMSRequestNodeSensor.class,// class extends Sensor 
 			MessageFlowDescriptionSensor.class, // class extends Sensor 
-			FilterNodeSensor.class //class extends Sensor 
+			FilterNodeSensor.class, //class extends Sensor 
+			TraceNodeSensor.class // class extends Sensor
 			// UI
 			// ...
 		);

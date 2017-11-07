@@ -245,6 +245,11 @@ public class MessageFlowTest {
 		assertEquals("false", mf.getHttpReplyNodes().get(0).getProperties().get("generateDefaultHttpHeaders"));
 		assertEquals("false", mf.getHttpReplyNodes().get(0).getProperties().get("ignoreTransportFailures"));
 	}
+	@Test
+	public final void testTraceNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/Trace.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getTraceNodes().size());
+	}
 	
 }
 

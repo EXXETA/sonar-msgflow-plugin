@@ -133,6 +133,11 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> filterNodes;
 	
 	/**
+	 * a list of IMS Request Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> traceNodes;
+	
+	/**
 	 * a list of Connections of a message flow
 	 */
 	private ArrayList<MessageFlowConnection> connections;
@@ -178,6 +183,7 @@ public class MessageFlow {
 		tryCatchNodes				= new ArrayList<MessageFlowNode>();
 		imsRequestNodes				= new ArrayList<MessageFlowNode>();
 		filterNodes					= new ArrayList<MessageFlowNode>();
+		traceNodes					= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowCommentNote>();
 		shortDescription			= new StringBuilder("");
@@ -203,6 +209,7 @@ public class MessageFlow {
 								tryCatchNodes,
 								imsRequestNodes,
 								filterNodes,
+								traceNodes,
 								connections,
 								comments,
 								shortDescription,
@@ -382,12 +389,21 @@ public class MessageFlow {
 	}
 
 	/**
-	 *The method returns a list of IMS Request nodes of Message Flow
+	 * The method returns a list of IMS Request nodes of Message Flow
 	 * 
 	 * @return a list of the filter Nodes of Message Flow
 	 */
 	public ArrayList<MessageFlowNode> getFilterNodes() {
 		return filterNodes;
+	}
+
+	/**
+	 * The method returns a list of Trace nodes of Message Flow
+	 * 
+	 * @return a list of trace Nodes of Message Flow
+	 */
+	public ArrayList<MessageFlowNode> getTraceNodes() {
+		return traceNodes;
 	}
 
 	/**
