@@ -83,7 +83,7 @@ public class MQReplyNodeSensor implements Sensor {
 
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
-				if (msgFlowNode.getProperties().get("transactionMode") != null
+				if(!((String)msgFlowNode.getProperties().get("transactionMode")).isEmpty()
 						|| msgFlowNode.getProperties().get("transactionMode").equals("yes")
 						|| msgFlowNode.getProperties().get("transactionMode").equals("no")) {
 

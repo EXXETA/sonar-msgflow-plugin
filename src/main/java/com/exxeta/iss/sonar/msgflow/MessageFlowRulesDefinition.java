@@ -1092,6 +1092,12 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"15 min"));
+		
+		repository.createRule("MQNodeTxnMode").setName("MQ Nodes - Transacion Mode should be set to automatic.")
+				.setHtmlDescription("For MQ nodes - MQ Input, MQ Output, MQ Get, MQReply, transaction mode property "
+						+ "should be set to Automatic to use transacion mode in case of persistent messages.")
+				.setSeverity(Severity.MAJOR).addTags(Tags.BAD_PRACTICE).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "15 min"));
 
 		// add more rules here
 

@@ -18,6 +18,7 @@
 package com.exxeta.iss.sonar.msgflow.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -230,6 +231,12 @@ public class MessageFlowTest {
 	public final void testFilterNodes() {
 		MessageFlow mf = new MessageFlow("src/test/resources/FilterNode.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getFilterNodes().size());
+	}
+	@Test
+	public final void testMQReplyNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MQTxnMode.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getMqReplyNodes().size());
+		assertFalse(!((String)mf.getMqReplyNodes().get(0).getProperties().get("transactionMode")).isEmpty());
 	}
 	
 }

@@ -142,6 +142,18 @@ public class MQOutputNodeSensor implements Sensor {
 				    		.message("The name of MQ Node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") does not match the underlaying queue name.")
 				    	        	  .build());
 				}
+				
+				if(!((String)msgFlowNode.getProperties().get("transactionMode")).isEmpty()
+						|| msgFlowNode.getProperties().get("transactionMode").equals("yes")
+						|| msgFlowNode.getProperties().get("transactionMode").equals("no")) {
+
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQNodeTxnMode"))
+							.message("The 'Transaction Mode' property of " + msgFlowNode.getName() + "(type:"
+									+ msgFlowNode.getType() + ") node is not set to Automatic.")
+							.build());
+
+				}
 			}
 		}
 	}

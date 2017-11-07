@@ -192,6 +192,16 @@ public class MQInputNodeSensor implements Sensor {
 				    		.message("The name of MQ Node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") does not match the underlaying queue name.")
 				    	        	  .build());
 				}
+				
+				if(! msgFlowNode.getProperties().get("transactionMode").equals("automatic")) {
+
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQNodeTxnMode"))
+							.message("The 'Transaction Mode' property of " + msgFlowNode.getName() + "(type:"
+									+ msgFlowNode.getType() + ") node is not set to Automatic.")
+							.build());
+
+				}
 			}
 		}
 	}
