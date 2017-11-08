@@ -1158,6 +1158,26 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setSeverity(Severity.MAJOR).setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 						"20 min"));
+		/*
+		 * DisconnectedNode
+		 */
+		repository.createRule("DisconnectedNode")
+		.setName("There is no input connection to the node.")
+		.setHtmlDescription(
+				"There is no input connection to this node. The code may not be reachable or functioning.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS,Tags.READABILITY).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"20 min"));
+		/*
+		 * MQReplyWithoutMQInput
+		 */
+		repository.createRule("MQReplyWithoutMQInput")
+		.setName("Flow with MQ Reply node without MQ Input node.")
+		.setHtmlDescription(
+				"The Flow contains MQ Reply node without MQ Input node.")
+		.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"1h 30 min"));
 		
 		// add more rules here
 

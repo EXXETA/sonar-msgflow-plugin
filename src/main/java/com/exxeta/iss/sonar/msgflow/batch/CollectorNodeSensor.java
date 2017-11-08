@@ -145,6 +145,14 @@ public class CollectorNodeSensor implements Sensor {
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
 				    	        	  .build());
 				}
+				
+				if (msgFlowNode.getInputTerminals().size()==0) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
+				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
+				    	        	  .build());
+				}
 			}
 		}
 	}
