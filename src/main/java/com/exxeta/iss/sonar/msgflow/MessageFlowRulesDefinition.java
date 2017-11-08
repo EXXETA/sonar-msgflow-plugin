@@ -1162,7 +1162,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * DisconnectedNode
 		 */
 		repository.createRule("DisconnectedNode")
-		.setName("There is no input connection to the node.")
+		.setName("All Nodes - There is no input connection to the node.")
 		.setHtmlDescription(
 				"There is no input connection to this node. The code may not be reachable or functioning.")
 		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS,Tags.READABILITY).setDebtRemediationFunction(
@@ -1172,7 +1172,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * MQReplyWithoutMQInput
 		 */
 		repository.createRule("MQReplyWithoutMQInput")
-		.setName("Flow with MQ Reply node without MQ Input node.")
+		.setName("MQ Reply - Flow with MQ Reply node without MQ Input node.")
 		.setHtmlDescription(
 				"The Flow contains MQ Reply node without MQ Input node.")
 		.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
