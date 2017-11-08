@@ -93,6 +93,15 @@ public class MQGetNodeSensor implements Sensor {
 							.build());
 
 				}
+				
+				if (msgFlowNode.getMessageDomainProperty().equals("XMLNS")) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "XMLNSCoverXMLNS"))
+							.message("'Message domain' under 'Input Message Parsing' for '"
+									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+									+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.")
+							.build());
+				}
 			}
 		}
 	}

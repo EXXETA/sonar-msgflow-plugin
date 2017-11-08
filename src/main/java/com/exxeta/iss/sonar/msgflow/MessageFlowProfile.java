@@ -196,6 +196,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpReplyGenerateDefaultHttpHeadersCheck"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ComputeNodeNameCheck"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TraceNodeDetection"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "XMLNSCoverXMLNS"), null);
 		
 		// add more rules here
 		

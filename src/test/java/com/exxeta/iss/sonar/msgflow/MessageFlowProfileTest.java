@@ -43,8 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		/* Arjav Shah : Added 15 rules(14 Active, 1 Inactive) */
-		assertEquals(85, rp.getActiveRules().size());
+		/* Arjav Shah : Added 16 rules(15 Active, 1 Inactive) */
+		assertEquals(86, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -172,6 +172,7 @@ public class MessageFlowProfileTest {
 		assertTrue("HttpReplyGenerateDefaultHttpHeadersCheck is not defined as a rule.", ruleKeys.contains("HttpReplyGenerateDefaultHttpHeadersCheck"));
 		assertTrue("ComputeNodeNameCheck is not defined as a rule.", ruleKeys.contains("ComputeNodeNameCheck"));
 		assertTrue("TraceNodeDetection is not defined as a rule.", ruleKeys.contains("TraceNodeDetection"));
+		assertTrue("XMLNSCoverXMLNS is not defined as a rule.", ruleKeys.contains("XMLNSCoverXMLNS"));
 	}
 
 }

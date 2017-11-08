@@ -208,6 +208,15 @@ public class HttpRequestNodeSensor implements Sensor {
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
 				    	        	  .build());
 				}
+				
+				if (msgFlowNode.getMessageDomainProperty().equals("XMLNS")) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "XMLNSCoverXMLNS"))
+							.message("'Message domain' under 'Response Message Parsing' for '"
+									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+									+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.")
+							.build());
+				}
 			}
 		}
 	}

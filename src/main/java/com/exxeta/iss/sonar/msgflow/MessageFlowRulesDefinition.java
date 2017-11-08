@@ -1138,16 +1138,26 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 								"30 min"));
 		
 		/*
-		 * 
+		 * TraceNodeDetection
 		 */
 		
 		repository.createRule("TraceNodeDetection")
 				.setName("Trace Node - Trace node should not be used.")
 				.setHtmlDescription(
 						"Trace Node should not be used in production code.")
-				.setSeverity(Severity.MAJOR).setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
+				.setSeverity(Severity.MINOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-								"15 min"));
+								"5 min"));
+		/*
+		 * XMLNSCoverXMLNS
+		 */
+		repository.createRule("XMLNSCoverXMLNS")
+		.setName("XMLNSC message domain is preferred over XMLNS.")
+		.setHtmlDescription(
+				"Have preference for XMLNSC over XMLNS.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"20 min"));
 		
 		// add more rules here
 
