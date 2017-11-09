@@ -99,6 +99,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> imsRequestNodes,
 					  ArrayList<MessageFlowNode> filterNodes,
 					  ArrayList<MessageFlowNode> traceNodes,
+					  ArrayList<MessageFlowNode> miscellaneousNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
 					  StringBuilder shortDescription,
@@ -359,6 +360,11 @@ public class MessageFlowParser {
 					
 					/* Trace */
 					traceNodes.add(mfn);
+				} else{
+					LOG.debug("Miscellaneous");
+					
+					/* Miscellaneous */
+					miscellaneousNodes.add(mfn);
 				}
 				
 				LOG.debug("Fill nodes - END");

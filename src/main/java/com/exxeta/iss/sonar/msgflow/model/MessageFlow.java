@@ -128,14 +128,20 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> imsRequestNodes;
 	
 	/**
-	 * a list of IMS Request Nodes of a message flow
+	 * a list of Filter Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> filterNodes;
 	
 	/**
-	 * a list of IMS Request Nodes of a message flow
+	 * a list of trace Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> traceNodes;
+	
+	/**
+	 * a list of miscellaneous Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> miscellaneousNodes;
+	
 	
 	/**
 	 * a list of Connections of a message flow
@@ -184,6 +190,7 @@ public class MessageFlow {
 		imsRequestNodes				= new ArrayList<MessageFlowNode>();
 		filterNodes					= new ArrayList<MessageFlowNode>();
 		traceNodes					= new ArrayList<MessageFlowNode>();
+		miscellaneousNodes			= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowCommentNote>();
 		shortDescription			= new StringBuilder("");
@@ -210,6 +217,7 @@ public class MessageFlow {
 								imsRequestNodes,
 								filterNodes,
 								traceNodes,
+								miscellaneousNodes,
 								connections,
 								comments,
 								shortDescription,
@@ -404,6 +412,15 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getTraceNodes() {
 		return traceNodes;
+	}
+
+	/**
+	 * The method returns a list of miscellaneous/uncategorized nodes
+	 * 
+	 * @return a list of miscellaneous/uncategorized nodes of MessageFlow
+	 */
+	public ArrayList<MessageFlowNode> getMiscellaneousNodes() {
+		return miscellaneousNodes;
 	}
 
 	/**
