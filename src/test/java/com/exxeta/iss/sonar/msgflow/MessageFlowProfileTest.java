@@ -43,8 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		/* Arjav Shah : Added 18 rules(17 Active, 1 Inactive) */
-		assertEquals(88, rp.getActiveRules().size());
+		/* Arjav Shah : Added 20 rules(19 Active, 1 Inactive) */
+		assertEquals(90, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -175,6 +175,8 @@ public class MessageFlowProfileTest {
 		assertTrue("XMLNSCoverXMLNS is not defined as a rule.", ruleKeys.contains("XMLNSCoverXMLNS"));
 		assertTrue("DisconnectedNode is not defined as a rule.", ruleKeys.contains("DisconnectedNode"));
 		assertTrue("MQReplyWithoutMQInput is not defined as a rule.", ruleKeys.contains("MQReplyWithoutMQInput"));
+		assertTrue("LabelWithoutConnections is not defined as a rule.", ruleKeys.contains("LabelWithoutConnections"));
+		assertTrue("AllInputTerminalsNotConnected is not defined as a rule.", ruleKeys.contains("AllInputTerminalsNotConnected"));
 	}
 
 }

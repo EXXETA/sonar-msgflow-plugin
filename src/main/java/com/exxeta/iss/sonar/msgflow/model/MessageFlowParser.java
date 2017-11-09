@@ -72,6 +72,8 @@ public class MessageFlowParser {
 	 * @param imsRequestNodes the list of IMS Request Nodes to which the new message flow node should be added
 	 * @param filterNodes the list of Filter Nodes to which the new message flow node should be added
 	 * @param traceNodes the list of Trace Nodes to which the new message flow node should be added
+	 * @param labelNodes the list of Trace Nodes to which the new message flow node should be added
+	 * @param miscellaneousNodes the list of Trace Nodes to which the new message flow node should be added
 	 * @param connections the list of all the connections for the message flow
 	 * @param comments the list of all the comment notes for the message flow
 	 * @param shortDescription the short description of the message flow (Using StringBuilder as String is immutable)
@@ -99,6 +101,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> imsRequestNodes,
 					  ArrayList<MessageFlowNode> filterNodes,
 					  ArrayList<MessageFlowNode> traceNodes,
+					  ArrayList<MessageFlowNode> labelNodes,
 					  ArrayList<MessageFlowNode> miscellaneousNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
@@ -360,6 +363,11 @@ public class MessageFlowParser {
 					
 					/* Trace */
 					traceNodes.add(mfn);
+				} else if (type.equals("Label")) {
+					LOG.debug("Label");
+					
+					/* Label */
+					labelNodes.add(mfn);
 				} else{
 					LOG.debug("Miscellaneous");
 					

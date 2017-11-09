@@ -54,9 +54,14 @@ public final class Tags {
 	 */
 	public static final String PITFALL = "pitfall";
 	/**
-	 * The string for PITFALL.
+	 * The string for CORRECTNESS.
 	 */
 	public static final String CORRECTNESS = "correctness";
+	
+	/**
+	 * The string for COMPLETENESS.
+	 */
+	public static final String COMPLETENESS = "completeness";
 	/**
 	 * Constructor
 	 * 

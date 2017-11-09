@@ -1152,7 +1152,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * XMLNSCoverXMLNS
 		 */
 		repository.createRule("XMLNSCoverXMLNS")
-		.setName("XMLNSC message domain is preferred over XMLNS.")
+		.setName("Message Domain - XMLNSC message domain is preferred over XMLNS.")
 		.setHtmlDescription(
 				"Have preference for XMLNSC over XMLNS.")
 		.setSeverity(Severity.MAJOR).setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
@@ -1172,13 +1172,34 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * MQReplyWithoutMQInput
 		 */
 		repository.createRule("MQReplyWithoutMQInput")
-		.setName("MQ Reply - Flow with MQ Reply node without MQ Input node.")
+		.setName("MQ Reply Node - Flow with MQ Reply node without MQ Input node.")
 		.setHtmlDescription(
 				"The Flow contains MQ Reply node without MQ Input node.")
 		.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 						"1h 30 min"));
 		
+		/*
+		 * LabelWithoutConnections
+		 */
+		repository.createRule("LabelWithoutConnections")
+		.setName("Label Node - Label has no associated processing logic attached.")
+		.setHtmlDescription(
+				"Label has no associated processing logic attached.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.COMPLETENESS).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"30 min"));
+
+		/*
+		 * AllInputTerminalsNotConnected
+		 */
+		repository.createRule("AllInputTerminalsNotConnected")
+		.setName("Not all input terminals connected. Resources may not be processed correctly.")
+		.setHtmlDescription(
+				"Not all input terminals connected. Resources may not be processed correctly.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.COMPLETENESS).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"30 min"));
 		// add more rules here
 
 		repository.done();

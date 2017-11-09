@@ -1,8 +1,6 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -13,19 +11,17 @@ import org.sonar.api.issue.Issuable;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
-import com.exxeta.iss.sonar.msgflow.MessageFlowNodeWithInputTerminals;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * The class (sensor) contains the method to analyse the connections and 
- * configuration of a Miscellaneous/Uncategorized Node.
+ * configuration of a Label Node.
  * 
  * @author Arjav Shah
  */
-public class MiscellaneousNodeSensor implements Sensor {
+public class LabelNodeSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
@@ -45,7 +41,7 @@ public class MiscellaneousNodeSensor implements Sensor {
 	/**
 	  * Use of IoC to get FileSystem and ResourcePerspectives
 	  */
-	public MiscellaneousNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
+	public LabelNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
 		this.fs = fs;
 		this.perspectives = perspectives;
 	}
@@ -76,37 +72,18 @@ public class MiscellaneousNodeSensor implements Sensor {
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			// the actual rule ...
-			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMiscellaneousNodes().iterator();
-			
-			String [] nodesWithMultipleInputs = {"CDOutput","FileRead","FTEOutput","TCPIPServerOutput"};
+			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getLabelNodes().iterator();
 			
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
-				if(IsNodeWithInputTerminals(msgFlowNode.getType()) && msgFlowNode.getInputTerminals().size()==0){
+				if(msgFlowNode.getOutputTerminals().size()==0){
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
-				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
-				    	        	  .build());
-				}
-				
-				if(Arrays.asList(nodesWithMultipleInputs).contains(msgFlowNode.getType()) && msgFlowNode.getInputTerminals().size()<2){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "AllInputTerminalsNotConnected"))
-				    	        	  .message("One or more input terminals of node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") are not connected.")
+				    	        	  .ruleKey(RuleKey.of("msgflow", "LabelWithoutConnections"))
+				    	        	  .message("Label '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") has no associated processing logic attached.")
 				    	        	  .build());
 				}
 			}
-		}
-	}
-	
-	public static boolean IsNodeWithInputTerminals(String type){
-		Set<String> nodeTypes = ImmutableSet.copyOf(MessageFlowNodeWithInputTerminals.keywordValues());
-		if (nodeTypes.contains(type)) {
-			return true;
-		}else{
-			return false;
 		}
 	}
 }

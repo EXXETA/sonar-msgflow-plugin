@@ -140,9 +140,13 @@ public class MessageFlow {
 	/**
 	 * a list of miscellaneous Nodes of a message flow
 	 */
+	private ArrayList<MessageFlowNode> labelNodes;
+	
+	/**
+	 * a list of miscellaneous Nodes of a message flow
+	 */
 	private ArrayList<MessageFlowNode> miscellaneousNodes;
-	
-	
+		
 	/**
 	 * a list of Connections of a message flow
 	 */
@@ -190,6 +194,7 @@ public class MessageFlow {
 		imsRequestNodes				= new ArrayList<MessageFlowNode>();
 		filterNodes					= new ArrayList<MessageFlowNode>();
 		traceNodes					= new ArrayList<MessageFlowNode>();
+		labelNodes					= new ArrayList<MessageFlowNode>();
 		miscellaneousNodes			= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowCommentNote>();
@@ -217,6 +222,7 @@ public class MessageFlow {
 								imsRequestNodes,
 								filterNodes,
 								traceNodes,
+								labelNodes,
 								miscellaneousNodes,
 								connections,
 								comments,
@@ -412,6 +418,13 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getTraceNodes() {
 		return traceNodes;
+	}
+
+	/**
+	 * @return the labelNodes
+	 */
+	public ArrayList<MessageFlowNode> getLabelNodes() {
+		return labelNodes;
 	}
 
 	/**
