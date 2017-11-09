@@ -14,7 +14,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**
  * The class (sensor) contains the method to analyse the connections and 
- * configuration of a MQ Header Node.
+ * configuration of a Trace Node.
  * 
  * @author Arjav Shah
  */

@@ -13,7 +13,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**
- * The class (sensor) contains the method to analyse the comment notes of the
+ * The class (sensor) contains the method to analyse the description of the
  * message flow 
  * 
  * @author Arjav Shah

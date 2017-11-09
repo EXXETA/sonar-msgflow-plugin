@@ -62,7 +62,7 @@ public class MessageFlowParser {
 	 * @param mqOutputNodes the list of MQ Output Nodes to which the new message flow node should be added
 	 * @param mqGetNodes the list of MQ Get Nodes to which the new message flow node should be added
 	 * @param mqHeaderNodes the list of MQ Header Nodes to which the new message flow node should be added
-	 * @param mqReplyrNodes the list of MQ Reply Nodes to which the new message flow node should be added
+	 * @param mqReplyNodes the list of MQ Reply Nodes to which the new message flow node should be added
 	 * @param resetContentDescriptorNodes the list of Reset Content Descriptor Nodes to which the new message flow node should be added
 	 * @param soapInputNodes the list of Soap Input Nodes to which the new message flow node should be added
 	 * @param soapRequestNodes the list of Soap Request Nodes to which the new message flow node should be added
@@ -73,6 +73,7 @@ public class MessageFlowParser {
 	 * @param filterNodes the list of Filter Nodes to which the new message flow node should be added
 	 * @param traceNodes the list of Trace Nodes to which the new message flow node should be added
 	 * @param labelNodes the list of Trace Nodes to which the new message flow node should be added
+	 * @param routeToLabelNodes the list of Trace Nodes to which the new message flow node should be added
 	 * @param miscellaneousNodes the list of Trace Nodes to which the new message flow node should be added
 	 * @param connections the list of all the connections for the message flow
 	 * @param comments the list of all the comment notes for the message flow
@@ -102,6 +103,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> filterNodes,
 					  ArrayList<MessageFlowNode> traceNodes,
 					  ArrayList<MessageFlowNode> labelNodes,
+					  ArrayList<MessageFlowNode> routeToLabelNodes,
 					  ArrayList<MessageFlowNode> miscellaneousNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
@@ -368,6 +370,11 @@ public class MessageFlowParser {
 					
 					/* Label */
 					labelNodes.add(mfn);
+				} else if (type.equals("RouteToLabel")) {
+					LOG.debug("RouteToLabel");
+					
+					/* RouteToLabel */
+					routeToLabelNodes.add(mfn);
 				} else{
 					LOG.debug("Miscellaneous");
 					

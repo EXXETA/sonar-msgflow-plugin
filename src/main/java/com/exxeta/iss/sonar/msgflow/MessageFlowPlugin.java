@@ -38,6 +38,7 @@ import com.exxeta.iss.sonar.msgflow.batch.MQInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQOutputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQReplyNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowDescriptionSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageFlowGenericSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MiscellaneousNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowConnectionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ResetContentDescriptorNodeSensor;
@@ -112,7 +113,8 @@ public class MessageFlowPlugin extends SonarPlugin {
 			FilterNodeSensor.class, //class extends Sensor 
 			TraceNodeSensor.class, // class extends Sensor
 			MiscellaneousNodeSensor.class, // class extends Sensor
-			LabelNodeSensor.class // class extends Sensor
+			LabelNodeSensor.class, // class extends Sensor
+			MessageFlowGenericSensor.class // class extends Sensor
 			// UI
 			// ...
 		);

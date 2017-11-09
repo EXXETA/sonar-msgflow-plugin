@@ -1172,34 +1172,53 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * MQReplyWithoutMQInput
 		 */
 		repository.createRule("MQReplyWithoutMQInput")
-		.setName("MQ Reply Node - Flow with MQ Reply node without MQ Input node.")
-		.setHtmlDescription(
-				"The Flow contains MQ Reply node without MQ Input node.")
-		.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
-				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-						"1h 30 min"));
-		
+				.setName("MQ Reply Node - Flow with MQ Reply node without MQ Input node.")
+				.setHtmlDescription("The Flow contains MQ Reply node without MQ Input node.")
+				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"1h 30 min"));
+
 		/*
 		 * LabelWithoutConnections
 		 */
 		repository.createRule("LabelWithoutConnections")
-		.setName("Label Node - Label has no associated processing logic attached.")
-		.setHtmlDescription(
-				"Label has no associated processing logic attached.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.COMPLETENESS).setDebtRemediationFunction(
-				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-						"30 min"));
+				.setName("Label Node - Label has no associated processing logic attached.")
+				.setHtmlDescription("Label has no associated processing logic attached.").setSeverity(Severity.MAJOR)
+				.setTags(Tags.COMPLETENESS).setDebtRemediationFunction(new DefaultDebtRemediationFunction(
+						DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "30 min"));
 
 		/*
 		 * AllInputTerminalsNotConnected
 		 */
 		repository.createRule("AllInputTerminalsNotConnected")
-		.setName("Not all input terminals connected. Resources may not be processed correctly.")
-		.setHtmlDescription(
-				"Not all input terminals connected. Resources may not be processed correctly.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.COMPLETENESS).setDebtRemediationFunction(
-				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-						"30 min"));
+				.setName("Not all input terminals connected. Resources may not be processed correctly.")
+				.setHtmlDescription("Not all input terminals connected. Resources may not be processed correctly.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.COMPLETENESS).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"30 min"));
+
+		/*
+		 * LabelWithoutRouteTo
+		 */
+		repository.createRule("LabelWithoutRouteTo")
+				.setName("RouteToLabel Node - Flow does not have RouteToLabel and Label node in the flow.")
+				.setHtmlDescription(
+						"Flow does not have RouteToLabel and Label node in the flow. "
+						+ "Generally RouteToLabel and Label are placed in the same flow to make it more readable.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS, Tags.READABILITY).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"20 min"));
+
+		/*
+		 * FilterNodeConnection
+		 */
+		repository.createRule("FilterNodeConnection")
+				.setName("Filter Node - All the output terminals are not connected.")
+				.setHtmlDescription(
+						"Filter node does not have the output terminals connected. "
+						+ "This may lead to abnormal termination during the message flow execution.")
+				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "1h"));
 		// add more rules here
 
 		repository.done();

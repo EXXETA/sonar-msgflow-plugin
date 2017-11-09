@@ -11,7 +11,6 @@ import org.sonar.api.rule.RuleKey;
 
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowConnection;
-import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**
@@ -20,7 +19,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  * 
  * @author Arjav Shah
  */
-public class MessageFlowConnectionSensor implements Sensor {
+public class MessageFlowGenericSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
@@ -40,7 +39,7 @@ public class MessageFlowConnectionSensor implements Sensor {
 	/**
 	  * Use of IoC to get FileSystem and ResourcePerspectives
 	  */
-	public MessageFlowConnectionSensor(FileSystem fs, ResourcePerspectives perspectives) {
+	public MessageFlowGenericSensor(FileSystem fs, ResourcePerspectives perspectives) {
 		this.fs = fs;
 		this.perspectives = perspectives;
 	}
@@ -74,41 +73,14 @@ public class MessageFlowConnectionSensor implements Sensor {
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			
-			for(MessageFlowConnection con : msgFlow.getConnections()){
-				if(con.getSrcNode().equalsIgnoreCase(con.getTargetNode())){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "SelfConnectingNodes"))
-				    	        	  .message("Self Connecting node '"+con.getSrcNodeName()+"'. Use of self Connecting node is discouraged.")
-				    	        	  .build());
-				}
-				
+			if((msgFlow.getLabelNodes().size()>0 && msgFlow.getRouteToLabelNodes().size()==0)
+					||(msgFlow.getLabelNodes().size()==0 && msgFlow.getRouteToLabelNodes().size()>0)){
+				Issuable issuable = perspectives.as(Issuable.class, inputFile);
+			    issuable.addIssue(issuable.newIssueBuilder()
+			    	        	  .ruleKey(RuleKey.of("msgflow", "LabelWithoutRouteTo"))
+			    	        	  .message("The Message flow '" + inputFile.relativePath() + "'  does not have RouteToLabel and label in the same flow.")
+			    	        	  .build());
 			}
-//			for(MessageFlowNode filter : msgFlow.getFilterNodes()){
-//				boolean isTrueConnected = false;
-//				boolean isFalseConnected = false;
-//				boolean isUnknownConnected = false;
-//				for(MessageFlowConnection con : msgFlow.getConnections()){
-//					if(filter.getId().equals(con.getSrcNode())){
-//						if(con.getSrcTerminal().equals("OutTerminal.unknown")){
-//							isUnknownConnected = true;
-//						} else if(con.getSrcTerminal().equals("OutTerminal.false")){
-//							isFalseConnected = true;
-//						} else if(con.getSrcTerminal().equals("OutTerminal.true")){
-//							isTrueConnected = true;
-//						}
-//					}
-//				}
-//				if(!(isFalseConnected && isTrueConnected && isUnknownConnected)){
-//					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-//				    issuable.addIssue(issuable.newIssueBuilder()
-//				    	        	  .ruleKey(RuleKey.of("msgflow", "FilterNode"))
-//				    	        	  .message("The node '"+filter.getName()+"' (type: "+filter.getType()+") has inconsistent connections.")
-//				    	        	  .build());
-//				}
-//			}
-			
-			
 		}
 	}
 }

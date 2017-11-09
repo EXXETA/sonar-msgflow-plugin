@@ -251,9 +251,15 @@ public class MessageFlowTest {
 		assertEquals(1, mf.getTraceNodes().size());
 	}
 	@Test
-	public final void testMiscellaneousNode(){
+	public final void testMiscellaneousNodes(){
 		MessageFlow mf = new MessageFlow("src/test/resources/MiscellaneousNode.msgflow", new MessageFlowParser());
 		assertEquals(2, mf.getMiscellaneousNodes().size());
+	}
+	@Test
+	public final void testLabelNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Label.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getLabelNodes().size());
+		assertEquals(1, mf.getRouteToLabelNodes().size());
 	}
 	
 }

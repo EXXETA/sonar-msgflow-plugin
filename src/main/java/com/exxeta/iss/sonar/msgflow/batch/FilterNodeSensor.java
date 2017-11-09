@@ -18,7 +18,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 
 /**
  * The class (sensor) contains the method to analyse the connections and
- * configuration of a MQ Header Node.
+ * configuration of a Filter Node.
  * 
  * @author Arjav Shah
  */
@@ -95,6 +95,42 @@ public class FilterNodeSensor implements Sensor {
 
 				}
 				
+				
+				
+				if((!msgFlowNode.getOutputTerminals().contains("OutTerminal.unknown"))
+						||(!msgFlowNode.getOutputTerminals().contains("OutTerminal.false"))
+						||(!msgFlowNode.getOutputTerminals().contains("OutTerminal.true"))){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "FilterNodeConnection"))
+				    	        	  .message("One or more terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
+				    	        	  .build());
+				}
+				
+//				if(!msgFlowNode.getOutputTerminals().contains("OutTerminal.false")){
+//					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+//				    issuable.addIssue(issuable.newIssueBuilder()
+//				    	        	  .ruleKey(RuleKey.of("msgflow", "FilterNodeConnection"))
+//				    	        	  .message("The false terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
+//				    	        	  .build());
+//				}
+//				
+//				if(!msgFlowNode.getOutputTerminals().contains("OutTerminal.true")){
+//					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+//				    issuable.addIssue(issuable.newIssueBuilder()
+//				    	        	  .ruleKey(RuleKey.of("msgflow", "FilterNodeConnection"))
+//				    	        	  .message("The true terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
+//				    	        	  .build());
+//				}
+				
+//				if(!msgFlowNode.getInputTerminals().contains("InTerminal.in")){
+//					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+//				    issuable.addIssue(issuable.newIssueBuilder()
+//				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
+//				    	        	  .message("The in terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
+//				    	        	  .build());
+//				}
+				
 				if (msgFlowNode.getInputTerminals().size()==0) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
@@ -102,6 +138,8 @@ public class FilterNodeSensor implements Sensor {
 				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
 				    	        	  .build());
 				}
+				
+				
 			}
 		}
 	}

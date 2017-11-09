@@ -138,15 +138,20 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> traceNodes;
 	
 	/**
-	 * a list of miscellaneous Nodes of a message flow
+	 * a list of label Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> labelNodes;
+	
+	/**
+	 * a list of routeToLabel Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> routeToLabelNodes;
 	
 	/**
 	 * a list of miscellaneous Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> miscellaneousNodes;
-		
+	
 	/**
 	 * a list of Connections of a message flow
 	 */
@@ -195,6 +200,7 @@ public class MessageFlow {
 		filterNodes					= new ArrayList<MessageFlowNode>();
 		traceNodes					= new ArrayList<MessageFlowNode>();
 		labelNodes					= new ArrayList<MessageFlowNode>();
+		routeToLabelNodes			= new ArrayList<MessageFlowNode>();
 		miscellaneousNodes			= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowCommentNote>();
@@ -223,6 +229,7 @@ public class MessageFlow {
 								filterNodes,
 								traceNodes,
 								labelNodes,
+								routeToLabelNodes,
 								miscellaneousNodes,
 								connections,
 								comments,
@@ -421,10 +428,21 @@ public class MessageFlow {
 	}
 
 	/**
+	 * The method returns a list of label nodes of Message Flow
+	 * 
 	 * @return the labelNodes
 	 */
 	public ArrayList<MessageFlowNode> getLabelNodes() {
 		return labelNodes;
+	}
+
+	/**
+	 * The method returns a list of routeToLabel Nodes of Message Flow
+	 * 
+	 * @return the routeToLabelNodes
+	 */
+	public ArrayList<MessageFlowNode> getRouteToLabelNodes() {
+		return routeToLabelNodes;
 	}
 
 	/**
