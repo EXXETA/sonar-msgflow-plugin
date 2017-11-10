@@ -254,6 +254,11 @@ public class MessageFlowParser {
 					String generateDefaultHttpHeaders = (String) generateDefaultHttpHeadersExp.evaluate(document,XPathConstants.STRING);
 					properties.put("generateDefaultHttpHeaders", generateDefaultHttpHeaders);
 				}
+				else if(type.equals("SOAPRequest")){					
+					XPathExpression requestTimeoutExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@requestTimeout");
+					String requestTimeout = (String) requestTimeoutExp.evaluate(document,XPathConstants.STRING);
+					properties.put("requestTimeout", requestTimeout);
+				}
 				LOG.debug("Evaluate expressions - END");
 				LOG.debug("Fill nodes - START");
 

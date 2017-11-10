@@ -161,6 +161,16 @@ public class SoapRequestNodeSensor implements Sensor {
 				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
 				    	        	  .build());
 				}
+				
+				if (Integer.parseInt((String)msgFlowNode.getProperties().get("requestTimeout"))==0) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "SoapRequestTimeOut"))
+				    	        	  .message("Request Timeout property for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is set to zero.")
+				    	        	  .build());
+				}
+				
+				
 			}
 		}
 	}

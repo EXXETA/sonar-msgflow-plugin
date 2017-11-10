@@ -1219,6 +1219,15 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 						+ "This may lead to abnormal termination during the message flow execution.")
 				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "1h"));
+		/*
+		 * SoapRequestTimeOut
+		 */
+		repository.createRule("SoapRequestTimeOut")
+				.setName("Soap Request Node - Request timeout should be a positive integer.")
+				.setHtmlDescription("'Request timeout' property under HTTP Transport should be set as positive integer.")
+				.setSeverity(Severity.CRITICAL).setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "15 min"));
+		
 		// add more rules here
 
 		repository.done();

@@ -153,6 +153,9 @@ public class MessageFlowTest {
 		MessageFlow mf = new MessageFlow("src/test/resources/SoapRequest.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getSoapRequestNodes().size());
 		
+		MessageFlow mf1 = new MessageFlow("src/test/resources/SoapTest.msgflow", new MessageFlowParser());
+		assertEquals(0, Integer.parseInt((String)mf1.getSoapRequestNodes().get(0).getProperties().get("requestTimeout")));
+		
 		/* TODO: insert additional tests here */
 	}
 
