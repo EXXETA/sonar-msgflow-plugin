@@ -1227,7 +1227,26 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setHtmlDescription("'Request timeout' property under HTTP Transport should be set as positive integer.")
 				.setSeverity(Severity.CRITICAL).setTags(Tags.PERFORMANCE).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "15 min"));
-		
+		/*
+		 * MessageFlowInconsistentReply
+		 */
+		repository.createRule("MessageFlowInconsistentReply")
+				.setName("Message Flow - The Message Flow does not reply to the requests consistently.")
+				.setHtmlDescription(
+						"The Message Flow does not reply to the requests consistently. One or more paths in the flow does not end with the Reply node.")
+				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"30 min"));
+		/*
+		 * SOAPAsyncNodeFault
+		 */
+		repository.createRule("SOAPAsyncNodeFault")
+				.setName("SOAP Asynchronous Response - The 'fault' terminal should be connected.")
+				.setHtmlDescription(
+						"'fault' terminal for SOAP Asynchronous Response Node should be connected.")
+				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"30 min"));
 		// add more rules here
 
 		repository.done();

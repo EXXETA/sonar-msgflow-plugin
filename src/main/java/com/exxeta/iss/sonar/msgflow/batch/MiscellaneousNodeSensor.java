@@ -97,6 +97,14 @@ public class MiscellaneousNodeSensor implements Sensor {
 				    	        	  .message("One or more input terminals of node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") are not connected.")
 				    	        	  .build());
 				}
+				
+				if(msgFlowNode.getType().equals("SOAPAsyncResponse") && !msgFlowNode.getOutputTerminals().contains("OutTerminal.fault")){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "SOAPAsyncNodeFault"))
+				    	        	  .message("In SOAP Async node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") 'fault' terminal is not connected")
+				    	        	  .build());
+				}
 			}
 		}
 	}

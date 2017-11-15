@@ -43,8 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		/* Arjav Shah : Added 23 rules(22 Active, 1 Inactive) */
-		assertEquals(93, rp.getActiveRules().size());
+		/* Arjav Shah : Added 25 rules(24 Active, 1 Inactive) */
+		assertEquals(95, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -178,6 +178,8 @@ public class MessageFlowProfileTest {
 		assertTrue("LabelWithoutConnections is not defined as a rule.", ruleKeys.contains("LabelWithoutConnections"));
 		assertTrue("AllInputTerminalsNotConnected is not defined as a rule.", ruleKeys.contains("AllInputTerminalsNotConnected"));
 		assertTrue("LabelWithoutRouteTo is not defined as a rule.", ruleKeys.contains("LabelWithoutRouteTo"));
+		assertTrue("MessageFlowInconsistentReply is not defined as a rule.", ruleKeys.contains("MessageFlowInconsistentReply"));
+		assertTrue("SOAPAsyncNodeFault is not defined as a rule.", ruleKeys.contains("SOAPAsyncNodeFault"));
 	}
 
 }

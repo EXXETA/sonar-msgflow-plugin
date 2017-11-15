@@ -204,6 +204,8 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "LabelWithoutRouteTo"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FilterNodeConnection"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestTimeOut"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MessageFlowInconsistentReply"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SOAPAsyncNodeFault"), null);
 		
 		
 		
