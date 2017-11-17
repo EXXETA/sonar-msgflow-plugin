@@ -72,9 +72,10 @@ public class MessageFlowParser {
 	 * @param imsRequestNodes the list of IMS Request Nodes to which the new message flow node should be added
 	 * @param filterNodes the list of Filter Nodes to which the new message flow node should be added
 	 * @param traceNodes the list of Trace Nodes to which the new message flow node should be added
-	 * @param labelNodes the list of Trace Nodes to which the new message flow node should be added
-	 * @param routeToLabelNodes the list of Trace Nodes to which the new message flow node should be added
-	 * @param miscellaneousNodes the list of Trace Nodes to which the new message flow node should be added
+	 * @param labelNodes the list of Label Nodes to which the new message flow node should be added
+	 * @param routeToLabelNodes the list of Route To Label Nodes to which the new message flow node should be added
+	 * @param aggregateControlNodes the list of aggregate Control Nodes to which the new message flow node should be added
+	 * @param miscellaneousNodes the list of miscellaneous/Uncategorized Nodes to which the new message flow node should be added
 	 * @param connections the list of all the connections for the message flow
 	 * @param comments the list of all the comment notes for the message flow
 	 * @param shortDescription the short description of the message flow (Using StringBuilder as String is immutable)
@@ -104,6 +105,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> traceNodes,
 					  ArrayList<MessageFlowNode> labelNodes,
 					  ArrayList<MessageFlowNode> routeToLabelNodes,
+					  ArrayList<MessageFlowNode> aggregateControlNodes,
 					  ArrayList<MessageFlowNode> miscellaneousNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
@@ -259,6 +261,11 @@ public class MessageFlowParser {
 					String requestTimeout = (String) requestTimeoutExp.evaluate(document,XPathConstants.STRING);
 					properties.put("requestTimeout", requestTimeout);
 				}
+				else if(type.equals("AggregateControl")){
+					XPathExpression timeoutIntervalExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@timeoutInterval");
+					String timeoutInterval = (String) timeoutIntervalExp.evaluate(document,XPathConstants.STRING);
+					properties.put("timeoutInterval", timeoutInterval);
+				}
 				LOG.debug("Evaluate expressions - END");
 				LOG.debug("Fill nodes - START");
 
@@ -380,7 +387,12 @@ public class MessageFlowParser {
 					
 					/* RouteToLabel */
 					routeToLabelNodes.add(mfn);
-				} else{
+				} else if (type.equals("AggregateControl")) {
+					LOG.debug("AggregateControl");
+
+					/* AggregateControl */
+					aggregateControlNodes.add(mfn);
+				} else {
 					LOG.debug("Miscellaneous");
 					
 					/* Miscellaneous */

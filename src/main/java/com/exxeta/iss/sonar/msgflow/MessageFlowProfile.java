@@ -206,7 +206,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestTimeOut"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MessageFlowInconsistentReply"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SOAPAsyncNodeFault"), null);
-		
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "aggregateControlNodeTimeout"), null);
 		
 		
 		// add more rules here

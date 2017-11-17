@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.sonar.api.SonarPlugin;
 
+import com.exxeta.iss.sonar.msgflow.batch.AggregateControlSensor;
 import com.exxeta.iss.sonar.msgflow.batch.CollectorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ComputeNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileInputNodeSensor;
@@ -114,7 +115,8 @@ public class MessageFlowPlugin extends SonarPlugin {
 			TraceNodeSensor.class, // class extends Sensor
 			MiscellaneousNodeSensor.class, // class extends Sensor
 			LabelNodeSensor.class, // class extends Sensor
-			MessageFlowGenericSensor.class // class extends Sensor
+			MessageFlowGenericSensor.class, // class extends Sensor
+			AggregateControlSensor.class // class extends Sensor
 			// UI
 			// ...
 		);

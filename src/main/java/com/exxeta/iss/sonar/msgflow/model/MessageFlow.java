@@ -148,6 +148,11 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> routeToLabelNodes;
 	
 	/**
+	 * a list of aggregateControl Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> aggregateControlNodes;
+	
+	/**
 	 * a list of miscellaneous Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> miscellaneousNodes;
@@ -201,6 +206,7 @@ public class MessageFlow {
 		traceNodes					= new ArrayList<MessageFlowNode>();
 		labelNodes					= new ArrayList<MessageFlowNode>();
 		routeToLabelNodes			= new ArrayList<MessageFlowNode>();
+		aggregateControlNodes		= new ArrayList<MessageFlowNode>();
 		miscellaneousNodes			= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowCommentNote>();
@@ -230,6 +236,7 @@ public class MessageFlow {
 								traceNodes,
 								labelNodes,
 								routeToLabelNodes,
+								aggregateControlNodes,
 								miscellaneousNodes,
 								connections,
 								comments,
@@ -443,6 +450,15 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getRouteToLabelNodes() {
 		return routeToLabelNodes;
+	}
+
+	/**
+	 * The method returns a list of aggregateControl nodes
+	 * 
+	 * @return a list of aggregateControl nodes of MessageFlow
+	 */
+	public ArrayList<MessageFlowNode> getAggregateControlNodes() {
+		return aggregateControlNodes;
 	}
 
 	/**

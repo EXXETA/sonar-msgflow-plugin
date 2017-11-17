@@ -262,8 +262,17 @@ public class MessageFlowTest {
 	public final void testLabelNodes(){
 		MessageFlow mf = new MessageFlow("src/test/resources/Label.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getLabelNodes().size());
+	}
+	@Test
+	public final void testRouteToLabelNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Label.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getRouteToLabelNodes().size());
 	}
-	
+	@Test
+	public final void testAggregateControlNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/AggregateControl.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getAggregateControlNodes().size());
+		
+	}
 }
 

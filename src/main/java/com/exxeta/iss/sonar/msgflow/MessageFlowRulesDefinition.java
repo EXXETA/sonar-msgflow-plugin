@@ -1247,6 +1247,17 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"30 min"));
+		
+		/*
+		 * aggregateControlNodeTimeout
+		 */
+		repository.createRule("aggregateControlNodeTimeout")
+				.setName("Aggregate Control Node - The Timeout Interval property should be set to a finite value.")
+				.setHtmlDescription(
+						"The timeout property should be set to a finite value. Otherwise, message flow execution may never completes in case all replies do not arrive.")
+				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"1h 30 min"));
 		// add more rules here
 
 		repository.done();
