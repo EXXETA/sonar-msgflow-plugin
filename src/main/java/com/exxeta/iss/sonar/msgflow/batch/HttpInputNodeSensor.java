@@ -201,6 +201,18 @@ public class HttpInputNodeSensor implements Sensor {
 									+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.")
 							.build());
 				}
+				if ((!((String) msgFlowNode.getProperties().get("componentLevel")).isEmpty())
+						&& (((String) msgFlowNode.getProperties().get("componentLevel")).equals("node"))
+						&& (!((String) msgFlowNode.getProperties().get("additionalInstances")).isEmpty())
+						&& (Integer.parseInt((String)(msgFlowNode.getProperties().get("additionalInstances"))) > 0)) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(
+							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "NodeLevelAdditionalInstances"))
+									.message("Additional Intances defined at the node level for"
+											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+											+ ").")
+									.build());
+				}
 			}
 		}
 	}

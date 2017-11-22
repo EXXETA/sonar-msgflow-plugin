@@ -1136,6 +1136,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"30 min"));
+//				.createParam("format").setName("ModuleNamePattern").setDefaultValue("[A-Z][a-zA-Z0-9]*$").setDescription("Regular Expression");
 		
 		/*
 		 * TraceNodeDetection
@@ -1279,6 +1280,18 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"30 min"));
+		
+		/*
+		 * NodeLevelAdditionalInstances
+		 */
+		repository.createRule("NodeLevelAdditionalInstances")
+		.setName("Input Nodes - Additional instances defined at the node level.")
+		.setHtmlDescription(
+				"Additional Intances were defined at the input node(s).")
+		.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"5 min"));
+
 		// add more rules here
 
 		repository.done();

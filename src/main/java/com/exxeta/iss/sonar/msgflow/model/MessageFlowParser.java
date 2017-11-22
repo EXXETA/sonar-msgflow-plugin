@@ -286,6 +286,17 @@ public class MessageFlowParser {
 					statement = statement.substring(statement.indexOf("#")+1, statement.indexOf(".Main"));
 					properties.put("statement", statement);
 				}
+				
+				if (type.equals("MQInput") || type.equals("FileInput") || type.equals("WSInput")
+						|| type.equals("SOAPInput")) {
+					XPathExpression componentLevelExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='" + id + "']/@componentLevel");
+					String componentLevel = (String) componentLevelExp.evaluate(document, XPathConstants.STRING);
+					properties.put("componentLevel", componentLevel);
+
+					XPathExpression additionalInstancesExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='" + id + "']/@additionalInstances");
+					String additionalInstances = (String) additionalInstancesExp.evaluate(document, XPathConstants.STRING);
+					properties.put("additionalInstances", additionalInstances);
+				}
 				LOG.debug("Evaluate expressions - END");
 				LOG.debug("Fill nodes - START");
 

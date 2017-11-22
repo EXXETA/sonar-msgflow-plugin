@@ -153,6 +153,19 @@ public class SoapInputNodeSensor implements Sensor {
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
 				    	        	  .build());
 				}
+				
+				if ((!((String) msgFlowNode.getProperties().get("componentLevel")).isEmpty())
+						&& (((String) msgFlowNode.getProperties().get("componentLevel")).equals("node"))
+						&& (!((String) msgFlowNode.getProperties().get("additionalInstances")).isEmpty())
+						&& (((Integer) msgFlowNode.getProperties().get("additionalInstances")) > 0)) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(
+							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "NodeLevelAdditionalInstances"))
+									.message("Additional Intances defined at the node level for"
+											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+											+ ").")
+									.build());
+				}
 			}
 		}
 	}
