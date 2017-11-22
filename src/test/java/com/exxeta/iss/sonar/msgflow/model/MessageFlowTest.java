@@ -53,6 +53,7 @@ public class MessageFlowTest {
 	public final void testGetComputeNodes() {
 		MessageFlow mf = new MessageFlow("src/test/resources/Compute.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getComputeNodes().size());
+		assertEquals("Compute_Compute", mf.getComputeNodes().get(0).getProperties().get("computeExpression"));
 		
 		/* TODO: insert additional tests here */
 	}
@@ -273,6 +274,11 @@ public class MessageFlowTest {
 		MessageFlow mf = new MessageFlow("src/test/resources/AggregateControl.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getAggregateControlNodes().size());
 		
+	}
+	@Test
+	public final void testDatabaseNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Database.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getDatabaseNodes().size());
 	}
 }
 

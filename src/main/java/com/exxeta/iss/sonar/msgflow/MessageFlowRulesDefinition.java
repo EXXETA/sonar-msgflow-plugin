@@ -1258,6 +1258,27 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"1h 30 min"));
+		
+		/*
+		 * ComputeNodeNameModuleName
+		 */
+		repository.createRule("NodeNameModuleName")
+				.setName("Compute/Filter/Database Node - Node name and the underlaying module name should be same.")
+				.setHtmlDescription("The ESQL module should be named after the compute node.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"30 min"));
+
+		/*
+		 * OneModuleMultipleNodes
+		 */
+		repository.createRule("OneModuleMultipleNodes")
+				.setName("Compute/Filter/Database Node - A Module should not be referred by multiple nodes.")
+				.setHtmlDescription(
+						"The ESQL module should not be used by more than one node. Extract common code into reusable procedures and functions.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"30 min"));
 		// add more rules here
 
 		repository.done();

@@ -43,8 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		/* Arjav Shah : Added 26 rules(25 Active, 1 Inactive) */
-		assertEquals(96, rp.getActiveRules().size());
+		/* Arjav Shah : Added 28 rules(27 Active, 1 Inactive) */
+		assertEquals(98, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -181,6 +181,8 @@ public class MessageFlowProfileTest {
 		assertTrue("MessageFlowInconsistentReply is not defined as a rule.", ruleKeys.contains("MessageFlowInconsistentReply"));
 		assertTrue("SOAPAsyncNodeFault is not defined as a rule.", ruleKeys.contains("SOAPAsyncNodeFault"));
 		assertTrue("aggregateControlNodeTimeout is not defined as a rule.", ruleKeys.contains("aggregateControlNodeTimeout"));
+		assertTrue("NodeNameModuleName is not defined as a rule.", ruleKeys.contains("NodeNameModuleName"));
+		assertTrue("aggregateControlNodeTimeout is not defined as a rule.", ruleKeys.contains("OneModuleMultipleNodes"));
 	}
 
 }

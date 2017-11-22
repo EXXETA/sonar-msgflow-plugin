@@ -17,7 +17,10 @@
  */
 package com.exxeta.iss.sonar.msgflow.batch;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import org.sonar.api.batch.Sensor;
@@ -99,10 +102,11 @@ public class ComputeNodeSensor implements Sensor {
 			
 			// the actual rule ...
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getComputeNodes().iterator();
-			
+			ArrayList<String> moduleNameExpressionList = new ArrayList<String>();
 			while (iMsgFlowNodes.hasNext()) {
-				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
 				
+				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
+				moduleNameExpressionList.add((String)msgFlowNode.getProperties().get("computeExpression"));
 				if (!msgFlowNode.getInputTerminals().contains("InTerminal.in")) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
@@ -152,6 +156,24 @@ public class ComputeNodeSensor implements Sensor {
 				    	        	  .build());
 				}
 				
+				if(!msgFlowNode.getName().equals(msgFlowNode.getProperties().get("computeExpression"))){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "NodeNameModuleName"))
+				    	        	  .message("The node name and the underlaying module name should match for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
+				    	        	  .build());
+				}
+				
+			}
+			Set<String> moduleSet = new TreeSet<String>();
+			for(String moduleName:moduleNameExpressionList){
+				if(!moduleSet.add(moduleName)){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "OneModuleMultipleNodes"))
+				    	        	  .message("Multiple Compute nodes refers to same module '"+moduleName+"'.")
+				    	        	  .build());
+				}
 			}
 		}
 	}

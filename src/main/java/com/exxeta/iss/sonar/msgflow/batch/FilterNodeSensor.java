@@ -1,6 +1,9 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import org.sonar.api.batch.Sensor;
@@ -83,9 +86,10 @@ public class FilterNodeSensor implements Sensor {
 
 			// the actual rule ...
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getFilterNodes().iterator();
-
+			ArrayList<String> moduleNameExpressionList = new ArrayList<String>();
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
+				moduleNameExpressionList.add((String)msgFlowNode.getProperties().get("filterExpression"));
 				if (!CheckFilterNodeName(msgFlowNode.getName())) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "FilterNodeNameCheck"))
@@ -139,7 +143,24 @@ public class FilterNodeSensor implements Sensor {
 				    	        	  .build());
 				}
 				
+				if(!msgFlowNode.getName().equals(msgFlowNode.getProperties().get("filterExpression"))){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "NodeNameModuleName"))
+				    	        	  .message("The node name and the underlaying module name should match for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
+				    	        	  .build());
+				}
 				
+			}
+			Set<String> moduleSet = new TreeSet<String>();
+			for(String moduleName:moduleNameExpressionList){
+				if(!moduleSet.add(moduleName)){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "OneModuleMultipleNodes"))
+				    	        	  .message("Multiple Filter nodes refers to same module '"+moduleName+"'.")
+				    	        	  .build());
+				}
 			}
 		}
 	}

@@ -75,6 +75,7 @@ public class MessageFlowParser {
 	 * @param labelNodes the list of Label Nodes to which the new message flow node should be added
 	 * @param routeToLabelNodes the list of Route To Label Nodes to which the new message flow node should be added
 	 * @param aggregateControlNodes the list of aggregate Control Nodes to which the new message flow node should be added
+	 * @param databaseNodes the list of database Nodes to which the new message flow node should be added
 	 * @param miscellaneousNodes the list of miscellaneous/Uncategorized Nodes to which the new message flow node should be added
 	 * @param connections the list of all the connections for the message flow
 	 * @param comments the list of all the comment notes for the message flow
@@ -106,6 +107,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> labelNodes,
 					  ArrayList<MessageFlowNode> routeToLabelNodes,
 					  ArrayList<MessageFlowNode> aggregateControlNodes,
+					  ArrayList<MessageFlowNode> databaseNodes,
 					  ArrayList<MessageFlowNode> miscellaneousNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
@@ -266,6 +268,24 @@ public class MessageFlowParser {
 					String timeoutInterval = (String) timeoutIntervalExp.evaluate(document,XPathConstants.STRING);
 					properties.put("timeoutInterval", timeoutInterval);
 				}
+				else if(type.equals("Compute")){
+					XPathExpression computeExpressionExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@computeExpression");
+					String computeExpression = (String) computeExpressionExp.evaluate(document,XPathConstants.STRING);
+					computeExpression = computeExpression.substring(computeExpression.indexOf("#")+1, computeExpression.indexOf(".Main"));
+					properties.put("computeExpression", computeExpression);
+				}
+				else if(type.equals("Filter")){
+					XPathExpression filterExpressionExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@filterExpression");
+					String filterExpression = (String) filterExpressionExp.evaluate(document,XPathConstants.STRING);
+					filterExpression = filterExpression.substring(filterExpression.indexOf("#")+1, filterExpression.indexOf(".Main"));
+					properties.put("filterExpression", filterExpression);
+				}
+				else if(type.equals("Database")){
+					XPathExpression statementExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@statement");
+					String statement = (String) statementExp.evaluate(document,XPathConstants.STRING);
+					statement = statement.substring(statement.indexOf("#")+1, statement.indexOf(".Main"));
+					properties.put("statement", statement);
+				}
 				LOG.debug("Evaluate expressions - END");
 				LOG.debug("Fill nodes - START");
 
@@ -392,6 +412,11 @@ public class MessageFlowParser {
 
 					/* AggregateControl */
 					aggregateControlNodes.add(mfn);
+				} else if (type.equals("Database")) {
+					LOG.debug("Database");
+					
+					/* Database */
+					databaseNodes.add(mfn);
 				} else {
 					LOG.debug("Miscellaneous");
 					

@@ -25,6 +25,7 @@ import org.sonar.api.SonarPlugin;
 import com.exxeta.iss.sonar.msgflow.batch.AggregateControlSensor;
 import com.exxeta.iss.sonar.msgflow.batch.CollectorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ComputeNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.DatabaseNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileOutputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
@@ -38,10 +39,10 @@ import com.exxeta.iss.sonar.msgflow.batch.MQHeaderNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQOutputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQReplyNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageFlowConnectionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowDescriptionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowGenericSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MiscellaneousNodeSensor;
-import com.exxeta.iss.sonar.msgflow.batch.MessageFlowConnectionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ResetContentDescriptorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapRequestNodeSensor;
@@ -116,7 +117,8 @@ public class MessageFlowPlugin extends SonarPlugin {
 			MiscellaneousNodeSensor.class, // class extends Sensor
 			LabelNodeSensor.class, // class extends Sensor
 			MessageFlowGenericSensor.class, // class extends Sensor
-			AggregateControlSensor.class // class extends Sensor
+			AggregateControlSensor.class, // class extends Sensor
+			DatabaseNodeSensor.class // class extends Sensor
 			// UI
 			// ...
 		);
