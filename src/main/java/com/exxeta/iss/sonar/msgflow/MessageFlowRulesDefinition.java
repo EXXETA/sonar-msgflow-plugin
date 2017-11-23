@@ -1299,9 +1299,9 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setName("Sub Flows - Unused subflows should be removed.")
 		.setHtmlDescription(
 				"Subflow which is not referenced anywhere should be removed.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+		.setSeverity(Severity.MINOR).setTags(Tags.COMPLETENESS,Tags.READABILITY).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-						"5 min"));
+						"30 min"));
 		// add more rules here
 
 		repository.done();
