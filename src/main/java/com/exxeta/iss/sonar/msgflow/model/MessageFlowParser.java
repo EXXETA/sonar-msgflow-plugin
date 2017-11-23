@@ -155,12 +155,12 @@ public class MessageFlowParser {
 				LOG.debug("id: " + id);
 				LOG.debug("name: " + name);
 				LOG.debug("type: " + type);
-
-				if (type.contains("ComIbm") == false) {
-					/* if the node is not a ComIbm node */
-					LOG.debug("omitted node of type " + type);
-					continue;
-				}
+//	commenting the below code to add subflow nodes as a part of Miscellaneous nodelist
+//				if (type.contains("ComIbm") == false) {
+//					/* if the node is not a ComIbm node */
+//					LOG.debug("omitted node of type " + type);
+//					continue;
+//				}
 
 				String messageDomainProperty	= (String)messageDomainPropertyExpr.evaluate(document, XPathConstants.STRING);
 				String messageSetProperty		= (String)messageSetPropertyExpr.evaluate(document, XPathConstants.STRING);
@@ -168,7 +168,12 @@ public class MessageFlowParser {
 				String messageDomain			= (String)messageDomainExpr.evaluate(document, XPathConstants.STRING);
 				String messageSet				= (String)messageSetExpr.evaluate(document, XPathConstants.STRING);
 				String recordDefinition			= (String)recordDefinitionExpr.evaluate(document, XPathConstants.STRING);
-				type 							= type.substring(0, type.indexOf(".")).replace("ComIbm", "");
+				//added condition to store subflow types with the extention
+				if (type.contains("ComIbm")) {
+					type 						= type.substring(0, type.indexOf(".")).replace("ComIbm", "");
+				}else{
+					type 						= type.substring(0, type.indexOf(":"));
+				}
 				boolean buildTreeUsingSchema 	= Boolean.parseBoolean((String)buildTreeUsingSchemaExpr.evaluate(document, XPathConstants.STRING));
 				boolean mixedContentRetainMode	= ((String)mixedContentRetainModeExpr.evaluate(document, XPathConstants.STRING)).equals("all");
 				boolean commentsRetainMode		= ((String)commentsRetainModeExpr.evaluate(document, XPathConstants.STRING)).equals("all");

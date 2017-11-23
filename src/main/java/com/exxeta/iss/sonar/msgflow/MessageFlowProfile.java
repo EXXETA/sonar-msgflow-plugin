@@ -210,7 +210,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "NodeNameModuleName"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "OneModuleMultipleNodes"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "NodeLevelAdditionalInstances"), null);
-		
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "UnusedSubFlow"), null);
 		
 		// add more rules here
 		

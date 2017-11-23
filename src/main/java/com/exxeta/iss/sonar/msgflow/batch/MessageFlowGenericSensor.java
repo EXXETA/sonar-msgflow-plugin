@@ -1,6 +1,7 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -70,11 +71,17 @@ public class MessageFlowGenericSensor implements Sensor {
 	 */
 	@Override
 	public void analyse(Project arg0, SensorContext arg1) {
+		ArrayList<String> subflowList = new ArrayList<String>();
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
 			
 			/* 
 			 * retrieve the message flow object
 			 */
+			String path = inputFile.relativePath();
+			
+			if("subflow".equals(path.substring(path.lastIndexOf(".")+1))){
+				subflowList.add(path);
+			}
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			
@@ -135,6 +142,33 @@ public class MessageFlowGenericSensor implements Sensor {
 									.build());
 				}
 				
+			}
+		}
+		System.out.println(subflowList);
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
+			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
+			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMiscellaneousNodes().iterator();
+			
+			while (iMsgFlowNodes.hasNext()) {
+				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
+				if(subflowList.contains(msgFlowNode.getType())) {
+					subflowList.remove(msgFlowNode.getType());
+				}
+			}
+		}
+		
+		
+		System.out.println(subflowList);
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
+			for(String subflow:subflowList){
+				if(inputFile.relativePath().equals(subflow)){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(
+							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "UnusedSubFlow"))
+									.message("The sub flow '" + subflow
+											+ "'  is not referenced anywhere. Hence, it should be removed")
+									.build());
+				}
 			}
 		}
 	}

@@ -258,6 +258,9 @@ public class MessageFlowTest {
 	public final void testMiscellaneousNodes(){
 		MessageFlow mf = new MessageFlow("src/test/resources/MiscellaneousNode.msgflow", new MessageFlowParser());
 		assertEquals(2, mf.getMiscellaneousNodes().size());
+		
+		MessageFlow mf1 = new MessageFlow("src/test/resources/SubFlow.msgflow", new MessageFlowParser());
+		assertEquals(1, mf1.getMiscellaneousNodes().size());
 	}
 	@Test
 	public final void testLabelNodes(){
