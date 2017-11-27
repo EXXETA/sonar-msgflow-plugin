@@ -18,7 +18,7 @@ public class MessageMap {
 	 */
 	public MessageMap(String fileName, MessageMapParser parser) {
 		
-		mappingSources = new Mapping();
+		mappingSources = new Mapping("", "");
 		mappings = new ArrayList<Mapping>();
 		inputVar = new StringBuilder("");
 		outputVar = new StringBuilder("");

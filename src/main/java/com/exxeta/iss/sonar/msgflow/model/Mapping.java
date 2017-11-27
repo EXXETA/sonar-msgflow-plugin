@@ -15,7 +15,16 @@ public class Mapping {
 	private String outputPath;
 	
 	/**
-	 * 
+	 * @param inputPath
+	 * @param outputPath
+	 */
+	public Mapping(String inputPath, String outputPath) {
+		super();
+		this.inputPath = inputPath;
+		this.outputPath = outputPath;
+	}
+	/**
+	 * returns xpath of the input message involved in the mapping
 	 * 
 	 * @return the inputPath
 	 */
@@ -23,7 +32,7 @@ public class Mapping {
 		return inputPath;
 	}
 	/**
-	 * 
+	 * returns xpath of the output message involved in the mapping
 	 * 
 	 * @return the outputPath
 	 */
