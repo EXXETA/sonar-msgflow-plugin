@@ -42,6 +42,7 @@ import com.exxeta.iss.sonar.msgflow.batch.MQReplyNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowConnectionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowDescriptionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowGenericSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageMapSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MiscellaneousNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ResetContentDescriptorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapInputNodeSensor;
@@ -71,7 +72,7 @@ public class MessageFlowPlugin extends SonarPlugin {
 	/**
 	 * The FILE_SUFFIXES_DEFAULTVALUE for the plug-in.
 	 */
-	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow";
+	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow,.map";
 	
 	/* (non-Javadoc)
 	 * @see org.sonar.api.Plugin#getExtensions()
@@ -118,7 +119,8 @@ public class MessageFlowPlugin extends SonarPlugin {
 			LabelNodeSensor.class, // class extends Sensor
 			MessageFlowGenericSensor.class, // class extends Sensor
 			AggregateControlSensor.class, // class extends Sensor
-			DatabaseNodeSensor.class // class extends Sensor
+			DatabaseNodeSensor.class, // class extends Sensor
+			MessageMapSensor.class // class extends Sensor
 			// UI
 			// ...
 		);

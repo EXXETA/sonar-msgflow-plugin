@@ -77,14 +77,16 @@ public class MessageFlowDescriptionSensor implements Sensor {
 			/*
 			 * retrieve the message flow object
 			 */
-			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
-
-			if ((msgFlow.getShortDescription()==null)||(msgFlow.getShortDescription().toString().isEmpty()) && ((msgFlow.getLongDescription()==null)||(msgFlow.getLongDescription().toString().isEmpty()))) {
-				Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MessageFlowDescription"))
-						.message("Description for the message flow '" + inputFile.relativePath()
-								+ "' is not present. Always mention flow description inside the message flow.")
-						.build());
+			if(!inputFile.absolutePath().endsWith(".map")){
+				MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
+	
+				if ((msgFlow.getShortDescription()==null)||(msgFlow.getShortDescription().toString().isEmpty()) && ((msgFlow.getLongDescription()==null)||(msgFlow.getLongDescription().toString().isEmpty()))) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MessageFlowDescription"))
+							.message("Description for the message flow '" + inputFile.relativePath()
+									+ "' is not present. Always mention flow description inside the message flow.")
+							.build());
+				}
 			}
 		}
 	}

@@ -36,6 +36,11 @@ public class MessageFlowProject {
 	 * a HashMap holding the file name and the message flow object
 	 */
 	private static HashMap<String, MessageFlow> msgflowMap;
+	
+	/**
+	 * a HashMap holding the file name and the message map object
+	 */
+	private static HashMap<String, MessageMap> msgmapMap;
 
 	/**
 	 * the one and only instance of the MessageFlowProject
@@ -59,6 +64,7 @@ public class MessageFlowProject {
 		if (instance == null) {
 			instance = new MessageFlowProject();
 			msgflowMap = new HashMap<String, MessageFlow>();
+			msgmapMap = new HashMap<String, MessageMap>();
 		}
 		
 		return instance;
@@ -89,5 +95,20 @@ public class MessageFlowProject {
 		}
 
 		return msgflowMap.get(fileName);
+	}
+	
+	public MessageMap getMessageMap(String fileName) {
+		/*
+		 * retrieves the message map object using the file name
+		 * 
+		 * If the message map is not in the map, parse the file and put the
+		 * message map object to the map.
+		 */
+		if (msgmapMap.containsKey(fileName) == false) {
+			msgmapMap.put(fileName,
+					   	   new MessageMap(fileName, new MessageMapParser()));
+		}
+
+		return msgmapMap.get(fileName);
 	}
 }

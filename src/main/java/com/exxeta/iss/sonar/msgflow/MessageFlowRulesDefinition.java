@@ -1302,6 +1302,28 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setSeverity(Severity.MINOR).setTags(Tags.COMPLETENESS,Tags.READABILITY).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 						"30 min"));
+		
+		/*
+		 * mappingNodePropertiesMissing
+		 */
+		repository.createRule("mappingNodePropertiesMissing")
+		.setName("Massage Map - Properties mapping missing in the message map.")
+		.setHtmlDescription(
+				"Message Map should have mapping of the properties, so the properties would not be blank after the execution completes from the node.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"15 min"));
+		
+		/*
+		 * todoFoundInMapping
+		 */
+		repository.createRule("todoFoundInMapping")
+				.setName("Massage Map - TODO was block found in the message map.")
+				.setHtmlDescription(
+						"One or more TODO blocks were found. Message Map should not have TODO blocks in it.")
+				.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+								"10 min"));
 		// add more rules here
 
 		repository.done();

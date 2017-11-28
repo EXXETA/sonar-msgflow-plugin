@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <input path="/Sample1.xsd"/>
+    <output path="/Sample1.xsd"/>
+    <namespaces>
+        <namespace kind="supplement" prefix="in2" uri="http://schemas.xmlsoap.org/soap/envelope/"/>
+        <namespace kind="supplement" prefix="in" uri="urn:examples:helloservice"/>
+        <namespace kind="extension" prefix="fn" uri="http://www.w3.org/2005/xpath-functions"/>
+    </namespaces>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="MF_MappingFlow_Mapping">
+        <input namespace="urn:examples:helloservice" path="mb:msg(sayHello,assembly,XMLNSC,Properties)" var="MessageAssembly"/>
+        <output namespace="urn:examples:helloservice" path="mb:msg(sayHelloResponse,assembly,XMLNSC,Properties)" var="MessageAssembly2"/>
+        <task type="todo">
+            <input path="$MessageAssembly/Properties"/>
+        </task>
+        <function ref="fn:concat">
+            <input path="$MessageAssembly/sayHello/firstName" var="firstName"/>
+            <output path="$MessageAssembly2/sayHelloResponse/greeting"/>
+            <param name="string1" value="'Welcome'"/>
+            <param name="string2" value="$firstName"/>
+        </function>
+    </mappingDeclaration>
+</mappingRoot>
