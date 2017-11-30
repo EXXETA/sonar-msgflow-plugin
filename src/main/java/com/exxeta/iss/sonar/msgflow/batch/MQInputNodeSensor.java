@@ -18,6 +18,7 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -51,6 +52,8 @@ public class MQInputNodeSensor implements Sensor {
 	 * project files.
 	 */
 	private final FileSystem fs;
+	
+	public final static String PATTERN_STRING = "^[A-Za-z0-9_]+\\.[A-Za-z0-9_]+\\.[A-Za-z0-9_]+\\.(AI|AO)$";
 
 	/**
 	 * 
@@ -249,8 +252,25 @@ public class MQInputNodeSensor implements Sensor {
 											+ ").")
 									.build());
 				}
+				if (!checkMQQueueName((String) msgFlowNode.getProperties().get("queueName"))) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(
+							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "queueNamingConvention"))
+									.message("Naming convention for the queue specified on '"
+											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+											+ ") is not correct.")
+									.build());
+				}
+				
 			}
 		}
+	}
+	
+	public static boolean checkMQQueueName(String name) {
+
+		Pattern pattern = Pattern.compile(PATTERN_STRING);
+		return pattern.matcher(name).find();
+
 	}
 
 }

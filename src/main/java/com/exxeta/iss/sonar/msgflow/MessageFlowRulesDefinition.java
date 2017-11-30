@@ -26,6 +26,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 
 import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.IMSRequestNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MQInputNodeSensor;
 
 /**
  * The class defines the rules. The name, the description, the severity and the
@@ -1324,6 +1325,17 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 								"10 min"));
+		
+		/*
+		 * queueNamingConvention
+		 */
+		repository.createRule("queueNamingConvention")
+		.setName("MQ Nodes - TODO was block found in the message map.")
+		.setHtmlDescription(
+				"MQ nodes should access alias queues. The naming convetion for alias queues is '"+MQInputNodeSensor.PATTERN_STRING+"'.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"10 min"));
 		// add more rules here
 
 		repository.done();
