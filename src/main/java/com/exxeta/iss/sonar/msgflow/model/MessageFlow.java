@@ -158,6 +158,10 @@ public class MessageFlow {
 	private ArrayList<MessageFlowNode> databaseNodes;
 	
 	/**
+	 * a list of Route Nodes of a message flow
+	 */
+	private ArrayList<MessageFlowNode> routeNodes;
+	/**
 	 * a list of miscellaneous Nodes of a message flow
 	 */
 	private ArrayList<MessageFlowNode> miscellaneousNodes;
@@ -213,6 +217,7 @@ public class MessageFlow {
 		routeToLabelNodes			= new ArrayList<MessageFlowNode>();
 		aggregateControlNodes		= new ArrayList<MessageFlowNode>();
 		databaseNodes				= new ArrayList<MessageFlowNode>();
+		routeNodes					= new ArrayList<MessageFlowNode>();
 		miscellaneousNodes			= new ArrayList<MessageFlowNode>();
 		connections					= new ArrayList<MessageFlowConnection>();
 		comments					= new ArrayList<MessageFlowCommentNote>();
@@ -244,6 +249,7 @@ public class MessageFlow {
 								routeToLabelNodes,
 								aggregateControlNodes,
 								databaseNodes,
+								routeNodes,
 								miscellaneousNodes,
 								connections,
 								comments,
@@ -475,6 +481,15 @@ public class MessageFlow {
 	 */
 	public ArrayList<MessageFlowNode> getDatabaseNodes() {
 		return databaseNodes;
+	}
+
+	/**
+	 * The method returns a list of route nodes
+	 * 
+	 * @return the routeNodes
+	 */
+	public ArrayList<MessageFlowNode> getRouteNodes() {
+		return routeNodes;
 	}
 
 	/**

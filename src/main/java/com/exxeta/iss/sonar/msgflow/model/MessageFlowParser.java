@@ -108,6 +108,7 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> routeToLabelNodes,
 					  ArrayList<MessageFlowNode> aggregateControlNodes,
 					  ArrayList<MessageFlowNode> databaseNodes,
+					  ArrayList<MessageFlowNode> routeNodes,
 					  ArrayList<MessageFlowNode> miscellaneousNodes,
 					  ArrayList<MessageFlowConnection> connections,
 					  ArrayList<MessageFlowCommentNote> comments,
@@ -291,6 +292,18 @@ public class MessageFlowParser {
 					statement = statement.substring(statement.indexOf("#")+1, statement.indexOf(".Main"));
 					properties.put("statement", statement);
 				}
+				else if(type.equals("Route")){
+					XPathExpression filterTableCountExp = XPathFactory.newInstance().newXPath().compile("count(//nodes[@id='"+id+"']/filterTable)");
+					int nof = Integer.parseInt((String) filterTableCountExp.evaluate(document,XPathConstants.STRING));
+					ArrayList<String> routeTable = new ArrayList<String>();
+//					System.out.println(noFil);
+					for(; nof > 0 ; nof-- ){
+						XPathExpression outTerminalExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/filterTable["+ nof +"]/@routingOutputTerminal");
+						String outTerminal = (String)outTerminalExp.evaluate(document,XPathConstants.STRING);
+						routeTable.add(outTerminal);
+					}
+					properties.put("routeTerminals", routeTable);
+				}
 				
 				if (type.equals("MQInput") || type.equals("FileInput") || type.equals("WSInput")
 						|| type.equals("SOAPInput")) {
@@ -433,6 +446,11 @@ public class MessageFlowParser {
 					
 					/* Database */
 					databaseNodes.add(mfn);
+				} else if(type.equals("Route")){
+					LOG.debug("Route");
+					
+					/*routeNodes*/
+					routeNodes.add(mfn);
 				} else {
 					LOG.debug("Miscellaneous");
 					

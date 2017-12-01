@@ -1336,6 +1336,17 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 						"10 min"));
+		
+		/*
+		 * InconsistentRouteNode
+		 */
+		repository.createRule("InconsistentRouteNode")
+		.setName("Route Node - The connections from Route Node are inconsistent.")
+		.setHtmlDescription(
+				"All the terminals specified in the filter table should be connected, otherwise it may cause abnormal termination and message might be lost.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"10 min"));
 		// add more rules here
 
 		repository.done();

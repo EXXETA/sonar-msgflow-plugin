@@ -212,9 +212,9 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "NodeLevelAdditionalInstances"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "UnusedSubFlow"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "mappingNodePropertiesMissing"), null);
-		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "todoFoundInMapping"), null);
+		//profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "todoFoundInMapping"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "queueNamingConvention"), null);
-		
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "InconsistentRouteNode"), null);
 		// add more rules here
 		
 		LOG.debug("created profile: " + profile.toString());

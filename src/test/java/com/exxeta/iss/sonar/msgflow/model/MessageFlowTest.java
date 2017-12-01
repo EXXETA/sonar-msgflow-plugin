@@ -283,5 +283,11 @@ public class MessageFlowTest {
 		MessageFlow mf = new MessageFlow("src/test/resources/Database.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getDatabaseNodes().size());
 	}
+	@Test
+	public final void testRouteNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Route.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getRouteNodes().size());
+	}
 }
+
 

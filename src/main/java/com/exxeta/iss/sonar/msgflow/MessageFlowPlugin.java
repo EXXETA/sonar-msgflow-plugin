@@ -45,6 +45,7 @@ import com.exxeta.iss.sonar.msgflow.batch.MessageFlowGenericSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageMapSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MiscellaneousNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ResetContentDescriptorNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.RouteNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapRequestNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.TimeoutControlNodeSensor;
@@ -120,6 +121,7 @@ public class MessageFlowPlugin extends SonarPlugin {
 			MessageFlowGenericSensor.class, // class extends Sensor
 			AggregateControlSensor.class, // class extends Sensor
 			DatabaseNodeSensor.class, // class extends Sensor
+			RouteNodeSensor.class, // class extends Sensor
 			MessageMapSensor.class // class extends Sensor
 			// UI
 			// ...
