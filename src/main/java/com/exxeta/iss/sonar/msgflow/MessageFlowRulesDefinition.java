@@ -17,16 +17,27 @@
  */
 package com.exxeta.iss.sonar.msgflow;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.rule.RuleStatus;
 import org.sonar.api.rule.Severity;
 import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.debt.internal.DefaultDebtRemediationFunction;
 import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.IMSRequestNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQInputNodeSensor;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import com.google.gson.Gson;
 
 /**
  * The class defines the rules. The name, the description, the severity and the
@@ -40,6 +51,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 	 * The logger for the class.
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(MessageFlowRulesDefinition.class);
+	private final Gson gson = new Gson();
 
 	/*
 	 * (non-Javadoc)
@@ -62,6 +74,17 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		NewRepository repository = context
 				.createRepository(MessageFlowCheckList.REPOSITORY_KEY, MessageFlowLanguage.KEY)
 				.setName(MessageFlowCheckList.REPOSITORY_NAME);
+		
+		new AnnotationBasedRulesDefinition(repository, MessageFlowLanguage.KEY)
+			.addRuleClasses(false, MessageFlowCheckList.getChecks());
+		
+		for (NewRule rule : repository.rules()) {
+		      String metadataKey = rule.key();
+		      System.out.println(metadataKey);
+		      // Setting internal key is essential for rule templates (see SONAR-6162), and it is not done by AnnotationBasedRulesDefinition from sslr-squid-bridge version 2.5.1:
+		      rule.setInternalKey(metadataKey);
+		      addMetadata(rule, metadataKey);
+		    }
 
 		/*
 		 * CollectorNodeControlTerminal
@@ -1131,13 +1154,13 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		 * ComputeNodeNameCheck
 		 */
 
-		repository.createRule("ComputeNodeNameCheck")
-				.setName("Compute Node - Incorrect naming convention for Compute Node.")
-				.setHtmlDescription("Compute Node Name should be in UpperCamelCase without spaces so that underlying module can be named normally. (example : TransformRequest)")
-				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
-						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-								"30 min"));
-//				.createParam("format").setName("ModuleNamePattern").setDefaultValue("[A-Z][a-zA-Z0-9]*$").setDescription("Regular Expression");
+//		repository.createRule("ComputeNodeNameCheck")
+//				.setName("Compute Node - Incorrect naming convention for Compute Node.")
+//				.setHtmlDescription("Compute Node Name should be in UpperCamelCase without spaces so that underlying module can be named normally. (example : TransformRequest)")
+//				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
+//						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+//								"30 min"))
+//				.createParam("format").setName("ModuleNamePattern").setDefaultValue(new ComputeNodeNameCheck().format).setDescription("Regular Expression");
 		
 		/*
 		 * TraceNodeDetection
@@ -1353,5 +1376,66 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 
 		LOG.debug("created repository: " + repository.toString());
 	}
+	
+	 @Nullable
+	  private static String readRuleDefinitionResource(String fileName) {
+	    URL resource = MessageFlowRulesDefinition.class.getResource("/org/sonar/l10n/msgflow/rules/" + fileName);
+	    if (resource == null) {
+	      return null;
+	    }
+	    try {
+	      return Resources.toString(resource, Charsets.UTF_8);
+	    } catch (IOException e) {
+	      throw new IllegalStateException("Failed to read: " + resource, e);
+	    }
+	  }
+
+
+	  private void addMetadata(NewRule rule, String metadataKey) {
+	    String json = readRuleDefinitionResource(metadataKey + ".json");
+	    if (json != null) {
+	      RuleMetadata metadata = gson.fromJson(json, RuleMetadata.class);
+	      rule.setSeverity(metadata.defaultSeverity.toUpperCase(Locale.US));
+	      rule.setName(metadata.title);
+	      rule.setTags(metadata.tags);
+//	      rule.setType(RuleType.valueOf(metadata.type));
+	      rule.setStatus(RuleStatus.valueOf(metadata.status.toUpperCase(Locale.US)));
+	      rule.setHtmlDescription(metadata.htmldesc);
+
+	      if (metadata.remediation != null) {
+	        // metadata.remediation is null for template rules
+	        rule.setDebtRemediationFunction(metadata.remediation.remediationFunction(rule.debtRemediationFunctions()));
+//	        rule.setGapDescription(metadata.remediation.linearDesc);
+	      }
+	    }
+	  }
+
+	  private static class RuleMetadata {
+	    String title;
+	    String status;
+	    String htmldesc;
+	    @Nullable
+	    Remediation remediation;
+
+	    String[] tags;
+	    String defaultSeverity;
+	  }
+
+	  private static class Remediation {
+	    String func;
+	    String constantCost;
+	    String linearOffset;
+	    String linearFactor;
+
+	    private DebtRemediationFunction remediationFunction(DebtRemediationFunctions drf) {
+	      if (func.startsWith("Constant")) {
+	        return drf.constantPerIssue(constantCost.replace("mn", "min"));
+	      }
+	      if ("Linear".equals(func)) {
+	        return drf.linear(linearFactor.replace("mn", "min"));
+	      }
+	      return drf.linearWithOffset(linearFactor.replace("mn", "min"), linearOffset.replace("mn", "min"));
+	    }
+	  }
 	
 }

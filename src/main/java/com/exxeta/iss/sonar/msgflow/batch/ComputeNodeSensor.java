@@ -32,6 +32,7 @@ import org.sonar.api.issue.Issuable;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
+import com.exxeta.iss.sonar.msgflow.check.ComputeNodeNameCheck;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
@@ -57,7 +58,7 @@ public class ComputeNodeSensor implements Sensor {
 	/**
 	 * pattern to check the compute node name
 	 */
-	public final static String PATTERN_STRING = "[A-Z][a-zA-Z0-9]*$";
+	public final static String PATTERN_STRING = new ComputeNodeNameCheck().format;
 	
 	/**
 	 * 
