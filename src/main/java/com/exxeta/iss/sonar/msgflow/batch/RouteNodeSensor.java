@@ -76,7 +76,7 @@ public class RouteNodeSensor implements Sensor {
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			// the actual rule ...
-			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMqGetNodes().iterator();
+			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getRouteNodes().iterator();
 			
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
