@@ -279,6 +279,11 @@ public class MessageFlowParser {
 					String computeExpression = (String) computeExpressionExp.evaluate(document,XPathConstants.STRING);
 					computeExpression = computeExpression.substring(computeExpression.indexOf("#")+1, computeExpression.indexOf(".Main"));
 					properties.put("computeExpression", computeExpression);
+					
+					XPathExpression dataSourceExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@dataSource");
+					String dataSource = (String) dataSourceExp.evaluate(document,XPathConstants.STRING);
+					properties.put("dataSource", dataSource);
+					
 				}
 				else if(type.equals("Filter")){
 					XPathExpression filterExpressionExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@filterExpression");

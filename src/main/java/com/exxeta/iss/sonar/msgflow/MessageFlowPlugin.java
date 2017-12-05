@@ -25,6 +25,7 @@ import org.sonar.api.SonarPlugin;
 import com.exxeta.iss.sonar.msgflow.batch.AggregateControlSensor;
 import com.exxeta.iss.sonar.msgflow.batch.CollectorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ComputeNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.DSNSensor;
 import com.exxeta.iss.sonar.msgflow.batch.DatabaseNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileOutputNodeSensor;
@@ -122,7 +123,8 @@ public class MessageFlowPlugin extends SonarPlugin {
 			AggregateControlSensor.class, // class extends Sensor
 			DatabaseNodeSensor.class, // class extends Sensor
 			RouteNodeSensor.class, // class extends Sensor
-			MessageMapSensor.class // class extends Sensor
+			MessageMapSensor.class, // class extends Sensor
+			DSNSensor.class //class extends Sensor
 			// UI
 			// ...
 		);

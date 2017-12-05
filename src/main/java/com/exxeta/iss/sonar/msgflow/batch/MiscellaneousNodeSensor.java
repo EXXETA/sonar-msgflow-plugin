@@ -80,6 +80,8 @@ public class MiscellaneousNodeSensor implements Sensor {
 			
 			String [] nodesWithMultipleInputs = {"CDOutput","FileRead","FTEOutput","TCPIPServerOutput"};
 			
+			String [] deprecatedNodes = {"Check"};
+			
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
 				if(IsNodeWithInputTerminals(msgFlowNode.getType()) && msgFlowNode.getInputTerminals().size()==0){
@@ -102,7 +104,15 @@ public class MiscellaneousNodeSensor implements Sensor {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "SOAPAsyncNodeFault"))
-				    	        	  .message("In SOAP Async node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") 'fault' terminal is not connected")
+				    	        	  .message("In SOAP Async node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") 'fault' terminal is not connected.")
+				    	        	  .build());
+				}
+				
+				if(Arrays.asList(deprecatedNodes).contains(msgFlowNode.getType())){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "DeprecatedNodeCheck"))
+				    	        	  .message("Deprecated node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is used in the message flow.")
 				    	        	  .build());
 				}
 			}
@@ -117,4 +127,6 @@ public class MiscellaneousNodeSensor implements Sensor {
 			return false;
 		}
 	}
+	
+
 }

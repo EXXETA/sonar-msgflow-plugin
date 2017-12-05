@@ -75,12 +75,13 @@ public class MessageMapSensor implements Sensor {
 	 */
 	@Override
 	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
-
+		
+		
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPattern("*.map"))) {
 			/*
 			 * retrieve the message flow object
 			 */
-			if (inputFile.absolutePath().endsWith(".map")) {
+//			if (inputFile.absolutePath().endsWith(".map")) {
 				MessageMap msgMap = MessageFlowProject.getInstance().getMessageMap(inputFile.absolutePath());
 
 				// the actual rule ...
@@ -114,5 +115,5 @@ public class MessageMapSensor implements Sensor {
 				}
 			}
 		}
-	}
+//	}
 }
