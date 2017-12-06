@@ -15,6 +15,7 @@ import org.sonar.api.issue.Issuable;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
+import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
@@ -77,7 +78,7 @@ public class FilterNodeSensor implements Sensor {
 	 */
 	@Override
 	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 
 			/*
 			 * retrieve the message flow object

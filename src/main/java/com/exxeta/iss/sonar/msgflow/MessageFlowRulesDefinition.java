@@ -81,7 +81,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 //		
 //		for (NewRule rule : repository.rules()) {
 //		      String metadataKey = rule.key();
-//		      System.out.println(metadataKey);
+//		      LOG.debug("Loading metadata : "+metadataKey);
 //		      // Setting internal key is essential for rule templates (see SONAR-6162), and it is not done by AnnotationBasedRulesDefinition from sslr-squid-bridge version 2.5.1:
 //		      rule.setInternalKey(metadataKey);
 //		      addMetadata(rule, metadataKey);
@@ -1160,8 +1160,8 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 				.setHtmlDescription("Compute Node Name should be in UpperCamelCase without spaces so that underlying module can be named normally. (example : TransformRequest)")
 				.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-								"30 min"))
-				.createParam("format").setName("ModuleNamePattern").setDefaultValue(new ComputeNodeNameCheck().format).setDescription("Regular Expression");
+								"30 min"));
+//				.createParam("format").setName("ModuleNamePattern").setDefaultValue(new ComputeNodeNameCheck().format).setDescription("Regular Expression");
 		
 		/*
 		 * TraceNodeDetection
@@ -1402,6 +1402,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 	
 //	 @Nullable
 //	  private static String readRuleDefinitionResource(String fileName) {
+//		 LOG.debug("Opening file "+fileName);
 //	    URL resource = MessageFlowRulesDefinition.class.getResource("/org/sonar/l10n/msgflow/rules/" + fileName);
 //	    if (resource == null) {
 //	      return null;
@@ -1415,6 +1416,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 //
 //
 //	  private void addMetadata(NewRule rule, String metadataKey) {
+//		LOG.debug("Adding metadata for "+metadataKey);
 //	    String json = readRuleDefinitionResource(metadataKey + ".json");
 //	    if (json != null) {
 //	      RuleMetadata metadata = gson.fromJson(json, RuleMetadata.class);
