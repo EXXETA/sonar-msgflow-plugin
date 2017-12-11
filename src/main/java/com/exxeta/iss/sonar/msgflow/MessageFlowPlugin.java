@@ -45,6 +45,7 @@ import com.exxeta.iss.sonar.msgflow.batch.MessageFlowDescriptionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageFlowGenericSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MessageMapSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MiscellaneousNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.NamingConventionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ResetContentDescriptorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.RouteNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapInputNodeSensor;
@@ -74,11 +75,12 @@ public class MessageFlowPlugin extends SonarPlugin {
 	/**
 	 * The FILE_SUFFIXES_DEFAULTVALUE for the plug-in.
 	 */
-	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow,.map,.esql";
+	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow,.map";
 	
 	public static final String [] FLOW_PATH_PATTERNS = {"*.msgflow","*.subflow"};
 	public static final String [] MAP_PATH_PATTERNS = {"*.map"};
 	public static final String [] ESQL_PATH_PATTERNS = {"*.esql"};
+	public static final String [] POM_PATH_PATTERNS = {"*pom.xml"};
 	
 	/* (non-Javadoc)
 	 * @see org.sonar.api.Plugin#getExtensions()
@@ -128,7 +130,8 @@ public class MessageFlowPlugin extends SonarPlugin {
 			DatabaseNodeSensor.class, // class extends Sensor
 			RouteNodeSensor.class, // class extends Sensor
 			MessageMapSensor.class, // class extends Sensor
-			DSNSensor.class //class extends Sensor
+			DSNSensor.class, //class extends Sensor
+			NamingConventionSensor.class //class extends Sensor
 			// UI
 			// ...
 		);

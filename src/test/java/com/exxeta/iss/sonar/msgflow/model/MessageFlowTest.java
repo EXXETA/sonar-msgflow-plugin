@@ -54,6 +54,7 @@ public class MessageFlowTest {
 		MessageFlow mf = new MessageFlow("src/test/resources/Compute.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getComputeNodes().size());
 		assertEquals("Compute_Compute", mf.getComputeNodes().get(0).getProperties().get("computeExpression"));
+		assertEquals("esql://routine/#Compute_Compute.Main", mf.getComputeNodes().get(0).getProperties().get("computeExpressionFull"));
 		assertEquals("ORACLEDB", mf.getComputeNodes().get(0).getProperties().get("dataSource"));
 		
 		/* TODO: insert additional tests here */

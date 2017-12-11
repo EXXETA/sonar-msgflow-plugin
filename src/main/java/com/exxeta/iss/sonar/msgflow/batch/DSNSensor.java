@@ -100,10 +100,14 @@ public class DSNSensor implements Sensor {
 						&& !(((String) msgFlowNode.getProperties().get("dataSource")).isEmpty())) {
 
 					String moduleName = (String) msgFlowNode.getProperties().get("computeExpression");
-					for (InputFile esqlfile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
-						if (esqlfile.absolutePath().endsWith(".esql")) {
-							if(checkForModule(esqlfile.absolutePath(), moduleName)){
-								if (!checkForDbcall(esqlfile.absolutePath(), moduleName)) {
+					String moduleNameFull = "esql://routine/generic#initialize.Main";//(String) msgFlowNode.getProperties().get("computeExpressionFull");
+					String folderName = moduleNameFull.substring(moduleNameFull.indexOf("esql://routine/")+15, moduleNameFull.indexOf("#"));
+					File msgflow = new  File(inputFile.absolutePath());
+					File directoryEsql = new File(msgflow.getParent()+"\\"+folderName);
+					for (File esqlfile : directoryEsql.listFiles()) {
+						if (esqlfile.getAbsolutePath().endsWith(".esql")) {
+							if(checkForModule(esqlfile, moduleName)){
+								if (!checkForDbcall(esqlfile, moduleName)) {
 									Issuable issuable = perspectives.as(Issuable.class, inputFile);
 									issuable.addIssue(issuable.newIssueBuilder()
 											.ruleKey(RuleKey.of("msgflow", "DSNWithoutDBCall"))
@@ -117,9 +121,9 @@ public class DSNSensor implements Sensor {
 		}
 	}
 
-	public static boolean checkForDbcall(String inputfile, String moduleName) {
+	public static boolean checkForDbcall(File file, String moduleName) {
 		boolean dbCall = false;
-		File file = new File(inputfile);
+//		File file = new File(inputfile);
 		ArrayList<String> moduleLines = new ArrayList<String>();
 		boolean isModuleLine =false;
 		try {
@@ -176,10 +180,10 @@ public class DSNSensor implements Sensor {
 		return dbCall;
 	}
 	
-	public static boolean checkForModule(String inputfile, String moduleName) {
+	public static boolean checkForModule(File file, String moduleName) {
 		boolean moduleExists = false;
 		try{
-			File file = new File(inputfile);
+//			File file = new File(inputfile);
 			String fileAsString = FileUtils.readFileToString(file, "UTF-8");
 			if (fileAsString.contains(moduleName) && (fileAsString.toUpperCase().replaceAll("\\s+", ""))
 					.contains("CREATECOMPUTEMODULE" + moduleName.toUpperCase())) {
