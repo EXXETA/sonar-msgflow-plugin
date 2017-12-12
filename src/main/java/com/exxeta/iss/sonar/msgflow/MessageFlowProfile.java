@@ -217,6 +217,7 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "InconsistentRouteNode"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "DeprecatedNodeCheck"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "DSNWithoutDBCall"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MavenProjectNamingConventions"), null);
 		// add more rules here
 		
 		LOG.debug("created profile: " + profile.toString());

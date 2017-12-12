@@ -21,6 +21,8 @@ import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
+import com.exxeta.iss.sonar.msgflow.model.PomObject;
+import com.exxeta.iss.sonar.msgflow.model.PomParser;
 
 /**
  * The class (sensor) contains the method to analyse the connections and 
@@ -72,17 +74,53 @@ public class NamingConventionSensor implements Sensor {
 	@Override
 	public void analyse(Project arg0, SensorContext arg1) {
 		
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("#####################################################################");
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPattern("*.xml"))) {
+		
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
+			String fullPath = inputFile.absolutePath();
 			
-			/* 
-			 * retrieve the message flow object
-			 */
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println(inputFile.absolutePath());
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			if(fullPath.endsWith("_MF.msgflow")){
+				boolean violationDetected = false;
+				File file = new File(inputFile.absolutePath());
+				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getAbsolutePath()+"\\pom.xml", new PomParser());
+				String artifactName = pomObj.getArtifact().toString();
+				if(!inputFile.absolutePath().endsWith(artifactName+"_MF.msgflow")){
+					violationDetected = true;
+				}
+				for(String module : pomObj.getModules()){
+					if((module.indexOf(artifactName+"_App") != -1) || (module.indexOf(artifactName+"_Lib") != -1) 
+							|| (module.indexOf(artifactName+"_Properties") != -1)){
+						violationDetected = true;
+					}
+				}
+				if(violationDetected){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    		.ruleKey(RuleKey.of("msgflow", "MavenProjectNamingConventions"))
+				    		.message("The Naming conventions for the message flow and the artifacts is not followed").build());
+				}
+				
+			}else if(fullPath.substring(fullPath.lastIndexOf("\\")+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]")){
+				boolean violationDetected = false;
+				File file = new File(inputFile.absolutePath());
+				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"\\pom.xml", new PomParser());
+				String artifactName = pomObj.getArtifact().toString();
+				if(!inputFile.absolutePath().contains(artifactName)){
+					violationDetected = true;
+				}
+				for(String module : pomObj.getModules()){
+					if(module.contains(artifactName) && ((module.indexOf(artifactName+"_App") != -1) || (module.indexOf(artifactName+"_Lib") != -1) 
+							|| (module.indexOf(artifactName+"_DAR") != -1))){
+						violationDetected = true;
+					}
+				}
+				if(violationDetected){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    		.ruleKey(RuleKey.of("msgflow", "MavenProjectNamingConventions"))
+				    		.message("The Naming conventions for the message flow and the artifacts is not followed").build());
+				}
+				
+			}
 			
 		}
 	}

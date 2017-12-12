@@ -43,8 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		/* Arjav Shah : Added 36 rules(34 Active, 2 Inactive) */
-		assertEquals(105, rp.getActiveRules().size());
+		/* Arjav Shah : Added 37 rules(35 Active, 2 Inactive) */
+		assertEquals(106, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		

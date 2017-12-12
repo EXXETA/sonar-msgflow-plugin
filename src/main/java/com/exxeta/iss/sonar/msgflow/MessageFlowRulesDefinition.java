@@ -1393,6 +1393,17 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 						"10 min"));
+		
+		/*
+		 * MavenProjectNamingConventions
+		 */
+		repository.createRule("MavenProjectNamingConventions")
+		.setName("Project Naming - Maven project should follow the naming conventions.")
+		.setHtmlDescription(
+				"The maven project artifacts and modules should follow Naming conventions.")
+		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
+						"10 min"));
 		// add more rules here
 
 		repository.done();
