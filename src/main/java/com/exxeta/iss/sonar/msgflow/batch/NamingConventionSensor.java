@@ -81,7 +81,7 @@ public class NamingConventionSensor implements Sensor {
 			if(fullPath.endsWith("_MF.msgflow")){
 				boolean violationDetected = false;
 				File file = new File(inputFile.absolutePath());
-				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getAbsolutePath()+"\\pom.xml", new PomParser());
+				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getAbsolutePath()+File.separator+"pom.xml", new PomParser());
 				String artifactName = pomObj.getArtifact().toString();
 				if(!inputFile.absolutePath().endsWith(artifactName+"_MF.msgflow")){
 					violationDetected = true;
@@ -99,10 +99,10 @@ public class NamingConventionSensor implements Sensor {
 				    		.message("The Naming conventions for the message flow and the artifacts is not followed").build());
 				}
 				
-			}else if(fullPath.substring(fullPath.lastIndexOf("\\")+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]")){
+			}else if(fullPath.substring(fullPath.lastIndexOf(File.separator)+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]")){
 				boolean violationDetected = false;
 				File file = new File(inputFile.absolutePath());
-				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getParentFile().getAbsolutePath()+"\\pom.xml", new PomParser());
+				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getParentFile().getAbsolutePath()+File.separator+"pom.xml", new PomParser());
 				String artifactName = pomObj.getArtifact().toString();
 				if(!inputFile.absolutePath().contains(artifactName)){
 					violationDetected = true;
