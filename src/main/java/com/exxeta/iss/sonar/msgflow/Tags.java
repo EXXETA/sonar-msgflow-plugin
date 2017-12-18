@@ -62,6 +62,12 @@ public final class Tags {
 	 * The string for COMPLETENESS.
 	 */
 	public static final String COMPLETENESS = "completeness";
+	
+	/**
+	 * The string for DEPRECATED
+	 */
+	public static final String DEPRECATED = "deprecated";
+	
 	/**
 	 * Constructor
 	 * 

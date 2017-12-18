@@ -1357,9 +1357,9 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setName("MQ Nodes - TODO was block found in the message map.")
 		.setHtmlDescription(
 				"MQ nodes should access alias queues. The naming convetion for alias queues is '"+MQInputNodeSensor.PATTERN_STRING+"'.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+		.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-						"10 min"));
+						"15 min"));
 		
 		/*
 		 * InconsistentRouteNode
@@ -1368,9 +1368,9 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setName("Route Node - The connections from Route Node are inconsistent.")
 		.setHtmlDescription(
 				"All the terminals specified in the filter table should be connected, otherwise it may cause abnormal termination and message might be lost.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+		.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-						"10 min"));
+						"1 h"));
 		
 		/*
 		 * DeprecatedNodeCheck
@@ -1380,9 +1380,9 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setName("Deprecated Nodes - Deprecated nodes should not be used.")
 		.setHtmlDescription(
 				"Usage of deprecated nodes in the message flow is discouraged.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+		.setSeverity(Severity.MINOR).setTags(Tags.DEPRECATED,Tags.STANDARD).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
-						"10 min"));
+						"5 min"));
 		/*
 		 * DSNWithoutDBCall
 		 */
@@ -1390,7 +1390,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setName("Compute Node - Data Source property of compute node is specified without DB call.")
 		.setHtmlDescription(
 				"Data Source should not be specified if compute node is not interacting with Database.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS,Tags.PERFORMANCE).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 						"10 min"));
 		
@@ -1401,7 +1401,7 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		.setName("Project Naming - Maven project should follow the naming conventions.")
 		.setHtmlDescription(
 				"The maven project artifacts and modules should follow Naming conventions.")
-		.setSeverity(Severity.MAJOR).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
+		.setSeverity(Severity.MAJOR).setTags(Tags.STANDARD).setDebtRemediationFunction(
 				new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null,
 						"10 min"));
 		// add more rules here
