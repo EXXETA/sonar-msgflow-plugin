@@ -99,7 +99,9 @@ public class NamingConventionSensor implements Sensor {
 				    		.message("The Naming conventions for the message flow and the artifacts is not followed").build());
 				}
 				
-			}else if(fullPath.substring(fullPath.lastIndexOf(File.separator)+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]")){
+			}else if((!fullPath.contains(".subflow")) && (fullPath.substring(fullPath.lastIndexOf(File.separator)+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]"))){
+				
+				System.out.println(File.separator);
 				boolean violationDetected = false;
 				File file = new File(inputFile.absolutePath());
 				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getParentFile().getAbsolutePath()+File.separator+"pom.xml", new PomParser());
