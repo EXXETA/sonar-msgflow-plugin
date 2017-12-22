@@ -22,19 +22,37 @@ import java.util.List;
 
 import org.sonar.api.SonarPlugin;
 
+import com.exxeta.iss.sonar.msgflow.batch.AggregateControlSensor;
 import com.exxeta.iss.sonar.msgflow.batch.CollectorNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ComputeNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.DSNSensor;
+import com.exxeta.iss.sonar.msgflow.batch.DatabaseNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.FileOutputNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.HttpInputNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.HttpReplyNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.HttpRequestNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.IMSRequestNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.LabelNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MQGetNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MQHeaderNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQOutputNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MQReplyNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageFlowConnectionSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageFlowDescriptionSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageFlowGenericSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MessageMapSensor;
+import com.exxeta.iss.sonar.msgflow.batch.MiscellaneousNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.NamingConventionSensor;
 import com.exxeta.iss.sonar.msgflow.batch.ResetContentDescriptorNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.RouteNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapInputNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.SoapRequestNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.TimeoutControlNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.TimeoutNotificationNodeSensor;
+import com.exxeta.iss.sonar.msgflow.batch.TraceNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.TryCatchNodeSensor;
 
 /**
@@ -57,7 +75,12 @@ public class MessageFlowPlugin extends SonarPlugin {
 	/**
 	 * The FILE_SUFFIXES_DEFAULTVALUE for the plug-in.
 	 */
-	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow";
+	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow,.map";
+	
+	public static final String [] FLOW_PATH_PATTERNS = {"*.msgflow","*.subflow"};
+	public static final String [] MAP_PATH_PATTERNS = {"*.map"};
+	public static final String [] ESQL_PATH_PATTERNS = {"*.esql"};
+	public static final String [] POM_PATH_PATTERNS = {"*pom.xml"};
 	
 	/* (non-Javadoc)
 	 * @see org.sonar.api.Plugin#getExtensions()
@@ -83,15 +106,32 @@ public class MessageFlowPlugin extends SonarPlugin {
 			FileOutputNodeSensor.class, // class extends Sensor
 			HttpInputNodeSensor.class, // class extends Sensor
 			HttpRequestNodeSensor.class, // class extends Sensor
+			HttpReplyNodeSensor.class, // class extends Sensor
 			MQInputNodeSensor.class, // class extends Sensor
 			MQOutputNodeSensor.class, // class extends Sensor
+			MQGetNodeSensor.class, // class extends Sensor
+			MQHeaderNodeSensor.class, // class extends Sensor
+			MQReplyNodeSensor.class, // class extends Sensor
 			ResetContentDescriptorNodeSensor.class, // class extends Sensor
 			SoapInputNodeSensor.class, // class extends Sensor
 			SoapRequestNodeSensor.class, // class extends Sensor
 			TimeoutControlNodeSensor.class, // class extends Sensor
 			TimeoutNotificationNodeSensor.class, // class extends Sensor
-			TryCatchNodeSensor.class // class extends Sensor
-
+			TryCatchNodeSensor.class,		// class extends Sensor
+			MessageFlowConnectionSensor.class,		// class extends Sensor 
+			IMSRequestNodeSensor.class,// class extends Sensor 
+			MessageFlowDescriptionSensor.class, // class extends Sensor 
+			FilterNodeSensor.class, //class extends Sensor 
+			TraceNodeSensor.class, // class extends Sensor
+			MiscellaneousNodeSensor.class, // class extends Sensor
+			LabelNodeSensor.class, // class extends Sensor
+			MessageFlowGenericSensor.class, // class extends Sensor
+			AggregateControlSensor.class, // class extends Sensor
+			DatabaseNodeSensor.class, // class extends Sensor
+			RouteNodeSensor.class, // class extends Sensor
+			MessageMapSensor.class, // class extends Sensor
+			DSNSensor.class, //class extends Sensor
+			NamingConventionSensor.class //class extends Sensor
 			// UI
 			// ...
 		);

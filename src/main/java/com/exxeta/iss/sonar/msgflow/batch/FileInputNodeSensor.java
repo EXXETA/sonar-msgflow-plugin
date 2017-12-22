@@ -28,6 +28,7 @@ import org.sonar.api.issue.Issuable;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
+import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
@@ -84,7 +85,7 @@ public class FileInputNodeSensor implements Sensor {
 	 */
 	@Override
 	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 																							
 			/* 
 			 * retrieve the message flow object
@@ -192,9 +193,29 @@ public class FileInputNodeSensor implements Sensor {
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
 				    	        	  .build());
 				}
+				
+				if (msgFlowNode.getMessageDomainProperty().equals("XMLNS")) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "XMLNSCoverXMLNS"))
+							.message("'Message domain' under 'Input Message Parsing' for '"
+									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+									+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.")
+							.build());
+				}
+				
+				if ((!((String) msgFlowNode.getProperties().get("componentLevel")).isEmpty())
+						&& (((String) msgFlowNode.getProperties().get("componentLevel")).equals("node"))
+						&& (!((String) msgFlowNode.getProperties().get("additionalInstances")).isEmpty())
+						&& (Integer.parseInt((String)(msgFlowNode.getProperties().get("additionalInstances"))) > 0)) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+					issuable.addIssue(
+							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "NodeLevelAdditionalInstances"))
+									.message("Additional Intances defined at the node level for"
+											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+											+ ").")
+									.build());
+				}
 			}
-			
 		}
 	}
-
 }

@@ -17,7 +17,10 @@
  */
 package com.exxeta.iss.sonar.msgflow.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -50,6 +53,9 @@ public class MessageFlowTest {
 	public final void testGetComputeNodes() {
 		MessageFlow mf = new MessageFlow("src/test/resources/Compute.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getComputeNodes().size());
+		assertEquals("Compute_Compute", mf.getComputeNodes().get(0).getProperties().get("computeExpression"));
+		assertEquals("esql://routine/#Compute_Compute.Main", mf.getComputeNodes().get(0).getProperties().get("computeExpressionFull"));
+		assertEquals("ORACLEDB", mf.getComputeNodes().get(0).getProperties().get("dataSource"));
 		
 		/* TODO: insert additional tests here */
 	}
@@ -150,6 +156,9 @@ public class MessageFlowTest {
 		MessageFlow mf = new MessageFlow("src/test/resources/SoapRequest.msgflow", new MessageFlowParser());
 		assertEquals(1, mf.getSoapRequestNodes().size());
 		
+		MessageFlow mf1 = new MessageFlow("src/test/resources/SoapTest.msgflow", new MessageFlowParser());
+		assertEquals(0, Integer.parseInt((String)mf1.getSoapRequestNodes().get(0).getProperties().get("requestTimeout")));
+		
 		/* TODO: insert additional tests here */
 	}
 
@@ -185,5 +194,102 @@ public class MessageFlowTest {
 		
 		/* TODO: insert additional tests here */
 	}
-
+	
+	@Test
+	public final void testMQGetNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MQNodes.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getMqGetNodes().size());
+		assertNotEquals(mf.getMqGetNodes().get(0).getName(), mf.getMqGetNodes().get(0).getProperties().get("queueName"));
+	}
+	@Test
+	public final void testIMSRequestNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/IMSRequest.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getImsRequestNodes().size());
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("shortDescription"), "Short Description");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("longDescription"), "Long Description goes here");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("commitMode"), "commitThenSend");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("configurableService"), "XYZ");
+		assertEquals(mf.getImsRequestNodes().get(0).getMessageDomainProperty(), "BLOB");
+		assertEquals(mf.getImsRequestNodes().get(0).getProperties().get("useNodeProperties"), "false");
+	}
+	@Test
+	public final void testConnections() {
+		MessageFlow mf = new MessageFlow("src/test/resources/SelfConnectingNode.msgflow", new MessageFlowParser());
+		assertEquals(4, mf.getConnections().size());
+		/*checking Self connecting Nodes*/ 
+		assertEquals(mf.getConnections().get(1).getSrcNode(), mf.getConnections().get(1).getTargetNode());
+		assertNotEquals(mf.getConnections().get(2).getSrcNode(), mf.getConnections().get(2).getTargetNode());
+	}
+	@Test
+	public final void testDescription() {
+		MessageFlow mf = new MessageFlow("src/test/resources/IMSRequest.msgflow", new MessageFlowParser());
+		assertEquals("Short Description", mf.getShortDescription().toString());
+		assertEquals("Long Description goes here", mf.getLongDescription().toString());
+		/*checking Self connecting Nodes*/ 
+		
+		}
+	@Test
+	public final void testMqHeaderNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MessageFlowComment.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getMqHeaderNodes().size());
+		}
+	@Test
+	public final void testFilterNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/FilterNode.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getFilterNodes().size());
+	}
+	@Test
+	public final void testMQReplyNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/MQTxnMode.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getMqReplyNodes().size());
+		assertFalse(!((String)mf.getMqReplyNodes().get(0).getProperties().get("transactionMode")).isEmpty());
+	}
+	@Test
+	public final void testHttpReplyNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/HttpReply.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getHttpReplyNodes().size());
+		assertEquals("false", mf.getHttpReplyNodes().get(0).getProperties().get("generateDefaultHttpHeaders"));
+		assertEquals("false", mf.getHttpReplyNodes().get(0).getProperties().get("ignoreTransportFailures"));
+	}
+	@Test
+	public final void testTraceNodes() {
+		MessageFlow mf = new MessageFlow("src/test/resources/Trace.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getTraceNodes().size());
+	}
+	@Test
+	public final void testMiscellaneousNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/MiscellaneousNode.msgflow", new MessageFlowParser());
+		assertEquals(2, mf.getMiscellaneousNodes().size());
+		
+		MessageFlow mf1 = new MessageFlow("src/test/resources/SubFlow.msgflow", new MessageFlowParser());
+		assertEquals(1, mf1.getMiscellaneousNodes().size());
+	}
+	@Test
+	public final void testLabelNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Label.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getLabelNodes().size());
+	}
+	@Test
+	public final void testRouteToLabelNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Label.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getRouteToLabelNodes().size());
+	}
+	@Test
+	public final void testAggregateControlNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/AggregateControl.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getAggregateControlNodes().size());
+		
+	}
+	@Test
+	public final void testDatabaseNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Database.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getDatabaseNodes().size());
+	}
+	@Test
+	public final void testRouteNodes(){
+		MessageFlow mf = new MessageFlow("src/test/resources/Route.msgflow", new MessageFlowParser());
+		assertEquals(1, mf.getRouteNodes().size());
+	}
 }
+
+

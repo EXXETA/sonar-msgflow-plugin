@@ -28,6 +28,7 @@ import org.sonar.api.issue.Issuable;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
+import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
@@ -84,7 +85,7 @@ public class TryCatchNodeSensor implements Sensor {
 	 */
 	@Override
 	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().hasLanguage("msgflow"))) {
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			
 			/* 
 			 * retrieve the message flow object
@@ -136,6 +137,14 @@ public class TryCatchNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "TryCatchNodeMonitoringEvents"))
 				    	        	  .message("There are no monitoring events defined or the "
 				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
+				    	        	  .build());
+				}
+				
+				if (msgFlowNode.getInputTerminals().size()==0) {
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
+				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
 				    	        	  .build());
 				}
 			}

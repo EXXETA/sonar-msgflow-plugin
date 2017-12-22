@@ -1,0 +1,13 @@
+{
+  "title": "Compute Node - Incorrect naming convention for Compute Node.",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "30min"
+  },
+  "htmldesc": "Compute Node Name should be in UpperCamelCase without spaces so that underlying module can be named normally. (example : TransformRequest)",
+  "tags": [
+    "standard"
+  ],
+  "defaultSeverity": "Minor"
+}

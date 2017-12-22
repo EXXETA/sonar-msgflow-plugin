@@ -17,7 +17,8 @@
  */
 package com.exxeta.iss.sonar.msgflow;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,7 +43,8 @@ public class MessageFlowProfileTest {
 		RulesProfile rp = mfp.createProfile(ValidationMessages.create());
 		
 		/* Currently, there should be 71 rules. */
-		assertEquals(71, rp.getActiveRules().size());
+		/* Arjav Shah : Added 37 rules(35 Active, 2 Inactive) */
+		assertEquals(106, rp.getActiveRules().size());
 		
 		ArrayList<String> ruleKeys = new ArrayList<String>();
 		
@@ -153,6 +155,41 @@ public class MessageFlowProfileTest {
 		assertTrue("TryCatchNodeTryTerminal is not defined as a rule.", ruleKeys.contains("TryCatchNodeTryTerminal"));
 		assertTrue("TryCatchNodeCatchTerminal is not defined as a rule.", ruleKeys.contains("TryCatchNodeCatchTerminal"));
 		assertTrue("TryCatchNodeMonitoringEvents is not defined as a rule.", ruleKeys.contains("TryCatchNodeMonitoringEvents"));
+		
+		//new rules
+		assertTrue("SelfConnectingNodes is not defined as a rule.", ruleKeys.contains("SelfConnectingNodes"));
+//		assertTrue("MQNodeNameMatchesQueueName is not defined as a rule.", ruleKeys.contains("MQNodeNameMatchesQueueName"));
+		assertTrue("IMSRequestDescription is not defined as a rule.", ruleKeys.contains("IMSRequestDescription"));
+		assertTrue("IMSRequestNodeDefinedProperties is not defined as a rule.", ruleKeys.contains("IMSRequestNodeDefinedProperties"));
+		assertTrue("IMSRequestCommitMode is not defined as a rule.", ruleKeys.contains("IMSRequestCommitMode"));
+		assertTrue("IMSRequestMessageDomain is not defined as a rule.", ruleKeys.contains("IMSRequestMessageDomain"));
+		assertTrue("MessageFlowDescription is not defined as a rule.", ruleKeys.contains("MessageFlowDescription"));
+		assertTrue("MQHeaderNodeDetection is not defined as a rule.", ruleKeys.contains("MQHeaderNodeDetection"));
+		assertTrue("FilterNodeNameCheck is not defined as a rule.", ruleKeys.contains("FilterNodeNameCheck"));
+		assertTrue("IMSRequestNodeName is not defined as a rule.", ruleKeys.contains("IMSRequestNodeName"));
+		assertTrue("MQNodeTxnMode is not defined as a rule.", ruleKeys.contains("MQNodeTxnMode"));
+		assertTrue("HttpReplyIgnoreTransportFailuresCheck is not defined as a rule.", ruleKeys.contains("HttpReplyIgnoreTransportFailuresCheck"));
+		assertTrue("HttpReplyGenerateDefaultHttpHeadersCheck is not defined as a rule.", ruleKeys.contains("HttpReplyGenerateDefaultHttpHeadersCheck"));
+		assertTrue("ComputeNodeNameCheck is not defined as a rule.", ruleKeys.contains("ComputeNodeNameCheck"));
+		assertTrue("TraceNodeDetection is not defined as a rule.", ruleKeys.contains("TraceNodeDetection"));
+		assertTrue("XMLNSCoverXMLNS is not defined as a rule.", ruleKeys.contains("XMLNSCoverXMLNS"));
+		assertTrue("DisconnectedNode is not defined as a rule.", ruleKeys.contains("DisconnectedNode"));
+		assertTrue("MQReplyWithoutMQInput is not defined as a rule.", ruleKeys.contains("MQReplyWithoutMQInput"));
+		assertTrue("LabelWithoutConnections is not defined as a rule.", ruleKeys.contains("LabelWithoutConnections"));
+		assertTrue("AllInputTerminalsNotConnected is not defined as a rule.", ruleKeys.contains("AllInputTerminalsNotConnected"));
+		assertTrue("LabelWithoutRouteTo is not defined as a rule.", ruleKeys.contains("LabelWithoutRouteTo"));
+		assertTrue("MessageFlowInconsistentReply is not defined as a rule.", ruleKeys.contains("MessageFlowInconsistentReply"));
+		assertTrue("SOAPAsyncNodeFault is not defined as a rule.", ruleKeys.contains("SOAPAsyncNodeFault"));
+		assertTrue("aggregateControlNodeTimeout is not defined as a rule.", ruleKeys.contains("aggregateControlNodeTimeout"));
+		assertTrue("NodeNameModuleName is not defined as a rule.", ruleKeys.contains("NodeNameModuleName"));
+		assertTrue("OneModuleMultipleNodes is not defined as a rule.", ruleKeys.contains("OneModuleMultipleNodes"));
+		assertTrue("NodeLevelAdditionalInstances is not defined as a rule.", ruleKeys.contains("NodeLevelAdditionalInstances"));
+		assertTrue("UnusedSubFlow is not defined as a rule.", ruleKeys.contains("UnusedSubFlow"));
+		assertTrue("mappingNodePropertiesMissing is not defined as a rule.", ruleKeys.contains("mappingNodePropertiesMissing"));
+		//assertTrue("todoFoundInMapping is not defined as a rule.", ruleKeys.contains("todoFoundInMapping"));
+		assertTrue("queueNamingConvention is not defined as a rule.", ruleKeys.contains("queueNamingConvention"));
+		assertTrue("InconsistentRouteNode is not defined as a rule.", ruleKeys.contains("InconsistentRouteNode"));
 	}
 
 }
+

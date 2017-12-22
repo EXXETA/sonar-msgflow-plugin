@@ -40,6 +40,35 @@ public final class Tags {
 	public static final String SECURITY = "security";
 	
 	/**
+	 * The string for READABILITY.
+	 */
+	public static final String READABILITY = "readability";
+	
+	/**
+	 * The string for STANDARD.
+	 */
+	public static final String STANDARD = "standard";
+	
+	/**
+	 * The string for PITFALL.
+	 */
+	public static final String PITFALL = "pitfall";
+	/**
+	 * The string for CORRECTNESS.
+	 */
+	public static final String CORRECTNESS = "correctness";
+	
+	/**
+	 * The string for COMPLETENESS.
+	 */
+	public static final String COMPLETENESS = "completeness";
+	
+	/**
+	 * The string for DEPRECATED
+	 */
+	public static final String DEPRECATED = "deprecated";
+	
+	/**
 	 * Constructor
 	 * 
 	 * Direct instantiation is not possible.

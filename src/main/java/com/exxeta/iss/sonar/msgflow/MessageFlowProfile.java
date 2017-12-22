@@ -179,6 +179,45 @@ public class MessageFlowProfile extends ProfileDefinition {
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeCatchTerminal"), null);
 		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TryCatchNodeMonitoringEvents"), null);
 		
+		/* Below rules are being added here*/
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SelfConnectingNodes"), null);
+//		MQ Node names should match the under laying queue name - (Not active rule. Activate if applicable)
+//		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQNodeNameMatchesQueueName"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestDescription"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestNodeDefinedProperties"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestCommitMode"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestMessageDomain"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MessageFlowDescription"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQHeaderNodeDetection"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FilterNodeNameCheck"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "IMSRequestNodeName"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQNodeTxnMode"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpReplyIgnoreTransportFailuresCheck"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "HttpReplyGenerateDefaultHttpHeadersCheck"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "ComputeNodeNameCheck"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "TraceNodeDetection"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "XMLNSCoverXMLNS"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "DisconnectedNode"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MQReplyWithoutMQInput"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "LabelWithoutConnections"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "AllInputTerminalsNotConnected"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "LabelWithoutRouteTo"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "FilterNodeConnection"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SoapRequestTimeOut"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MessageFlowInconsistentReply"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "SOAPAsyncNodeFault"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "aggregateControlNodeTimeout"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "NodeNameModuleName"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "OneModuleMultipleNodes"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "NodeLevelAdditionalInstances"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "UnusedSubFlow"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "mappingNodePropertiesMissing"), null);
+		//profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "todoFoundInMapping"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "queueNamingConvention"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "InconsistentRouteNode"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "DeprecatedNodeCheck"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "DSNWithoutDBCall"), null);
+		profile.activateRule(Rule.create(MessageFlowCheckList.REPOSITORY_KEY, "MavenProjectNamingConventions"), null);
 		// add more rules here
 		
 		LOG.debug("created profile: " + profile.toString());

@@ -19,6 +19,7 @@ package com.exxeta.iss.sonar.msgflow;
 
 import java.util.List;
 
+import com.exxeta.iss.sonar.msgflow.check.ComputeNodeNameCheck;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -65,6 +66,7 @@ public final class MessageFlowCheckList {
 	 */
 	public static List<Class> getChecks() {
 		return ImmutableList.<Class>of(
+				ComputeNodeNameCheck.class
 				// add checks if necessary
 				);
 	}

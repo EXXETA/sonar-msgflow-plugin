@@ -19,6 +19,8 @@ package com.exxeta.iss.sonar.msgflow.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,14 +57,30 @@ public class MessageFlowParser {
 	 * @param fileOutputNodes the list of File Output Nodes to which the new message flow node should be added
 	 * @param httpInputNodes the list of Http Input Nodes to which the new message flow node should be added
 	 * @param httpRequestNodes the list of Http Request Nodes to which the new message flow node should be added
+	 * @param httpReplyNodes the list of Http Reply Nodes to which the new message flow node should be added
 	 * @param mqInputNodes the list of MQ Input Nodes to which the new message flow node should be added
 	 * @param mqOutputNodes the list of MQ Output Nodes to which the new message flow node should be added
+	 * @param mqGetNodes the list of MQ Get Nodes to which the new message flow node should be added
+	 * @param mqHeaderNodes the list of MQ Header Nodes to which the new message flow node should be added
+	 * @param mqReplyNodes the list of MQ Reply Nodes to which the new message flow node should be added
 	 * @param resetContentDescriptorNodes the list of Reset Content Descriptor Nodes to which the new message flow node should be added
 	 * @param soapInputNodes the list of Soap Input Nodes to which the new message flow node should be added
 	 * @param soapRequestNodes the list of Soap Request Nodes to which the new message flow node should be added
 	 * @param timeoutControlNodes the list of Timeout Control Nodes to which the new message flow node should be added
 	 * @param timeoutNotificationNodes the list of Timeout Notification Nodes to which the new message flow node should be added
 	 * @param tryCatchNodes the list of Try Catch Nodes to which the new message flow node should be added
+	 * @param imsRequestNodes the list of IMS Request Nodes to which the new message flow node should be added
+	 * @param filterNodes the list of Filter Nodes to which the new message flow node should be added
+	 * @param traceNodes the list of Trace Nodes to which the new message flow node should be added
+	 * @param labelNodes the list of Label Nodes to which the new message flow node should be added
+	 * @param routeToLabelNodes the list of Route To Label Nodes to which the new message flow node should be added
+	 * @param aggregateControlNodes the list of aggregate Control Nodes to which the new message flow node should be added
+	 * @param databaseNodes the list of database Nodes to which the new message flow node should be added
+	 * @param miscellaneousNodes the list of miscellaneous/Uncategorized Nodes to which the new message flow node should be added
+	 * @param connections the list of all the connections for the message flow
+	 * @param comments the list of all the comment notes for the message flow
+	 * @param shortDescription the short description of the message flow (Using StringBuilder as String is immutable)
+	 * @param longDescription the long description of the message flow (Using StringBuilder as String is immutable)
 	 */
 	public void parse(String fileName,
 					  ArrayList<MessageFlowNode> collectorNodes,
@@ -71,14 +89,31 @@ public class MessageFlowParser {
 					  ArrayList<MessageFlowNode> fileOutputNodes,
 					  ArrayList<MessageFlowNode> httpInputNodes,
 					  ArrayList<MessageFlowNode> httpRequestNodes,
+					  ArrayList<MessageFlowNode> httpReplyNodes,
 					  ArrayList<MessageFlowNode> mqInputNodes,
 					  ArrayList<MessageFlowNode> mqOutputNodes,
+					  ArrayList<MessageFlowNode> mqGetNodes,
+					  ArrayList<MessageFlowNode> mqHeaderNodes,
+					  ArrayList<MessageFlowNode> mqReplyNodes,
 					  ArrayList<MessageFlowNode> resetContentDescriptorNodes,
 					  ArrayList<MessageFlowNode> soapInputNodes,
 					  ArrayList<MessageFlowNode> soapRequestNodes,
 					  ArrayList<MessageFlowNode> timeoutControlNodes,
 					  ArrayList<MessageFlowNode> timeoutNotificationNodes,
-					  ArrayList<MessageFlowNode> tryCatchNodes) {
+					  ArrayList<MessageFlowNode> tryCatchNodes,
+					  ArrayList<MessageFlowNode> imsRequestNodes,
+					  ArrayList<MessageFlowNode> filterNodes,
+					  ArrayList<MessageFlowNode> traceNodes,
+					  ArrayList<MessageFlowNode> labelNodes,
+					  ArrayList<MessageFlowNode> routeToLabelNodes,
+					  ArrayList<MessageFlowNode> aggregateControlNodes,
+					  ArrayList<MessageFlowNode> databaseNodes,
+					  ArrayList<MessageFlowNode> routeNodes,
+					  ArrayList<MessageFlowNode> miscellaneousNodes,
+					  ArrayList<MessageFlowConnection> connections,
+					  ArrayList<MessageFlowCommentNote> comments,
+					  StringBuilder shortDescription,
+					  StringBuilder longDescription) {
 		LOG.debug("START");
 
 		try {
@@ -121,12 +156,12 @@ public class MessageFlowParser {
 				LOG.debug("id: " + id);
 				LOG.debug("name: " + name);
 				LOG.debug("type: " + type);
-
-				if (type.contains("ComIbm") == false) {
-					/* if the node is not a ComIbm node */
-					LOG.debug("omitted node of type " + type);
-					continue;
-				}
+//	commenting the below code to add subflow nodes as a part of Miscellaneous nodelist
+//				if (type.contains("ComIbm") == false) {
+//					/* if the node is not a ComIbm node */
+//					LOG.debug("omitted node of type " + type);
+//					continue;
+//				}
 
 				String messageDomainProperty	= (String)messageDomainPropertyExpr.evaluate(document, XPathConstants.STRING);
 				String messageSetProperty		= (String)messageSetPropertyExpr.evaluate(document, XPathConstants.STRING);
@@ -134,7 +169,12 @@ public class MessageFlowParser {
 				String messageDomain			= (String)messageDomainExpr.evaluate(document, XPathConstants.STRING);
 				String messageSet				= (String)messageSetExpr.evaluate(document, XPathConstants.STRING);
 				String recordDefinition			= (String)recordDefinitionExpr.evaluate(document, XPathConstants.STRING);
-				type 							= type.substring(0, type.indexOf(".")).replace("ComIbm", "");
+				//added condition to store subflow types with the extention
+				if (type.contains("ComIbm")) {
+					type 						= type.substring(0, type.indexOf(".")).replace("ComIbm", "");
+				}else{
+					type 						= type.substring(0, type.indexOf(":"));
+				}
 				boolean buildTreeUsingSchema 	= Boolean.parseBoolean((String)buildTreeUsingSchemaExpr.evaluate(document, XPathConstants.STRING));
 				boolean mixedContentRetainMode	= ((String)mixedContentRetainModeExpr.evaluate(document, XPathConstants.STRING)).equals("all");
 				boolean commentsRetainMode		= ((String)commentsRetainModeExpr.evaluate(document, XPathConstants.STRING)).equals("all");
@@ -177,12 +217,117 @@ public class MessageFlowParser {
 					XPathExpression outputTerminalExpr = XPathFactory.newInstance().newXPath().compile("//connections[@sourceNode='" + id + "'][" + noot + "]/@sourceTerminalName");
 					outputTerminals.add(((String)outputTerminalExpr.evaluate(document, XPathConstants.STRING)));
 				}
+				/**
+				 * Added to extract the values of the node specific properties and the values  
+				 */
+				Map<String, Object> properties = new HashMap<String, Object>();
+				if(type.equals("MQInput")||type.equals("MQOutput")||type.equals("MQGet")||type.equals("MQReply")){
+					if(type.equals("MQInput")||type.equals("MQOutput")||type.equals("MQGet")){
+						XPathExpression queueNameExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@queueName");
+						String queueName = (String) queueNameExp.evaluate(document,XPathConstants.STRING);
+					
+						properties.put("queueName",queueName);
+					}
+					
+					XPathExpression txnModeExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@transactionMode");
+					String txnMode = (String) txnModeExp.evaluate(document,XPathConstants.STRING);
+				
+					properties.put("transactionMode",txnMode);
+				}
+				else if (type.equals("IMSRequest")) {
+					XPathExpression shortDescriptionIMSExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/shortDescription/@string");
+					String shortDescriptionIMS = (String) shortDescriptionIMSExp.evaluate(document,XPathConstants.STRING);
+					properties.put("shortDescription", shortDescriptionIMS);
+					
+					XPathExpression longDescriptionIMSExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/longDescription/@string");
+					String longDescriptionIMS = (String) longDescriptionIMSExp.evaluate(document,XPathConstants.STRING);
+					properties.put("longDescription", longDescriptionIMS);
+					
+					XPathExpression useNodePropertiesExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@useNodeProperties");
+					String useNodeProperties = (String) useNodePropertiesExp.evaluate(document,XPathConstants.STRING);
+					properties.put("useNodeProperties", useNodeProperties);
+					
+					XPathExpression configurableServiceExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@configurableService");
+					String configurableService = (String) configurableServiceExp.evaluate(document,XPathConstants.STRING);
+					properties.put("configurableService", configurableService);
+					
+					XPathExpression commitModeExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@commitMode");
+					String commitMode = (String) commitModeExp.evaluate(document,XPathConstants.STRING);
+					properties.put("commitMode", commitMode);
+					
+				}
+				else if(type.equals("WSReply")) {
+					XPathExpression ignoreTransportFailuresExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@ignoreTransportFailures");
+					String ignoreTransportFailures = (String) ignoreTransportFailuresExp.evaluate(document,XPathConstants.STRING);
+					properties.put("ignoreTransportFailures", ignoreTransportFailures);
+					XPathExpression generateDefaultHttpHeadersExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@generateDefaultHttpHeaders");
+					String generateDefaultHttpHeaders = (String) generateDefaultHttpHeadersExp.evaluate(document,XPathConstants.STRING);
+					properties.put("generateDefaultHttpHeaders", generateDefaultHttpHeaders);
+				}
+				else if(type.equals("SOAPRequest")){					
+					XPathExpression requestTimeoutExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@requestTimeout");
+					String requestTimeout = (String) requestTimeoutExp.evaluate(document,XPathConstants.STRING);
+					properties.put("requestTimeout", requestTimeout);
+				}
+				else if(type.equals("AggregateControl")){
+					XPathExpression timeoutIntervalExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@timeoutInterval");
+					String timeoutInterval = (String) timeoutIntervalExp.evaluate(document,XPathConstants.STRING);
+					properties.put("timeoutInterval", timeoutInterval);
+				}
+				else if(type.equals("Compute")){
+					XPathExpression computeExpressionExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@computeExpression");
+					String computeExpression = (String) computeExpressionExp.evaluate(document,XPathConstants.STRING);
+					computeExpression = computeExpression.substring(computeExpression.indexOf("#")+1, computeExpression.indexOf(".Main"));
+					properties.put("computeExpression", computeExpression);
+					
+					String computeExpressionFull = (String) computeExpressionExp.evaluate(document,XPathConstants.STRING);
+					properties.put("computeExpressionFull", computeExpressionFull);
+					
+					XPathExpression dataSourceExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@dataSource");
+					String dataSource = (String) dataSourceExp.evaluate(document,XPathConstants.STRING);
+					properties.put("dataSource", dataSource);
+					
+				}
+				else if(type.equals("Filter")){
+					XPathExpression filterExpressionExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@filterExpression");
+					String filterExpression = (String) filterExpressionExp.evaluate(document,XPathConstants.STRING);
+					filterExpression = filterExpression.substring(filterExpression.indexOf("#")+1, filterExpression.indexOf(".Main"));
+					properties.put("filterExpression", filterExpression);
+				}
+				else if(type.equals("Database")){
+					XPathExpression statementExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/@statement");
+					String statement = (String) statementExp.evaluate(document,XPathConstants.STRING);
+					statement = statement.substring(statement.indexOf("#")+1, statement.indexOf(".Main"));
+					properties.put("statement", statement);
+				}
+				else if(type.equals("Route")){
+					XPathExpression filterTableCountExp = XPathFactory.newInstance().newXPath().compile("count(//nodes[@id='"+id+"']/filterTable)");
+					int nof = Integer.parseInt((String) filterTableCountExp.evaluate(document,XPathConstants.STRING));
+					ArrayList<String> routeTable = new ArrayList<String>();
+//					System.out.println(noFil);
+					for(; nof > 0 ; nof-- ){
+						XPathExpression outTerminalExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+id+"']/filterTable["+ nof +"]/@routingOutputTerminal");
+						String outTerminal = (String)outTerminalExp.evaluate(document,XPathConstants.STRING);
+						routeTable.add(outTerminal);
+					}
+					properties.put("routeTerminals", routeTable);
+				}
+				
+				if (type.equals("MQInput") || type.equals("FileInput") || type.equals("WSInput")
+						|| type.equals("SOAPInput")) {
+					XPathExpression componentLevelExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='" + id + "']/@componentLevel");
+					String componentLevel = (String) componentLevelExp.evaluate(document, XPathConstants.STRING);
+					properties.put("componentLevel", componentLevel);
 
+					XPathExpression additionalInstancesExp = XPathFactory.newInstance().newXPath().compile("//nodes[@id='" + id + "']/@additionalInstances");
+					String additionalInstances = (String) additionalInstancesExp.evaluate(document, XPathConstants.STRING);
+					properties.put("additionalInstances", additionalInstances);
+				}
 				LOG.debug("Evaluate expressions - END");
 				LOG.debug("Fill nodes - START");
 
 				/* create new MessageFlowNode using values extracted from msgflow file */
-				MessageFlowNode mfn = new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals);
+				MessageFlowNode mfn = new MessageFlowNode(id, name, type, buildTreeUsingSchema, mixedContentRetainMode, commentsRetainMode, validateMaster, messageDomainProperty, messageSetProperty, requestMsgLocationInTree, messageDomain, messageSet, recordDefinition, resetMessageDomain, resetMessageSet, resetMessageType, resetMessageFormat, areMonitoringEventsEnabled, inputTerminals, outputTerminals,properties);
 				
 				if (type.equals("Collector")) {
 					/* Collector */
@@ -214,6 +359,11 @@ public class MessageFlowParser {
 					
 					/* HTTPRequest */
 					httpRequestNodes.add(mfn);
+				}else if (type.equals("WSReply")) {
+					LOG.debug("WSReply");
+					
+					/* HTTPReply */
+					httpReplyNodes.add(mfn);
 				} else if (type.equals("MQInput")) {
 					LOG.debug("MQInput");
 					
@@ -224,6 +374,21 @@ public class MessageFlowParser {
 					
 					/* MQOutput */
 					mqOutputNodes.add(mfn);
+				} else if (type.equals("MQGet")) {
+					LOG.debug("MQGet");
+					
+					/* MQGet */
+					mqGetNodes.add(mfn);
+				} else if (type.equals("MQHeader")) {
+					LOG.debug("MQHeader");
+					
+					/* MQHeader */
+					mqHeaderNodes.add(mfn);
+				} else if (type.equals("MQReply")) {
+					LOG.debug("MQReply");
+					
+					/* MQReply */
+					mqReplyNodes.add(mfn);
 				} else if (type.equals("ResetContentDescriptor")) {
 					LOG.debug("ResetContentDescriptor");
 					
@@ -254,10 +419,119 @@ public class MessageFlowParser {
 					
 					/* TryCatch */
 					tryCatchNodes.add(mfn);
+				} else if (type.equals("IMSRequest")) {
+					LOG.debug("IMSRequest");
+					
+					/* IMS Request */
+					imsRequestNodes.add(mfn);
+				} else if (type.equals("Filter")) {
+					LOG.debug("Filter");
+					
+					/* Filter */
+					filterNodes.add(mfn);
+				} else if (type.equals("Trace")) {
+					LOG.debug("Trace");
+					
+					/* Trace */
+					traceNodes.add(mfn);
+				} else if (type.equals("Label")) {
+					LOG.debug("Label");
+					
+					/* Label */
+					labelNodes.add(mfn);
+				} else if (type.equals("RouteToLabel")) {
+					LOG.debug("RouteToLabel");
+					
+					/* RouteToLabel */
+					routeToLabelNodes.add(mfn);
+				} else if (type.equals("AggregateControl")) {
+					LOG.debug("AggregateControl");
+
+					/* AggregateControl */
+					aggregateControlNodes.add(mfn);
+				} else if (type.equals("Database")) {
+					LOG.debug("Database");
+					
+					/* Database */
+					databaseNodes.add(mfn);
+				} else if(type.equals("Route")){
+					LOG.debug("Route");
+					
+					/*routeNodes*/
+					routeNodes.add(mfn);
+				} else {
+					LOG.debug("Miscellaneous");
+					
+					/* Miscellaneous */
+					miscellaneousNodes.add(mfn);
 				}
 				
 				LOG.debug("Fill nodes - END");
 			}
+			/**
+			 * Added the below snippet to get short and long description of the message flow
+			 */
+			XPathExpression shortDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/shortDescription/@string");
+			XPathExpression longDescriptionExp = XPathFactory.newInstance().newXPath().compile("//eClassifiers/longDescription/@string");
+			shortDescription.delete(0, shortDescription.length());
+			shortDescription.append((String) shortDescriptionExp.evaluate(document,XPathConstants.STRING));
+			longDescription.delete(0, longDescription.length());
+			longDescription.append((String) longDescriptionExp.evaluate(document,XPathConstants.STRING));
+			
+			/**
+			 * Added to identify all the connections for the message flow change starts
+			 */
+			XPathExpression numberOfConnections = XPathFactory.newInstance().newXPath().compile("count(//connections)");
+			int noc = Integer.parseInt((String)numberOfConnections.evaluate(document, XPathConstants.STRING));
+			
+			for (; noc > 0; noc--) {
+				
+				XPathExpression srcNodeExp			= XPathFactory.newInstance().newXPath().compile("//connections[" + noc +  "]/@sourceNode");
+				XPathExpression targetNodeExp		= XPathFactory.newInstance().newXPath().compile("//connections[" + noc +  "]/@targetNode");
+				XPathExpression srcTeminalExp		= XPathFactory.newInstance().newXPath().compile("//connections[" + noc +  "]/@sourceTerminalName");
+				XPathExpression targetTerminalExp	= XPathFactory.newInstance().newXPath().compile("//connections[" + noc +  "]/@targetTerminalName");
+				
+				String srcNode 			= (String)srcNodeExp.evaluate(document, XPathConstants.STRING);
+				String targetNode 		= (String)targetNodeExp.evaluate(document, XPathConstants.STRING);
+				String srcTerminal 		= (String)srcTeminalExp.evaluate(document, XPathConstants.STRING);
+				String targetTerminal 	= (String)targetTerminalExp.evaluate(document, XPathConstants.STRING);
+
+				XPathExpression srcNodeNameExp		= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+srcNode+"']/translation/@string");
+				XPathExpression targetNodeNameExp	= XPathFactory.newInstance().newXPath().compile("//nodes[@id='"+targetNode+"']/translation/@string");
+				
+				String srcNodeName 		= (String)srcNodeNameExp.evaluate(document, XPathConstants.STRING);
+				String targetNodeName 	= (String)targetNodeNameExp.evaluate(document, XPathConstants.STRING);
+				
+				MessageFlowConnection conection = new MessageFlowConnection(srcNode,srcNodeName,targetNode,targetNodeName,srcTerminal,targetTerminal);
+				connections.add(conection);
+			}
+			
+			/**
+			 * Added to identify the comment notes and the contents of it for the message flow
+			 */
+			XPathExpression numberOfStickyNotes = XPathFactory.newInstance().newXPath().compile("count(//stickyNote)");
+			int nos = Integer.parseInt((String)numberOfStickyNotes.evaluate(document, XPathConstants.STRING));
+			
+			for (; nos > 0; nos--) {
+				XPathExpression associationExp =  XPathFactory.newInstance().newXPath().compile("//stickyNote[" + nos +  "]/@association");
+				XPathExpression commentExp =  XPathFactory.newInstance().newXPath().compile("//stickyNote[" + nos +  "]/body/@string");
+				XPathExpression locationExp =  XPathFactory.newInstance().newXPath().compile("//stickyNote[" + nos +  "]/@location");
+				String associationList = (String) associationExp.evaluate(document,XPathConstants.STRING);
+				ArrayList<String> association = new ArrayList<String>();
+				for(String nodeId : associationList.split(" ")) {
+					association.add(nodeId);
+				}
+				String comment = (String)commentExp.evaluate(document,XPathConstants.STRING);
+				int locationX = Integer.parseInt(((String)locationExp.evaluate(document, XPathConstants.STRING)).split(",")[0]);
+				int locationY = Integer.parseInt(((String)locationExp.evaluate(document, XPathConstants.STRING)).split(",")[1]);
+				MessageFlowCommentNote msgFlowComment = new MessageFlowCommentNote(association, comment, locationX, locationY);
+				comments.add(msgFlowComment);
+			}
+			
+			/**
+			 * Changes ends 
+			 * */
+			
 		} catch (XPathExpressionException e) {
 			LOG.error(e.getMessage());
 		} catch (SAXException e) {

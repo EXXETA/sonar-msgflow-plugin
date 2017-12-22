@@ -50,9 +50,25 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.0</version>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.codehaus.sonar.sslr-squid-bridge</groupId> -->
+<!-- 			<artifactId>sslr-squid-bridge</artifactId> -->
+<!-- 			<version>2.5</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.google.code.gson</groupId> -->
+<!-- 			<artifactId>gson</artifactId> -->
+<!-- 			<version>2.6.2</version> -->
+<!-- 		</dependency> -->
+		
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.sonar</groupId>
@@ -115,7 +131,7 @@
 	<scm>
 		<url>https://github.com/EXXETA/sonar-msgflow-plugin</url>
 	</scm>
-		<developers>
+	<developers>
 		<developer>
 			<id>hesc</id>
 			<name>Hendrik Scholz</name>
