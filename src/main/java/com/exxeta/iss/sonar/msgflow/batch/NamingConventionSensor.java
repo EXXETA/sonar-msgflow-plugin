@@ -1,13 +1,7 @@
 package com.exxeta.iss.sonar.msgflow.batch;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.regex.Pattern;
 
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -18,9 +12,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 
 import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
-import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
-import com.exxeta.iss.sonar.msgflow.model.MessageFlowNode;
-import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
 import com.exxeta.iss.sonar.msgflow.model.PomObject;
 import com.exxeta.iss.sonar.msgflow.model.PomParser;
 
@@ -35,7 +26,7 @@ public class NamingConventionSensor implements Sensor {
 	/**
 	 * The logger for the class.
 	 */
-	private static final Logger LOG = LoggerFactory.getLogger(MQOutputNodeSensor.class);
+	//private static final Logger LOG = LoggerFactory.getLogger(MQOutputNodeSensor.class);
 	
 	/**
 	 * Variable to hold file system information, e.g. the file names of the project files.
@@ -99,7 +90,8 @@ public class NamingConventionSensor implements Sensor {
 				    		.message("The Naming conventions for the message flow and the artifacts is not followed").build());
 				}
 				
-			}else if(fullPath.substring(fullPath.lastIndexOf(File.separator)+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]")){
+			}else if((!fullPath.contains(".subflow")) && (fullPath.substring(fullPath.lastIndexOf(File.separator)+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]"))){
+				
 				boolean violationDetected = false;
 				File file = new File(inputFile.absolutePath());
 				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getParentFile().getAbsolutePath()+File.separator+"pom.xml", new PomParser());

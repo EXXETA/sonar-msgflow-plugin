@@ -17,7 +17,6 @@
  */
 package com.exxeta.iss.sonar.msgflow.batch;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 import org.sonar.api.batch.Sensor;

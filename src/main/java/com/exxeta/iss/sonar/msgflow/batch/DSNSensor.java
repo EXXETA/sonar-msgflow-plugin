@@ -100,10 +100,11 @@ public class DSNSensor implements Sensor {
 						&& !(((String) msgFlowNode.getProperties().get("dataSource")).isEmpty())) {
 
 					String moduleName = (String) msgFlowNode.getProperties().get("computeExpression");
-					String moduleNameFull = "esql://routine/generic#initialize.Main";//(String) msgFlowNode.getProperties().get("computeExpressionFull");
+					String moduleNameFull = (String) msgFlowNode.getProperties().get("computeExpressionFull");
 					String folderName = moduleNameFull.substring(moduleNameFull.indexOf("esql://routine/")+15, moduleNameFull.indexOf("#"));
 					File msgflow = new  File(inputFile.absolutePath());
 					File directoryEsql = new File(msgflow.getParent()+File.separator+folderName);
+					
 					for (File esqlfile : directoryEsql.listFiles()) {
 						if (esqlfile.getAbsolutePath().endsWith(".esql")) {
 							if(checkForModule(esqlfile, moduleName)){
