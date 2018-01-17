@@ -1241,8 +1241,9 @@ public class MessageFlowRulesDefinition implements RulesDefinition {
 		repository.createRule("FilterNodeConnection")
 				.setName("Filter Node - All the output terminals are not connected.")
 				.setHtmlDescription(
-						"Filter node does not have the output terminals connected. "
-						+ "This may lead to abnormal termination during the message flow execution.")
+						"For a filter node true, false and unknown terminals should be connected."
+						+ "If a filter node does not have the output terminals connected, "
+						+ "it may lead to abnormal termination during the message flow execution.")
 				.setSeverity(Severity.CRITICAL).setTags(Tags.CORRECTNESS).setDebtRemediationFunction(
 						new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, "1h"));
 		/*

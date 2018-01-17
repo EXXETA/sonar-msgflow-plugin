@@ -117,9 +117,7 @@ public class IMSRequestNodeSensor implements Sensor {
 							.build());
 				}
 
-				if ((msgFlowNode.getProperties().get("useNodeProperties")== null|| !((String)msgFlowNode.getProperties().get("useNodeProperties")).equals("false"))
-						&& (msgFlowNode.getProperties().get("configurableService") == null
-								|| ((String) msgFlowNode.getProperties().get("configurableService")).isEmpty())) {
+				if (msgFlowNode.getProperties().get("useNodeProperties")== null|| !((String)msgFlowNode.getProperties().get("useNodeProperties")).equals("false")) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "IMSRequestNodeDefinedProperties"))
 							.message("'Use Connection properties defined on Node' option is checked or configurable service is not specified for node '" + msgFlowNode.getName()
