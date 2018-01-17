@@ -112,7 +112,8 @@ public class DSNSensor implements Sensor {
 									Issuable issuable = perspectives.as(Issuable.class, inputFile);
 									issuable.addIssue(issuable.newIssueBuilder()
 											.ruleKey(RuleKey.of("msgflow", "DSNWithoutDBCall"))
-											.message("DSN property is set without DB interactions.").build());
+											.message("DSN property is set without DB interactions for '" + msgFlowNode.getName()
+									+ "' (type: " + msgFlowNode.getType() + ".").build());
 								}
 							}
 						}
