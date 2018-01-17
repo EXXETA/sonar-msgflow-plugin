@@ -163,7 +163,8 @@ public class SoapRequestNodeSensor implements Sensor {
 				    	        	  .build());
 				}
 				
-				if (Integer.parseInt((String)msgFlowNode.getProperties().get("requestTimeout"))==0) {
+				if ((!((String)msgFlowNode.getProperties().get("requestTimeout")).isEmpty()) && 
+						(Integer.parseInt((String)msgFlowNode.getProperties().get("requestTimeout"))==0)) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
 				    	        	  .ruleKey(RuleKey.of("msgflow", "SoapRequestTimeOut"))
