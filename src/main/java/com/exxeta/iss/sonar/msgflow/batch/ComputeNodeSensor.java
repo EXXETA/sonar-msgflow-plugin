@@ -95,6 +95,8 @@ public class ComputeNodeSensor implements Sensor {
 	 */
 	@Override
 	public void analyse(Project arg0, SensorContext arg1) {
+		ArrayList<String> moduleNameExpressionList = new ArrayList<String>();
+		Set<String> moduleSet = new TreeSet<String>();
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			
 			/* 
@@ -104,11 +106,19 @@ public class ComputeNodeSensor implements Sensor {
 			
 			// the actual rule ...
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getComputeNodes().iterator();
-			ArrayList<String> moduleNameExpressionList = new ArrayList<String>();
+			
 			while (iMsgFlowNodes.hasNext()) {
 				
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
-				moduleNameExpressionList.add((String)msgFlowNode.getProperties().get("computeExpression"));
+				String moduleName = (String)msgFlowNode.getProperties().get("computeExpression");
+				moduleNameExpressionList.add(moduleName);
+				if(!moduleSet.add(moduleName)){
+					Issuable issuable = perspectives.as(Issuable.class, inputFile);
+				    issuable.addIssue(issuable.newIssueBuilder()
+				    	        	  .ruleKey(RuleKey.of("msgflow", "OneModuleMultipleNodes"))
+				    	        	  .message("Multiple Compute nodes refers to same module '"+moduleName+"'.")
+				    	        	  .build());
+				}
 				if (!msgFlowNode.getInputTerminals().contains("InTerminal.in")) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 				    issuable.addIssue(issuable.newIssueBuilder()
@@ -164,18 +174,7 @@ public class ComputeNodeSensor implements Sensor {
 				    	        	  .ruleKey(RuleKey.of("msgflow", "NodeNameModuleName"))
 				    	        	  .message("The node name and the underlaying module name should match for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
 				    	        	  .build());
-				}
-				
-			}
-			Set<String> moduleSet = new TreeSet<String>();
-			for(String moduleName:moduleNameExpressionList){
-				if(!moduleSet.add(moduleName)){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "OneModuleMultipleNodes"))
-				    	        	  .message("Multiple Compute nodes refers to same module '"+moduleName+"'.")
-				    	        	  .build());
-				}
+				}				
 			}
 		}
 	}
