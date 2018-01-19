@@ -102,21 +102,26 @@ public class DSNSensor implements Sensor {
 					String moduleName = (String) msgFlowNode.getProperties().get("computeExpression");
 					String moduleNameFull = (String) msgFlowNode.getProperties().get("computeExpressionFull");
 					String folderName = moduleNameFull.substring(moduleNameFull.indexOf("esql://routine/")+15, moduleNameFull.indexOf("#"));
+					System.out.println(folderName);
 					File msgflow = new  File(inputFile.absolutePath());
+					System.out.println(msgflow.getParent()+File.separator+folderName);
 					File directoryEsql = new File(msgflow.getParent()+File.separator+folderName);
+					System.out.println(directoryEsql.getAbsolutePath());
+					boolean isDbCalled = false;
 					
 					for (File esqlfile : directoryEsql.listFiles()) {
 						if (esqlfile.getAbsolutePath().endsWith(".esql")) {
 							if(checkForModule(esqlfile, moduleName)){
-								if (!checkForDbcall(esqlfile, moduleName)) {
-									Issuable issuable = perspectives.as(Issuable.class, inputFile);
-									issuable.addIssue(issuable.newIssueBuilder()
-											.ruleKey(RuleKey.of("msgflow", "DSNWithoutDBCall"))
-											.message("DSN property is set without DB interactions for '" + msgFlowNode.getName()
-									+ "' (type: " + msgFlowNode.getType() + ".").build());
-								}
+								isDbCalled = isDbCalled || checkForDbcall(esqlfile, moduleName);
 							}
 						}
+					}
+					if(!isDbCalled){
+						Issuable issuable = perspectives.as(Issuable.class, inputFile);
+						issuable.addIssue(issuable.newIssueBuilder()
+								.ruleKey(RuleKey.of("msgflow", "DSNWithoutDBCall"))
+								.message("DSN property is set without DB interactions for '" + msgFlowNode.getName()
+						+ "' (type: " + msgFlowNode.getType() + ").").build());
 					}
 				}
 			}
@@ -155,30 +160,38 @@ public class DSNSensor implements Sensor {
 						|| line.trim().toUpperCase().startsWith("DELETE ")
 						|| line.trim().toUpperCase().startsWith("INSERT ")) {
 					dbCall = true;
+					break;
 				} else if (line.contains("=") && ((line.toUpperCase()).substring(line.indexOf("=") + 1).trim()
 						.startsWith("SELECT ")
 						|| (line.toUpperCase()).substring(line.indexOf("=") + 1).trim().startsWith("UPDATE ")
 						|| (line.toUpperCase()).substring(line.indexOf("=") + 1).trim().startsWith("DELETE ")
 						|| (line.toUpperCase()).substring(line.indexOf("=") + 1).trim().startsWith("INSERT "))) {
 					dbCall = true;
-				} else if (line.toUpperCase().replaceAll("\\s+", "").contains("PASSTHRU(")) {
+					break;
+				} else if (line.toUpperCase().replaceAll("\\s+", "").contains("PASSTHRU(")||
+						line.toUpperCase().replaceAll("\\s+", "").contains("PASSTHRU")) {
 					dbCall = true;
+					break;
 				} else if (line.toUpperCase().replaceAll("\\s+", "").startsWith("PASSTHRU")) {
 					dbCall = true;
+					break;
 				} else if (line.toUpperCase().trim().startsWith("CALL")) {
 					String tmpLine = line.replaceAll("\\s+", " ").toUpperCase();
 					String procName = tmpLine.substring(tmpLine.indexOf("CALL ") + 5, tmpLine.indexOf("("));
 					calledProcs.add(procName);
+					//enhancement for checking the called procedure from the module for the DB calls
 				}
 			}
 
 		} catch (IOException e) {
 			LOG.error(e.getMessage());
+//			System.out.println("catch");
 			dbCall = false;
 
 		}
-
-		
+//		System.out.println("==============================================");
+//		System.out.println(dbCall);
+//		System.out.println("==============================================");
 		return dbCall;
 	}
 	
@@ -190,6 +203,8 @@ public class DSNSensor implements Sensor {
 			if (fileAsString.contains(moduleName) && (fileAsString.toUpperCase().replaceAll("\\s+", ""))
 					.contains("CREATECOMPUTEMODULE" + moduleName.toUpperCase())) {
 				moduleExists = true;
+			}else{
+				moduleExists = false;
 			}
 		}
 		 catch (IOException e) {
@@ -197,6 +212,11 @@ public class DSNSensor implements Sensor {
 				moduleExists = false;
 
 			}
+//		if(moduleExists){
+//			System.out.println("ModuleExists====="+moduleExists);
+//			System.out.println("File============"+file);
+//			System.out.println("Module============"+moduleName);
+//		}
 		return moduleExists;
 	}
 

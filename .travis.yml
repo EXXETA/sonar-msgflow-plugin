@@ -9,7 +9,7 @@ git:
   submodules: false
 
 install: true
-script: "mvn clean install -P coverage-per-test"
+script: "mvn clean install"
 matrix:
   fast_finish: true
 
