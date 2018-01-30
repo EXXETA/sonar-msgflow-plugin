@@ -3,7 +3,9 @@ package com.exxeta.iss.sonar.msgflow.batch;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -103,19 +105,28 @@ public class DSNSensor implements Sensor {
 					String moduleNameFull = (String) msgFlowNode.getProperties().get("computeExpressionFull");
 					String folderName = moduleNameFull.substring(moduleNameFull.indexOf("esql://routine/")+15, moduleNameFull.indexOf("#"));
 					File msgflow = new  File(inputFile.absolutePath());
-					File directoryEsql = new File(msgflow.getParent()+File.separator+folderName);
-					
-					for (File esqlfile : directoryEsql.listFiles()) {
+					String directoryEsqlPath = "";
+					if(folderName.isEmpty()) {
+						directoryEsqlPath = msgflow.getParent();
+					}else {
+						directoryEsqlPath = msgflow.getParent()+File.separator+folderName;
+					}
+					File directoryEsql = new File(directoryEsqlPath);
+					boolean isDbCalled = false;
+					List<File> esqlList = Arrays.asList(directoryEsql.listFiles());
+					for (File esqlfile : esqlList) {
 						if (esqlfile.getAbsolutePath().endsWith(".esql")) {
 							if(checkForModule(esqlfile, moduleName)){
-								if (!checkForDbcall(esqlfile, moduleName)) {
-									Issuable issuable = perspectives.as(Issuable.class, inputFile);
-									issuable.addIssue(issuable.newIssueBuilder()
-											.ruleKey(RuleKey.of("msgflow", "DSNWithoutDBCall"))
-											.message("DSN property is set without DB interactions.").build());
-								}
+								isDbCalled = isDbCalled || checkForDbcall(esqlfile, moduleName);
 							}
 						}
+					}
+					if(!isDbCalled){
+						Issuable issuable = perspectives.as(Issuable.class, inputFile);
+						issuable.addIssue(issuable.newIssueBuilder()
+								.ruleKey(RuleKey.of("msgflow", "DSNWithoutDBCall"))
+								.message("DSN property is set without DB interactions for '" + msgFlowNode.getName()
+						+ "' (type: " + msgFlowNode.getType() + ").").build());
 					}
 				}
 			}
@@ -124,7 +135,6 @@ public class DSNSensor implements Sensor {
 
 	public static boolean checkForDbcall(File file, String moduleName) {
 		boolean dbCall = false;
-//		File file = new File(inputfile);
 		ArrayList<String> moduleLines = new ArrayList<String>();
 		boolean isModuleLine =false;
 		try {
@@ -132,7 +142,7 @@ public class DSNSensor implements Sensor {
 			for (String line : FileUtils.readLines(file, "UTF-8")) {
 				if (!line.trim().isEmpty() && !line.trim().startsWith("--") && !line.trim().startsWith("/*")
 						&& !commentSection) {
-					if(line.toUpperCase().replaceAll("\\s+", "").startsWith("CREATECOMPUTEMODULE"+moduleName)){
+					if(line.toUpperCase().replaceAll("\\s+", "").startsWith("CREATECOMPUTEMODULE"+moduleName.toUpperCase())){
 						isModuleLine = true;
 					}else if(line.toUpperCase().replaceAll("\\s+", "").startsWith("ENDMODULE;")){
 						isModuleLine = false;
@@ -154,20 +164,26 @@ public class DSNSensor implements Sensor {
 						|| line.trim().toUpperCase().startsWith("DELETE ")
 						|| line.trim().toUpperCase().startsWith("INSERT ")) {
 					dbCall = true;
+					break;
 				} else if (line.contains("=") && ((line.toUpperCase()).substring(line.indexOf("=") + 1).trim()
 						.startsWith("SELECT ")
 						|| (line.toUpperCase()).substring(line.indexOf("=") + 1).trim().startsWith("UPDATE ")
 						|| (line.toUpperCase()).substring(line.indexOf("=") + 1).trim().startsWith("DELETE ")
 						|| (line.toUpperCase()).substring(line.indexOf("=") + 1).trim().startsWith("INSERT "))) {
 					dbCall = true;
-				} else if (line.toUpperCase().replaceAll("\\s+", "").contains("PASSTHRU(")) {
+					break;
+				} else if (line.toUpperCase().replaceAll("\\s+", "").contains("PASSTHRU(")||
+						line.toUpperCase().replaceAll("\\s+", "").contains("PASSTHRU")) {
 					dbCall = true;
+					break;
 				} else if (line.toUpperCase().replaceAll("\\s+", "").startsWith("PASSTHRU")) {
 					dbCall = true;
+					break;
 				} else if (line.toUpperCase().trim().startsWith("CALL")) {
 					String tmpLine = line.replaceAll("\\s+", " ").toUpperCase();
 					String procName = tmpLine.substring(tmpLine.indexOf("CALL ") + 5, tmpLine.indexOf("("));
 					calledProcs.add(procName);
+					//enhancement for checking the called procedure from the module for the DB calls
 				}
 			}
 
@@ -176,19 +192,18 @@ public class DSNSensor implements Sensor {
 			dbCall = false;
 
 		}
-
-		
 		return dbCall;
 	}
 	
 	public static boolean checkForModule(File file, String moduleName) {
 		boolean moduleExists = false;
 		try{
-//			File file = new File(inputfile);
 			String fileAsString = FileUtils.readFileToString(file, "UTF-8");
 			if (fileAsString.contains(moduleName) && (fileAsString.toUpperCase().replaceAll("\\s+", ""))
 					.contains("CREATECOMPUTEMODULE" + moduleName.toUpperCase())) {
 				moduleExists = true;
+			}else{
+				moduleExists = false;
 			}
 		}
 		 catch (IOException e) {

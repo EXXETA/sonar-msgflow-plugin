@@ -145,7 +145,6 @@ public class MessageFlowGenericSensor implements Sensor {
 				
 			}
 		}
-		System.out.println(subflowList);
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMiscellaneousNodes().iterator();
@@ -159,7 +158,6 @@ public class MessageFlowGenericSensor implements Sensor {
 		}
 		
 		
-		System.out.println(subflowList);
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			for(String subflow:subflowList){
 				if(inputFile.relativePath().equals(subflow)){

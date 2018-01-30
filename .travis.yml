@@ -1,0 +1,25 @@
+
+language: java
+sudo: false
+
+jdk:
+  - oraclejdk8
+  
+git:
+  submodules: false
+
+install: true
+script: "mvn clean install"
+matrix:
+  fast_finish: true
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/maven'
+
+before_cache:
+  - find $HOME/.m2 -name resolver-status.properties -exec rm {} \;
+
+notifications:
+  email: false
