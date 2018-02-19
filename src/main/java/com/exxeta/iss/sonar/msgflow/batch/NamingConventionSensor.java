@@ -68,53 +68,75 @@ public class NamingConventionSensor implements Sensor {
 		
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			String fullPath = inputFile.absolutePath();
-			
-			if(fullPath.endsWith("_MF.msgflow")){
+
+			if (fullPath.endsWith("_MF.msgflow")) {
 				boolean violationDetected = false;
-				File file = new File(inputFile.absolutePath());
-				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getAbsolutePath()+File.separator+"pom.xml", new PomParser());
-				String artifactName = pomObj.getArtifact().toString();
-				if(!inputFile.absolutePath().endsWith(artifactName+"_MF.msgflow")){
-					violationDetected = true;
-				}
-				for(String module : pomObj.getModules()){
-					if((module.indexOf(artifactName+"_App") == -1) && (module.indexOf(artifactName+"_Lib") == -1) 
-							&& (module.indexOf(artifactName+"_Properties") == -1)){
+				File file = new File(fullPath);
+				String ProjectDirectory = getProjectDirectory(file).getAbsolutePath();
+				if (new File(ProjectDirectory + File.separator + "pom.xml").exists()) {
+					PomObject pomObj = new PomObject(ProjectDirectory + File.separator + "pom.xml", new PomParser());
+					String artifactName = pomObj.getArtifact().toString();
+					if (!inputFile.absolutePath().endsWith(artifactName + "_MF.msgflow")) {
 						violationDetected = true;
 					}
+					for (String module : pomObj.getModules()) {
+						if ((module.indexOf(artifactName + "_App") == -1)
+								&& (module.indexOf(artifactName + "_Lib") == -1)
+								&& (module.indexOf(artifactName + "_Properties") == -1)) {
+							violationDetected = true;
+						}
+					}
+					if (violationDetected) {
+						Issuable issuable = perspectives.as(Issuable.class, inputFile);
+						issuable.addIssue(issuable.newIssueBuilder()
+								.ruleKey(RuleKey.of("msgflow", "MavenProjectNamingConventions"))
+								.message(
+										"The Naming conventions for the message flow and the artifacts is not followed")
+								.build());
+					}
+
 				}
-				if(violationDetected){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    		.ruleKey(RuleKey.of("msgflow", "MavenProjectNamingConventions"))
-				    		.message("The Naming conventions for the message flow and the artifacts is not followed").build());
-				}
-				
 			}else if((!fullPath.contains(".subflow")) && (fullPath.substring(fullPath.lastIndexOf(File.separator)+1, fullPath.indexOf(".msgflow")).matches("^[a-zA-Z]*(_App_v)[0-9]"))){
 				
 				boolean violationDetected = false;
-				File file = new File(inputFile.absolutePath());
-				PomObject pomObj = new PomObject(file.getParentFile().getParentFile().getParentFile().getAbsolutePath()+File.separator+"pom.xml", new PomParser());
-				String artifactName = pomObj.getArtifact().toString();
-				if(!inputFile.absolutePath().contains(artifactName)){
-					violationDetected = true;
-				}
-				for(String module : pomObj.getModules()){
-					if(module.contains(artifactName) && ((module.indexOf(artifactName+"_App") == -1) && (module.indexOf(artifactName+"_Lib") == -1) 
-							&& (module.indexOf(artifactName+"_DAR") == -1))){
+				File file = new File(fullPath);
+				String ProjectDirectory = getProjectDirectory(file).getAbsolutePath();
+				if (new File(ProjectDirectory + File.separator + "pom.xml").exists()) {
+					PomObject pomObj = new PomObject(ProjectDirectory + File.separator + "pom.xml",
+							new PomParser());
+					String artifactName = pomObj.getArtifact().toString();
+					if (!inputFile.absolutePath().contains(artifactName)) {
 						violationDetected = true;
 					}
+					for (String module : pomObj.getModules()) {
+						if (module.contains(artifactName) && ((module.indexOf(artifactName + "_App") == -1)
+								&& (module.indexOf(artifactName + "_Lib") == -1)
+								&& (module.indexOf(artifactName + "_DAR") == -1))) {
+							violationDetected = true;
+						}
+					}
+					if (violationDetected) {
+						Issuable issuable = perspectives.as(Issuable.class, inputFile);
+						issuable.addIssue(issuable.newIssueBuilder()
+								.ruleKey(RuleKey.of("msgflow", "MavenProjectNamingConventions"))
+								.message(
+										"The Naming conventions for the message flow and the artifacts is not followed")
+								.build());
+					}
 				}
-				if(violationDetected){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    		.ruleKey(RuleKey.of("msgflow", "MavenProjectNamingConventions"))
-				    		.message("The Naming conventions for the message flow and the artifacts is not followed").build());
-				}
-				
 			}
-			
 		}
+	}
+	
+	private File getProjectDirectory(File msgFlowFile) {
+		File projectDirectory = new File(msgFlowFile.getAbsolutePath());
+		while (projectDirectory != null) {
+			projectDirectory = projectDirectory.getParentFile();
+			if (new File(projectDirectory, ".project").exists()) {
+				return projectDirectory.getParentFile();
+			}
+		}
+		return null;
 	}
 	
 
