@@ -78,8 +78,8 @@ public class NamingConventionSensor implements Sensor {
 					violationDetected = true;
 				}
 				for(String module : pomObj.getModules()){
-					if((module.indexOf(artifactName+"_App") != -1) || (module.indexOf(artifactName+"_Lib") != -1) 
-							|| (module.indexOf(artifactName+"_Properties") != -1)){
+					if((module.indexOf(artifactName+"_App") == -1) && (module.indexOf(artifactName+"_Lib") == -1) 
+							&& (module.indexOf(artifactName+"_Properties") == -1)){
 						violationDetected = true;
 					}
 				}
@@ -100,8 +100,8 @@ public class NamingConventionSensor implements Sensor {
 					violationDetected = true;
 				}
 				for(String module : pomObj.getModules()){
-					if(module.contains(artifactName) && ((module.indexOf(artifactName+"_App") != -1) || (module.indexOf(artifactName+"_Lib") != -1) 
-							|| (module.indexOf(artifactName+"_DAR") != -1))){
+					if(module.contains(artifactName) && ((module.indexOf(artifactName+"_App") == -1) && (module.indexOf(artifactName+"_Lib") == -1) 
+							&& (module.indexOf(artifactName+"_DAR") == -1))){
 						violationDetected = true;
 					}
 				}
