@@ -79,7 +79,7 @@ public class MiscellaneousNodeSensor implements Sensor {
 			// the actual rule ...
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMiscellaneousNodes().iterator();
 			
-			String [] nodesWithMultipleInputs = {"CDOutput","FileRead","FTEOutput","TCPIPServerOutput"};
+			String [] nodesWithMultipleInputs = {"CDOutput","FileRead","FTEOutput","TCPIPServerOutput","AggregateReply"};
 			
 			String [] deprecatedNodes = {"Check"};
 			

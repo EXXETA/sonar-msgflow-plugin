@@ -158,7 +158,7 @@ public class SoapInputNodeSensor implements Sensor {
 				if ((!((String) msgFlowNode.getProperties().get("componentLevel")).isEmpty())
 						&& (((String) msgFlowNode.getProperties().get("componentLevel")).equals("node"))
 						&& (!((String) msgFlowNode.getProperties().get("additionalInstances")).isEmpty())
-						&& (((Integer) msgFlowNode.getProperties().get("additionalInstances")) > 0)) {
+						&& (Integer.parseInt((String)msgFlowNode.getProperties().get("additionalInstances")) > 0)) {
 					Issuable issuable = perspectives.as(Issuable.class, inputFile);
 					issuable.addIssue(
 							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "NodeLevelAdditionalInstances"))
