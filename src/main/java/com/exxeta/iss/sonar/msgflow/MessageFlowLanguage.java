@@ -73,7 +73,7 @@ public class MessageFlowLanguage extends AbstractLanguage {
 	public String[] getFileSuffixes() {
 		String[] suffixes = settings.getStringArray(MessageFlowPlugin.FILE_SUFFIXES_KEY);
 		if (suffixes == null || suffixes.length == 0) {
-			suffixes = StringUtils.split(MessageFlowPlugin.FILE_SUFFIXES_DEFAULTVALUE, ",");
+			suffixes = MessageFlowPlugin.FILE_SUFFIXES_DEFAULTVALUE;
 		}
 		
 		LOG.debug(suffixes.toString());
