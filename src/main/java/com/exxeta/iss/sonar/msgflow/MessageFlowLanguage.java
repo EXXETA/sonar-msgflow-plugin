@@ -17,10 +17,9 @@
  */
 package com.exxeta.iss.sonar.msgflow;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.resources.AbstractLanguage;
 
 /**
@@ -49,14 +48,14 @@ public class MessageFlowLanguage extends AbstractLanguage {
 	/**
 	 * Variable to hold the configuration settings.
 	 */
-	private Settings settings;
+	private MapSettings settings;
 	
 	/**
 	 * Construtor
 	 * 
 	 * @param configuration The configuration settings set by IoC.
 	 */
-	public MessageFlowLanguage(Settings configuration) {
+	public MessageFlowLanguage(MapSettings configuration) {
 		super(KEY, NAME);
 		this.settings = configuration;
 	}
