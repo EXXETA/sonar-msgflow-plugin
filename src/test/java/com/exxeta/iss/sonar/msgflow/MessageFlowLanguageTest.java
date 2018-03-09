@@ -20,7 +20,7 @@ package com.exxeta.iss.sonar.msgflow;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.internal.MapSettings;
 
 /**
  * The class ... TODO: add comment
@@ -34,7 +34,7 @@ public class MessageFlowLanguageTest {
 	 */
 	@Test
 	public final void testGetFileSuffixes() {
-		MessageFlowLanguage mfl = new MessageFlowLanguage(new Settings());
+		MessageFlowLanguage mfl = new MessageFlowLanguage(new MapSettings());
 		assertEquals(3, mfl.getFileSuffixes().length);
 		assertEquals(".msgflow", mfl.getFileSuffixes()[0]);
 		assertEquals(".subflow", mfl.getFileSuffixes()[1]);

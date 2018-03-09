@@ -14,21 +14,40 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<sonar.buildVersion>4.5.2</sonar.buildVersion>
+		<sonar.buildVersion>6.7</sonar.buildVersion>
 		<jdk.min.version>1.7</jdk.min.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.codehaus.sonar</groupId>
+			<groupId>org.sonarsource.sonarqube</groupId>
 			<artifactId>sonar-plugin-api</artifactId>
 			<version>${sonar.buildVersion}</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.sslr</groupId>
+			<artifactId>sslr-core</artifactId>
+			<version>1.22</version>
+		</dependency>
 		<!-- unit tests -->
 		<dependency>
-			<groupId>org.codehaus.sonar</groupId>
+			<groupId>org.sonarsource.sonarqube</groupId>
 			<artifactId>sonar-testing-harness</artifactId>
 			<version>${sonar.buildVersion}</version>
 			<scope>test</scope>
@@ -50,17 +69,17 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.0</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.codehaus.sonar.sslr-squid-bridge</groupId> -->
-<!-- 			<artifactId>sslr-squid-bridge</artifactId> -->
-<!-- 			<version>2.5</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.google.code.gson</groupId> -->
-<!-- 			<artifactId>gson</artifactId> -->
-<!-- 			<version>2.6.2</version> -->
-<!-- 		</dependency> -->
-		
+		<!-- <dependency> -->
+		<!-- <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId> -->
+		<!-- <artifactId>sslr-squid-bridge</artifactId> -->
+		<!-- <version>2.5</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.google.code.gson</groupId> -->
+		<!-- <artifactId>gson</artifactId> -->
+		<!-- <version>2.6.2</version> -->
+		<!-- </dependency> -->
+
 	</dependencies>
 
 	<build>

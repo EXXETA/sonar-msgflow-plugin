@@ -75,12 +75,12 @@ public class MessageFlowPlugin extends SonarPlugin {
 	/**
 	 * The FILE_SUFFIXES_DEFAULTVALUE for the plug-in.
 	 */
-	public static final String FILE_SUFFIXES_DEFAULTVALUE = ".msgflow,.subflow,.map";
+	public static final String[] FILE_SUFFIXES_DEFAULTVALUE = new String[]{".msgflow",".subflow",".map"};
 	
-	public static final String [] FLOW_PATH_PATTERNS = {"*.msgflow","*.subflow"};
-	public static final String [] MAP_PATH_PATTERNS = {"*.map"};
-	public static final String [] ESQL_PATH_PATTERNS = {"*.esql"};
-	public static final String [] POM_PATH_PATTERNS = {"*pom.xml"};
+	public static final String [] FLOW_PATH_PATTERNS = {"**/*.msgflow","**/*.subflow"};
+	public static final String [] MAP_PATH_PATTERNS = {"**/*.map"};
+	public static final String [] ESQL_PATH_PATTERNS = {"**/*.esql"};
+	public static final String [] POM_PATH_PATTERNS = {"**/*pom.xml"};
 	
 	/* (non-Javadoc)
 	 * @see org.sonar.api.Plugin#getExtensions()
