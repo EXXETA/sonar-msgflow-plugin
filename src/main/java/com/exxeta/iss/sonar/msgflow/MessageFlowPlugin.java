@@ -20,7 +20,7 @@ package com.exxeta.iss.sonar.msgflow;
 import java.util.Arrays;
 import java.util.List;
 
-import org.sonar.api.SonarPlugin;
+import org.sonar.api.Plugin;
 
 import com.exxeta.iss.sonar.msgflow.batch.AggregateControlSensor;
 import com.exxeta.iss.sonar.msgflow.batch.CollectorNodeSensor;
@@ -60,7 +60,7 @@ import com.exxeta.iss.sonar.msgflow.batch.TryCatchNodeSensor;
  * 
  * @author Hendrik Scholz (EXXETA AG)
  */
-public class MessageFlowPlugin extends SonarPlugin {
+public class MessageFlowPlugin implements Plugin {
 
 	/**
 	 * The logger for the class.
@@ -81,17 +81,18 @@ public class MessageFlowPlugin extends SonarPlugin {
 	public static final String [] MAP_PATH_PATTERNS = {"**/*.map"};
 	public static final String [] ESQL_PATH_PATTERNS = {"**/*.esql"};
 	public static final String [] POM_PATH_PATTERNS = {"**/*pom.xml"};
+
+	@Override
+	public void define(Context context) {
+		context.addExtensions(getExtensions());
+	}
 	
-	/* (non-Javadoc)
-	 * @see org.sonar.api.Plugin#getExtensions()
-	 */
 	/**
 	 * The method contains all classes necessary for the plug-in.
 	 * 
 	 * @return a list of classes necessary for the plug-in
 	 */
-	@Override
-	public List getExtensions() {
+	public List<Class<? extends Object>> getExtensions() {
 		return Arrays.asList(
 			// Definitions
 			MessageFlowLanguage.class, // class extends AbstractLanguage

@@ -19,6 +19,7 @@ package com.exxeta.iss.sonar.msgflow;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.internal.MapSettings;
 
@@ -28,17 +29,26 @@ import org.sonar.api.config.internal.MapSettings;
  * @author Hendrik Scholz (EXXETA AG)
  */
 public class MessageFlowLanguageTest {
-
+	
+	private MapSettings settings;
+	private MessageFlowLanguage msgflowLanguage;
+	
+	 @Before
+	  public void setUp() {
+	    settings = new MapSettings();
+	    msgflowLanguage = new MessageFlowLanguage(settings.asConfig());
+	  }
+	
 	/**
 	 * Test method for {@link com.exxeta.iss.sonar.msgflow.MessageFlowLanguage#getFileSuffixes()}.
 	 */
 	@Test
 	public final void testGetFileSuffixes() {
-		MessageFlowLanguage mfl = new MessageFlowLanguage(new MapSettings());
-		assertEquals(3, mfl.getFileSuffixes().length);
-		assertEquals(".msgflow", mfl.getFileSuffixes()[0]);
-		assertEquals(".subflow", mfl.getFileSuffixes()[1]);
-		assertEquals(".map", mfl.getFileSuffixes()[2]);
+		settings = new MapSettings();
+		assertEquals(3, msgflowLanguage.getFileSuffixes().length);
+		assertEquals(".msgflow", msgflowLanguage.getFileSuffixes()[0]);
+		assertEquals(".subflow", msgflowLanguage.getFileSuffixes()[1]);
+		assertEquals(".map", msgflowLanguage.getFileSuffixes()[2]);
 //		assertEquals(".esql", mfl.getFileSuffixes()[3]);
 	}
 
