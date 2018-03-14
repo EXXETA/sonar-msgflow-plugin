@@ -19,6 +19,7 @@ package com.exxeta.iss.sonar.msgflow;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.resources.AbstractLanguage;
 
@@ -48,16 +49,16 @@ public class MessageFlowLanguage extends AbstractLanguage {
 	/**
 	 * Variable to hold the configuration settings.
 	 */
-	private MapSettings settings;
+	private  Configuration configuration;
 	
 	/**
 	 * Construtor
 	 * 
 	 * @param configuration The configuration settings set by IoC.
 	 */
-	public MessageFlowLanguage(MapSettings configuration) {
+	public MessageFlowLanguage(Configuration configuration) {
 		super(KEY, NAME);
-		this.settings = configuration;
+		this.configuration = configuration;
 	}
 	
 	/* (non-Javadoc)
@@ -70,7 +71,7 @@ public class MessageFlowLanguage extends AbstractLanguage {
 	 */
 	@Override
 	public String[] getFileSuffixes() {
-		String[] suffixes = settings.getStringArray(MessageFlowPlugin.FILE_SUFFIXES_KEY);
+		String[] suffixes = configuration.getStringArray(MessageFlowPlugin.FILE_SUFFIXES_KEY);
 		if (suffixes == null || suffixes.length == 0) {
 			suffixes = MessageFlowPlugin.FILE_SUFFIXES_DEFAULTVALUE;
 		}

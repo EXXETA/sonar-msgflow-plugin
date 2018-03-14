@@ -16,6 +16,8 @@
 
 		<sonar.buildVersion>6.7</sonar.buildVersion>
 		<jdk.min.version>1.7</jdk.min.version>
+		<sslr.version>1.22</sslr.version>
+		<version.shade.plugin>2.4.3</version.shade.plugin>
 	</properties>
 
 	<dependencies>
@@ -29,6 +31,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.21</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -48,7 +51,7 @@
 		<dependency>
 			<groupId>org.sonarsource.sslr</groupId>
 			<artifactId>sslr-core</artifactId>
-			<version>1.22</version>
+			<version>${sslr.version}</version>
 		</dependency>
 		<!-- unit tests -->
 		<dependency>
@@ -73,6 +76,7 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.0</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId> -->
@@ -101,6 +105,10 @@
 				<extensions>true</extensions>
 				<configuration>
 					<pluginClass>com.exxeta.iss.sonar.msgflow.MessageFlowPlugin</pluginClass>
+					<pluginName>Msgflow</pluginName>
+					<skipDependenciesPackaging>true</skipDependenciesPackaging>
+					<sonarLintSupported>false</sonarLintSupported>
+					<sonarQubeMinVersion>${sonar.buildVersion}</sonarQubeMinVersion>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -120,6 +128,32 @@
 				<version>1.0-beta-1</version>
 				<executions>
 					<!--<execution> <goals> <goal>native2ascii</goal> </goals> </execution> -->
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>${version.shade.plugin}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>false</shadedArtifactAttached>
+							<minimizeJar>true</minimizeJar>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<filters>
+								<filter>
+									<artifact>cglib:cglib-nodep</artifact>
+									<includes>
+										<include>**</include>
+									</includes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
@@ -159,6 +193,11 @@
 		<developer>
 			<id>hesc</id>
 			<name>Hendrik Scholz</name>
+		</developer>
+		<developer>
+			<id>thpo</id>
+			<name>Thomas Pohl</name>
+			<email>thomas.pohl@exxeta.com</email>
 		</developer>
 	</developers>
 </project>
