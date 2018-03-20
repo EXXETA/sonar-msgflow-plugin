@@ -81,7 +81,7 @@ public class MessageFlowGenericSensor implements Sensor {
 			String path = inputFile.relativePath();
 			
 			if("subflow".equals(path.substring(path.lastIndexOf(".")+1))){
-				subflowList.add(path);
+				subflowList.add(path.replace("/","_"));
 			}
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
