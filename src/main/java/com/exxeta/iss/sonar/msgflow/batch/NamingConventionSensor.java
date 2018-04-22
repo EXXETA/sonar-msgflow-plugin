@@ -80,9 +80,11 @@ public class NamingConventionSensor implements Sensor {
 						violationDetected = true;
 					}
 					for (String module : pomObj.getModules()) {
-						if ((module.indexOf(artifactName + "_App") == -1)
+						if ((module.contains(artifactName) && (module.indexOf(artifactName + "_App") == -1)
 								&& (module.indexOf(artifactName + "_Lib") == -1)
-								&& (module.indexOf(artifactName + "_Properties") == -1)) {
+								&& (module.indexOf(artifactName + "_DAR") == -1))
+							||(!(module.contains(artifactName)) && (module.indexOf("pipeline_config") == -1)
+								&& (module.indexOf("XLD_Dictionaries") == -1))) {
 							violationDetected = true;
 						}
 					}
@@ -111,7 +113,9 @@ public class NamingConventionSensor implements Sensor {
 					for (String module : pomObj.getModules()) {
 						if (module.contains(artifactName) && ((module.indexOf(artifactName + "_App") == -1)
 								&& (module.indexOf(artifactName + "_Lib") == -1)
-								&& (module.indexOf(artifactName + "_DAR") == -1))) {
+								&& (module.indexOf(artifactName + "_DAR") == -1))
+							||(!(module.contains(artifactName)) && (module.indexOf("pipeline_config") == -1)
+								&& (module.indexOf("XLD_Dictionaries") == -1))) {
 							violationDetected = true;
 						}
 					}

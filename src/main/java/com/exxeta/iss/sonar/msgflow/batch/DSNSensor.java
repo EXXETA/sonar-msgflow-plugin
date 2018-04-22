@@ -104,12 +104,14 @@ public class DSNSensor implements Sensor {
 					String moduleName = (String) msgFlowNode.getProperties().get("computeExpression");
 					String moduleNameFull = (String) msgFlowNode.getProperties().get("computeExpressionFull");
 					String folderName = moduleNameFull.substring(moduleNameFull.indexOf("esql://routine/")+15, moduleNameFull.indexOf("#"));
+					folderName = folderName.replace(".", File.separator);
 					File msgflow = new  File(inputFile.absolutePath());
 					String directoryEsqlPath = "";
+					File projectDir = getProjectDirectory(msgflow);
 					if(folderName.isEmpty()) {
-						directoryEsqlPath = msgflow.getParent();
+						directoryEsqlPath = projectDir.getAbsolutePath();
 					}else {
-						directoryEsqlPath = msgflow.getParent()+File.separator+folderName;
+						directoryEsqlPath = projectDir.getAbsolutePath()+File.separator+folderName;
 					}
 					File directoryEsql = new File(directoryEsqlPath);
 					boolean isDbCalled = false;
@@ -212,6 +214,24 @@ public class DSNSensor implements Sensor {
 
 			}
 		return moduleExists;
+	}
+	
+	
+	private File getProjectDirectory(File msgflowFile) {
+		File projectDirectory = new File(msgflowFile.getAbsolutePath());
+		if (!projectDirectory.isDirectory()){
+			projectDirectory=projectDirectory.getParentFile();
+		}
+		while (projectDirectory != null) {
+			LOG.info("Checking " + projectDirectory.getAbsolutePath());
+			if (new File(projectDirectory, ".project").exists()) {
+				LOG.info("Returning " + projectDirectory.getAbsolutePath());
+				return projectDirectory;
+			}
+			projectDirectory = projectDirectory.getParentFile();
+		}
+		LOG.info("Nothing found.");
+		return null;
 	}
 
 }
