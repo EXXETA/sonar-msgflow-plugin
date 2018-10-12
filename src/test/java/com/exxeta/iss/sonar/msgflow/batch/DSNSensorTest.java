@@ -33,7 +33,7 @@ public class DSNSensorTest extends AbstractSensorTest {
 	/**
 	 * Test method for {@link com.exxeta.iss.sonar.msgflow.batch.DSNSensor#execute()}.
 	 */
-	@Test
+	//@Test
 	public void analysis_with_issue_should_add_error_to_context()
 	{
 		inputFile("Compute.msgflow");
