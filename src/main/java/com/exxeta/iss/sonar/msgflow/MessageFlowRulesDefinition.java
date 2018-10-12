@@ -17,27 +17,17 @@
  */
 package com.exxeta.iss.sonar.msgflow;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
-
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.rule.RuleStatus;
 import org.sonar.api.rule.Severity;
 import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.debt.internal.DefaultDebtRemediationFunction;
 import org.sonar.api.server.rule.RulesDefinition;
-//import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 import com.exxeta.iss.sonar.msgflow.batch.FilterNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.IMSRequestNodeSensor;
 import com.exxeta.iss.sonar.msgflow.batch.MQInputNodeSensor;
-import com.exxeta.iss.sonar.msgflow.check.ComputeNodeNameCheck;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+//import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 //import com.google.gson.Gson;
 
 /**
