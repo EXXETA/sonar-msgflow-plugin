@@ -18,14 +18,10 @@ package com.exxeta.iss.sonar.msgflow.batch;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.resources.Project;
-import org.sonar.api.rule.RuleKey;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 
 import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
@@ -38,7 +34,7 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  *
  * @author Arjav Shah
  */
-public class IMSRequestNodeSensor implements Sensor {
+public class IMSRequestNodeSensor extends AbstractSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
@@ -46,59 +42,16 @@ public class IMSRequestNodeSensor implements Sensor {
 	// private static final Logger LOG =
 	// LoggerFactory.getLogger(TryCatchNodeSensor.class);
 
-	/**
-	 * Variable to hold file system information, e.g. the file names of the
-	 * project files.
-	 */
-	private final FileSystem fs;
 	public final static String PATTERN_STRING = "(IMS Request )[0-9]$";
 
-	/**
-	 * 
-	 */
-	private final ResourcePerspectives perspectives;
-
-	/**
-	 * Use of IoC to get FileSystem and ResourcePerspectives
-	 */
-	public IMSRequestNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
-		this.fs = fs;
-		this.perspectives = perspectives;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sonar.api.batch.CheckProject#shouldExecuteOnProject(org.sonar.api.
-	 * resources.Project)
-	 */
-	/**
-	 * The method defines the language of the file to be analysed.
+	/* (non-Javadoc)
+	 * @see org.sonar.api.batch.sensor.Sensor#execute(org.sonar.api.batch.sensor.SensorContext)
 	 */
 	@Override
-	public boolean shouldExecuteOnProject(Project arg0) {
-		// This sensor is executed only when there are msgflow files
-		return fs.hasFiles(fs.predicates().hasLanguage("msgflow"));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sonar.api.batch.Sensor#analyse(org.sonar.api.resources.Project,
-	 * org.sonar.api.batch.SensorContext)
-	 */
-	/**
-	 * The method where the analysis of the connections and configuration of the
-	 * message flow node takes place.
-	 */
-	@Override
-	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
-
-			/*
-			 * retrieve the message flow object
-			 */
+	public void execute(SensorContext context) {
+		 FileSystem fs = context.fileSystem();		
+		 for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
+			// retrieve the message flow object
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getImsRequestNodes().iterator();
@@ -110,70 +63,53 @@ public class IMSRequestNodeSensor implements Sensor {
 						|| ((String) msgFlowNode.getProperties().get("shortDescription")).isEmpty())
 						&& (msgFlowNode.getProperties().get("longDescription") == null
 								|| ((String) msgFlowNode.getProperties().get("longDescription")).isEmpty())) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "IMSRequestDescription"))
-							.message("The short and Long Description for the Node '" + msgFlowNode.getName()
-									+ "' (type: " + msgFlowNode.getType() + ") should be available.")
-							.build());
+					createNewIssue(context, inputFile, "IMSRequestDescription",
+							"The short and Long Description for the Node '" + msgFlowNode.getName()
+							+ "' (type: " + msgFlowNode.getType() + ") should be available.");
 				}
 
 				if (msgFlowNode.getProperties().get("useNodeProperties")== null|| !((String)msgFlowNode.getProperties().get("useNodeProperties")).equals("false")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "IMSRequestNodeDefinedProperties"))
-							.message("'Use Connection properties defined on Node' option is checked or configurable service is not specified for node '" + msgFlowNode.getName()
-									+ "' (type: " + msgFlowNode.getType() + ").")
-							.build());
+					createNewIssue(context, inputFile, "IMSRequestNodeDefinedProperties",
+							"'Use Connection properties defined on Node' option is checked or configurable service is not specified for node '" + msgFlowNode.getName()
+							+ "' (type: " + msgFlowNode.getType() + ").");
 				}
 				
 				if(msgFlowNode.getProperties().get("commitMode")!=null && !((String) msgFlowNode.getProperties().get("commitMode")).equals("commitThenSend")){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "IMSRequestCommitMode"))
-							.message("Commit Mode should be set to '0:COMMIT_THEN_SEND' for the node '" + msgFlowNode.getName()
-									+ "' (type: " + msgFlowNode.getType() + ").")
-							.build());
+					createNewIssue(context, inputFile, "IMSRequestCommitMode",
+							"Commit Mode should be set to '0:COMMIT_THEN_SEND' for the node '" + msgFlowNode.getName()
+							+ "' (type: " + msgFlowNode.getType() + ").");
 				}
 				
 				if(!msgFlowNode.getMessageDomainProperty().isEmpty() && !msgFlowNode.getMessageDomainProperty().equals("BLOB")){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "IMSRequestMessageDomain"))
-							.message("Message Domain should be set as 'BLOB' for the node '" + msgFlowNode.getName()
-									+ "' (type: " + msgFlowNode.getType() + ").")
-							.build());
+					createNewIssue(context, inputFile, "IMSRequestMessageDomain",
+							"Message Domain should be set as 'BLOB' for the node '" + msgFlowNode.getName()
+							+ "' (type: " + msgFlowNode.getType() + ").");
 				}
 				
 				if(!CheckIMSNodeName(msgFlowNode.getName())){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "IMSRequestNodeName"))
-							.message("Node name for'" + msgFlowNode.getName()
-									+ "' (type: " + msgFlowNode.getType() + ") should follow the pattern '"+PATTERN_STRING+"'.")
-							.build());
+					createNewIssue(context, inputFile, "IMSRequestNodeName",
+							"Node name for'" + msgFlowNode.getName()
+							+ "' (type: " + msgFlowNode.getType() + ") should follow the pattern '"+PATTERN_STRING+"'.");
 				}
 				
 				if (msgFlowNode.getMessageDomainProperty().equals("XMLNS")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "XMLNSCoverXMLNS"))
-							.message("'Message domain' under 'Input Message Parsing' for '"
-									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-									+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.")
-							.build());
+					createNewIssue(context, inputFile, "XMLNSCoverXMLNS",
+							"'Message domain' under 'Input Message Parsing' for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.");
 				}
 				
 				if (msgFlowNode.getInputTerminals().size()==0) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
-				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "DisconnectedNode",
+							"There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").");
 				}
 			}
 		}
 	}
 	
-public static boolean CheckIMSNodeName(String name) {
-		
+	public static boolean CheckIMSNodeName(String name) {
 		Pattern pattern = Pattern.compile(PATTERN_STRING);
 		return pattern.matcher(name).find();
 		
 	}
-
 }

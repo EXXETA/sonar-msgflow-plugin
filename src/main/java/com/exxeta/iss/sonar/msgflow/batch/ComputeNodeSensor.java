@@ -23,14 +23,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.resources.Project;
-import org.sonar.api.rule.RuleKey;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 
 import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.check.ComputeNodeNameCheck;
@@ -44,146 +40,84 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  * 
  * @author Hendrik Scholz (EXXETA AG)
  */
-public class ComputeNodeSensor implements Sensor {
+public class ComputeNodeSensor extends AbstractSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
 	 */
-	//private static final Logger LOG = LoggerFactory.getLogger(ComputeNodeSensor.class);
-	
-	/**
-	 * Variable to hold file system information, e.g. the file names of the project files.
-	 */
-	private final FileSystem fs;
+	//private static final Logger LOG = LoggerFactory.getLogger(ComputeNodeSensor);
 	
 	/**
 	 * pattern to check the compute node name
 	 */
 	public final static String PATTERN_STRING = new ComputeNodeNameCheck().format;
 	
-	/**
-	 * 
-	 */
-	private final ResourcePerspectives perspectives;
-	
-	/**
-	  * Use of IoC to get FileSystem and ResourcePerspectives
-	  */
-	public ComputeNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
-		this.fs = fs;
-		this.perspectives = perspectives;
-	}
-	
 	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.CheckProject#shouldExecuteOnProject(org.sonar.api.resources.Project)
-	 */
-	/**
-	 * The method defines the language of the file to be analysed.
+	 * @see org.sonar.api.batch.sensor.Sensor#execute(org.sonar.api.batch.sensor.SensorContext.class)
 	 */
 	@Override
-	public boolean shouldExecuteOnProject(Project arg0) {
-		// This sensor is executed only when there are msgflow files
-	    return fs.hasFiles(fs.predicates().hasLanguage("msgflow"));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.Sensor#analyse(org.sonar.api.resources.Project, org.sonar.api.batch.SensorContext)
-	 */
-	/**
-	 * The method where the analysis of the connections and configuration of 
-	 * the message flow node takes place.
-	 */
-	@Override
-	public void analyse(Project arg0, SensorContext arg1) {
+	public void execute(SensorContext context) {
 		ArrayList<String> moduleNameExpressionList = new ArrayList<String>();
 		Set<String> moduleSet = new TreeSet<String>();
+
+		FileSystem fs = context.fileSystem();		
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
-			
-			/* 
-			 * retrieve the message flow object
-			 */
+			// retrieve the message flow object
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			// the actual rule ...
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getComputeNodes().iterator();
-			
 			while (iMsgFlowNodes.hasNext()) {
-				
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
 				String moduleName = (String)msgFlowNode.getProperties().get("computeExpression");
 				moduleNameExpressionList.add(moduleName);
+				
 				if(!moduleSet.add(moduleName)){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "OneModuleMultipleNodes"))
-				    	        	  .message("Multiple Compute nodes refers to same module '"+moduleName+"'.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "OneModuleMultipleNodes", 
+							"Multiple Compute nodes refers to same module '" + moduleName + "'.");
 				}
+
 				if (!msgFlowNode.getInputTerminals().contains("InTerminal.in")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeInTerminal"))
-				    	        	  .message("The in terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ComputeNodeInTerminal", 
+							"The in terminal (input) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.");
 				}
 				
 				if (!msgFlowNode.getOutputTerminals().contains("OutTerminal.failure")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeFailureTerminal"))
-				    	        	  .message("The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ComputeNodeFailureTerminal", 
+							"The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.");
 				}
 					
 				if (!msgFlowNode.getOutputTerminals().contains("OutTerminal.out")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeOutTerminal"))
-				    	        	  .message("The out terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ComputeNodeOutTerminal", 
+							"The out terminal (output) for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not connected.");
 				}
 				
 				if (!msgFlowNode.areMonitoringEventsEnabled()) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeMonitoringEvents"))
-				    	        	  .message("There are no monitoring events defined or the "
-				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ComputeNodeMonitoringEvents", "There are no monitoring events defined or the "
+    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).");
 				}
 				
 				if (!checkComputeNodeName(msgFlowNode.getName())) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ComputeNodeNameCheck"))
-				    	        	  .message("The name of '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") should be in UpperCamelCase without spaces.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ComputeNodeNameCheck", 
+							"The name of '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") should be in UpperCamelCase without spaces.");
 				}
 				
 				if (msgFlowNode.getInputTerminals().size()==0) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
-				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "DisconnectedNode", 
+							"There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").");
 				}
 				
 				if(!msgFlowNode.getName().equals(msgFlowNode.getProperties().get("computeExpression"))){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "NodeNameModuleName"))
-				    	        	  .message("The node name and the underlaying module name should match for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "NodeNameModuleName", 
+							"The node name and the underlaying module name should match for '" 
+									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").");
 				}				
 			}
 		}
 	}
-	
-	public static boolean checkComputeNodeName(String name) {
 
+	public static boolean checkComputeNodeName(String name) {
 		Pattern pattern = Pattern.compile(PATTERN_STRING);
 		return pattern.matcher(name).find();
-
 	}
-
 }

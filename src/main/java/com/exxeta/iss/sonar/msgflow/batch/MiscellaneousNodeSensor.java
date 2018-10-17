@@ -4,14 +4,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.resources.Project;
-import org.sonar.api.rule.RuleKey;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 
 import com.exxeta.iss.sonar.msgflow.MessageFlowNodeWithInputTerminals;
 import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
@@ -26,54 +22,22 @@ import com.google.common.collect.ImmutableSet;
  * 
  * @author Arjav Shah
  */
-public class MiscellaneousNodeSensor implements Sensor {
+public class MiscellaneousNodeSensor extends AbstractSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
 	 */
 	//private static final Logger LOG = LoggerFactory.getLogger(TraceNodeSensor.class);
 	
-	/**
-	 * Variable to hold file system information, e.g. the file names of the project files.
-	 */
-	private final FileSystem fs;
-	
-	/**
-	 * 
-	 */
-	private final ResourcePerspectives perspectives;
-	
-	/**
-	  * Use of IoC to get FileSystem and ResourcePerspectives
-	  */
-	public MiscellaneousNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
-		this.fs = fs;
-		this.perspectives = perspectives;
-	}
-	
 	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.CheckProject#shouldExecuteOnProject(org.sonar.api.resources.Project)
+	 * @see org.sonar.api.batch.sensor.Sensor#execute(org.sonar.api.batch.sensor.SensorContext)
 	 */
 	@Override
-	public boolean shouldExecuteOnProject(Project arg0) {
-		// This sensor is executed only when there are msgflow files
-	    return fs.hasFiles(fs.predicates().hasLanguage("msgflow"));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.Sensor#analyse(org.sonar.api.resources.Project, org.sonar.api.batch.SensorContext)
-	 */
-	/**
-	 * The method where the analysis of the connections and configuration of 
-	 * the message flow node takes place.
-	 */
-	@Override
-	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
+	public void execute(SensorContext context) {
+		 FileSystem fs = context.fileSystem();		
+		 for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			
-			/* 
-			 * retrieve the message flow object
-			 */
+			// retrieve the message flow object
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			// the actual rule ...
@@ -86,35 +50,23 @@ public class MiscellaneousNodeSensor implements Sensor {
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
 				if(IsNodeWithInputTerminals(msgFlowNode.getType()) && msgFlowNode.getInputTerminals().size()==0){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
-				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "DisconnectedNode",
+							"There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").");
 				}
 				
 				if(Arrays.asList(nodesWithMultipleInputs).contains(msgFlowNode.getType()) && msgFlowNode.getInputTerminals().size()<2){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "AllInputTerminalsNotConnected"))
-				    	        	  .message("One or more input terminals of node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") are not connected.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "AllInputTerminalsNotConnected",
+							"One or more input terminals of node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") are not connected.");
 				}
 				
 				if(msgFlowNode.getType().equals("SOAPAsyncResponse") && !msgFlowNode.getOutputTerminals().contains("OutTerminal.fault")){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "SOAPAsyncNodeFault"))
-				    	        	  .message("In SOAP Async node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") 'fault' terminal is not connected.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "SOAPAsyncNodeFault",
+							"In SOAP Async node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") 'fault' terminal is not connected.");
 				}
 				
 				if(Arrays.asList(deprecatedNodes).contains(msgFlowNode.getType())){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "DeprecatedNodeCheck"))
-				    	        	  .message("Deprecated node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is used in the message flow.")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "DeprecatedNodeCheck",
+							"Deprecated node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is used in the message flow.");
 				}
 			}
 		}
@@ -128,6 +80,4 @@ public class MiscellaneousNodeSensor implements Sensor {
 			return false;
 		}
 	}
-	
-
 }

@@ -19,14 +19,10 @@ package com.exxeta.iss.sonar.msgflow.batch;
 
 import java.util.Iterator;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.resources.Project;
-import org.sonar.api.rule.RuleKey;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 
 import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
@@ -39,57 +35,21 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  * 
  * @author Hendrik Scholz (EXXETA AG)
  */
-public class ResetContentDescriptorNodeSensor implements Sensor {
+public class ResetContentDescriptorNodeSensor extends AbstractSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
 	 */
 	//private static final Logger LOG = LoggerFactory.getLogger(ResetContentDescriptorNodeSensor.class);
 	
-	/**
-	 * Variable to hold file system information, e.g. the file names of the project files.
-	 */
-	private final FileSystem fs;
-	
-	/**
-	 * 
-	 */
-	private final ResourcePerspectives perspectives;
-	
-	/**
-	  * Use of IoC to get FileSystem and ResourcePerspectives
-	  */
-	public ResetContentDescriptorNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
-		this.fs = fs;
-		this.perspectives = perspectives;
-	}
-	
 	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.CheckProject#shouldExecuteOnProject(org.sonar.api.resources.Project)
-	 */
-	/**
-	 * The method defines the language of the file to be analysed.
+	 * @see org.sonar.api.batch.sensor.Sensor#execute(org.sonar.api.batch.sensor.SensorContext)
 	 */
 	@Override
-	public boolean shouldExecuteOnProject(Project arg0) {
-		// This sensor is executed only when there are msgflow files
-	    return fs.hasFiles(fs.predicates().hasLanguage("msgflow"));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.Sensor#analyse(org.sonar.api.resources.Project, org.sonar.api.batch.SensorContext)
-	 */
-	/**
-	 * The method where the analysis of the connections and configuration of 
-	 * the message flow node takes place.
-	 */
-	@Override
-	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
-			
-			/* 
-			 * retrieve the message flow object
-			 */
+	public void execute(SensorContext context) {
+		 FileSystem fs = context.fileSystem();		
+		 for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
+			// retrieve the message flow object
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			
 			// the actual rule ...
@@ -99,94 +59,63 @@ public class ResetContentDescriptorNodeSensor implements Sensor {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
 
 				if (msgFlowNode.getMessageDomain().equals("")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeMessageDomain"))
-				    	        	  .message("'Message Domain' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ResetContentDescriptorNodeMessageDomain",
+							"'Message Domain' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).");
 				}
 				
-				/* 
-				 * The setting of a message set is only checked for the following domains:
-				 * MRM, XMLNSC and DataObject.
-				 */
+				// The setting of a message set is only checked for the following domains:
+				// MRM, XMLNSC and DataObject.
 				if (msgFlowNode.getMessageSet().equals("") &&
 					(msgFlowNode.getMessageDomain().equals("MRM") ||
 					 msgFlowNode.getMessageDomain().equals("XMLNSC") ||
 					 msgFlowNode.getMessageDomain().equals("DataObject"))) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeMessageSet"))
-				    	        	  .message("'Message Set' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ResetContentDescriptorNodeMessageSet",
+							"'Message Set' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).");
 				}
 				
 				if (msgFlowNode.isResetMessageDomain() == false) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageDomain"))
-				    	        	  .message("'Message Domain' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ResetContentDescriptorNodeResetMessageDomain",
+							"'Message Domain' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).");
 				}
 				
-				/* 
-				 * The resetting of a message set is only checked for the following domains:
-				 * MRM, XMLNSC and DataObject.
-				 */
+				// The resetting of a message set is only checked for the following domains:
+				// MRM, XMLNSC and DataObject.
 				if ((msgFlowNode.isResetMessageSet() == false) &&
 					(msgFlowNode.getMessageDomain().equals("MRM") ||
 					 msgFlowNode.getMessageDomain().equals("XMLNSC") ||
 					 msgFlowNode.getMessageDomain().equals("DataObject"))) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageSet"))
-				    	        	  .message("'Reset Message Set' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ResetContentDescriptorNodeResetMessageSet",
+							"'Reset Message Set' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).");
 				}
 				
 				if (msgFlowNode.isResetMessageType() == false) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageType"))
-				    	        	  .message("'Reset Message Type' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ResetContentDescriptorNodeResetMessageType",
+							"'Reset Message Type' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).");
 				}
 				
 				if (msgFlowNode.isResetMessageFormat() == false) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeResetMessageFormat"))
-				    	        	  .message("'Reset Message Format' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ResetContentDescriptorNodeResetMessageFormat",
+							"'Reset Message Format' under 'Basic' for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") is not set (see Properties).");
 				}
 				
 				if (!msgFlowNode.areMonitoringEventsEnabled()) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "ResetContentDescriptorNodeMonitoringEvents"))
-				    	        	  .message("There are no monitoring events defined or the "
-				    	        	  		 + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "ResetContentDescriptorNodeMonitoringEvents",
+							"There are no monitoring events defined or the "
+				    	    + "existing events are disabled for '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ") (see Properties).");
 				}
 				
 				if (msgFlowNode.getMessageDomain().equals("XMLNS")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "XMLNSCoverXMLNS"))
-							.message("'Message domain' under 'Basic' for '"
-									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-									+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.")
-							.build());
+					createNewIssue(context, inputFile, "XMLNSCoverXMLNS",
+							"'Message domain' under 'Basic' for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.");
 				}
 				
 				if (msgFlowNode.getInputTerminals().size()==0) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-				    issuable.addIssue(issuable.newIssueBuilder()
-				    	        	  .ruleKey(RuleKey.of("msgflow", "DisconnectedNode"))
-				    	        	  .message("There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").")
-				    	        	  .build());
+					createNewIssue(context, inputFile, "DisconnectedNode",
+							"There are no input connections to node '" + msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").");
 				}
 			}
 		}
 	}
-
 }

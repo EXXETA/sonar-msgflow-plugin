@@ -5,14 +5,10 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.resources.Project;
-import org.sonar.api.rule.RuleKey;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 
 import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
@@ -26,73 +22,34 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  * 
  * @author Arjav Shah
  */
-public class MessageFlowGenericSensor implements Sensor {
+public class MessageFlowGenericSensor extends AbstractSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
 	 */
 	//private static final Logger LOG = LoggerFactory.getLogger(ComputeNodeSensor.class);
 	
-	/**
-	 * Variable to hold file system information, e.g. the file names of the project files.
-	 */
-	private final FileSystem fs;
-	
-	/**
-	 * 
-	 */
-	private final ResourcePerspectives perspectives;
-	
-	/**
-	  * Use of IoC to get FileSystem and ResourcePerspectives
-	  */
-	public MessageFlowGenericSensor(FileSystem fs, ResourcePerspectives perspectives) {
-		this.fs = fs;
-		this.perspectives = perspectives;
-	}
-	
 	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.CheckProject#shouldExecuteOnProject(org.sonar.api.resources.Project)
-	 */
-	/**
-	 * The method defines the language of the file to be analysed.
+	 * @see org.sonar.api.batch.sensor.Sensor#execute(org.sonar.api.batch.sensor.SensorContext)
 	 */
 	@Override
-	public boolean shouldExecuteOnProject(Project arg0) {
-		// This sensor is executed only when there are msgflow files
-	    return fs.hasFiles(fs.predicates().hasLanguage("msgflow"));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sonar.api.batch.Sensor#analyse(org.sonar.api.resources.Project, org.sonar.api.batch.SensorContext)
-	 */
-	/**
-	 * The method where the analysis of the connections and configuration of 
-	 * the message flow node takes place.
-	 */
-	@Override
-	public void analyse(Project arg0, SensorContext arg1) {
-		ArrayList<String> subflowList = new ArrayList<String>();
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
-			
-			/* 
-			 * retrieve the message flow object
-			 */
-			String path = inputFile.relativePath();
+	public void execute(SensorContext context) {
+		 ArrayList<String> subflowList = new ArrayList<String>();
+		 FileSystem fs = context.fileSystem();		
+		 for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
+			// retrieve the message flow object
+			String path = inputFile.absolutePath();
 			
 			if("subflow".equals(path.substring(path.lastIndexOf(".")+1))){
 				subflowList.add(path.replace("/","_"));
 			}
-			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
+			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(path);
 			
 			
 			if((msgFlow.getLabelNodes().size()>0 && msgFlow.getRouteToLabelNodes().size()==0)
 					||(msgFlow.getLabelNodes().size()==0 && msgFlow.getRouteToLabelNodes().size()>0)){
-				Issuable issuable = perspectives.as(Issuable.class, inputFile);
-			    issuable.addIssue(issuable.newIssueBuilder()
-			    	        	  .ruleKey(RuleKey.of("msgflow", "LabelWithoutRouteTo"))
-			    	        	  .message("The Message flow '" + inputFile.relativePath() + "'  does not have RouteToLabel and label in the same flow.")
-			    	        	  .build());
+				createNewIssue(context, inputFile, "LabelWithoutRouteTo",
+						"The Message flow '" + path + "'  does not have RouteToLabel and label in the same flow.");
 			}
 			
 			if (((msgFlow.getMqInputNodes().size() > 0) && (msgFlow.getMqReplyNodes().size() > 0))
@@ -135,20 +92,17 @@ public class MessageFlowGenericSensor implements Sensor {
 				}
 					
 				if(!isFlowConsistentMq || !isFlowConsistentHttp){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MessageFlowInconsistentReply"))
-									.message("The Message flow '" + inputFile.relativePath()
-											+ "'  does not reply to the incoming messages consistently.")
-									.build());
+					createNewIssue(context, inputFile, "MessageFlowInconsistentReply",
+							"The Message flow '" + inputFile.filename()
+							+ "'  does not reply to the incoming messages consistently.");
 				}
 				
 			}
 		}
+		 
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 			Iterator<MessageFlowNode> iMsgFlowNodes = msgFlow.getMiscellaneousNodes().iterator();
-			
 			while (iMsgFlowNodes.hasNext()) {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
 				if(subflowList.contains(msgFlowNode.getType())) {
@@ -157,16 +111,11 @@ public class MessageFlowGenericSensor implements Sensor {
 			}
 		}
 		
-		
 		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
 			for(String subflow:subflowList){
 				if(inputFile.relativePath().equals(subflow)){
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "UnusedSubFlow"))
-									.message("The sub flow '" + subflow
-											+ "'  is not referenced anywhere. Hence, it should be removed")
-									.build());
+					createNewIssue(context, inputFile, "UnusedSubFlow",
+							"The sub flow '" + subflow + "'  is not referenced anywhere. Hence, it should be removed");
 				}
 			}
 		}

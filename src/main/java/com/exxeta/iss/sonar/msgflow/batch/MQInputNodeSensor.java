@@ -20,14 +20,10 @@ package com.exxeta.iss.sonar.msgflow.batch;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.resources.Project;
-import org.sonar.api.rule.RuleKey;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 
 import com.exxeta.iss.sonar.msgflow.MessageFlowPlugin;
 import com.exxeta.iss.sonar.msgflow.model.MessageFlow;
@@ -40,68 +36,24 @@ import com.exxeta.iss.sonar.msgflow.model.MessageFlowProject;
  * 
  * @author Hendrik Scholz (EXXETA AG)
  */
-public class MQInputNodeSensor implements Sensor {
+public class MQInputNodeSensor extends AbstractSensor implements Sensor {
 
 	/**
 	 * The logger for the class.
 	 */
 	// private static final Logger LOG =
 	// LoggerFactory.getLogger(MQInputNodeSensor.class);
-
-	/**
-	 * Variable to hold file system information, e.g. the file names of the
-	 * project files.
-	 */
-	private final FileSystem fs;
 	
 	public final static String PATTERN_STRING = "^[A-Za-z0-9_]+\\.[A-Za-z0-9_]+\\.[A-Za-z0-9_]+\\.(AI|AO)$";
 
-	/**
-	 * 
-	 */
-	private final ResourcePerspectives perspectives;
-
-	/**
-	 * Use of IoC to get FileSystem and ResourcePerspectives
-	 */
-	public MQInputNodeSensor(FileSystem fs, ResourcePerspectives perspectives) {
-		this.fs = fs;
-		this.perspectives = perspectives;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sonar.api.batch.CheckProject#shouldExecuteOnProject(org.sonar.api.
-	 * resources.Project)
-	 */
-	/**
-	 * The method defines the language of the file to be analysed.
+	/* (non-Javadoc)
+	 * @see org.sonar.api.batch.sensor.Sensor#execute(org.sonar.api.batch.sensor.SensorContext)
 	 */
 	@Override
-	public boolean shouldExecuteOnProject(Project arg0) {
-		// This sensor is executed only when there are msgflow files
-		return fs.hasFiles(fs.predicates().hasLanguage("msgflow"));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sonar.api.batch.Sensor#analyse(org.sonar.api.resources.Project,
-	 * org.sonar.api.batch.SensorContext)
-	 */
-	/**
-	 * The method where the analysis of the connections and configuration of the
-	 * message flow node takes place.
-	 */
-	@Override
-	public void analyse(Project arg0, SensorContext arg1) {
-		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
-
-			/*
-			 * retrieve the message flow object
-			 */
+	public void execute(SensorContext context) {
+		 FileSystem fs = context.fileSystem();		
+		 for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
+			// retrieve the message flow object
 			MessageFlow msgFlow = MessageFlowProject.getInstance().getMessageFlow(inputFile.absolutePath());
 
 			// the actual rule ...
@@ -111,167 +63,116 @@ public class MQInputNodeSensor implements Sensor {
 				MessageFlowNode msgFlowNode = iMsgFlowNodes.next();
 
 				if (!msgFlowNode.getOutputTerminals().contains("OutTerminal.failure")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeFailureTerminal"))
-									.message("The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: "
-											+ msgFlowNode.getType() + ") is not connected.")
-									.build());
+					createNewIssue(context, inputFile, "MQInputNodeFailureTerminal",
+							"The failure terminal (output) for '" + msgFlowNode.getName() + "' (type: "
+							+ msgFlowNode.getType() + ") is not connected.");
 				}
 
 				if (!msgFlowNode.getOutputTerminals().contains("OutTerminal.out")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeOutTerminal"))
-									.message("The out terminal (output) for '" + msgFlowNode.getName() + "' (type: "
-											+ msgFlowNode.getType() + ") is not connected.")
-									.build());
+					createNewIssue(context, inputFile, "MQInputNodeOutTerminal",
+							"The out terminal (output) for '" + msgFlowNode.getName() + "' (type: "
+							+ msgFlowNode.getType() + ") is not connected.");
 				}
 
 				if (!msgFlowNode.getOutputTerminals().contains("OutTerminal.catch")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeCatchTerminal"))
-									.message("The catch terminal (output) for '" + msgFlowNode.getName() + "' (type: "
-											+ msgFlowNode.getType() + ") is not connected.")
-									.build());
+					createNewIssue(context, inputFile, "MQInputNodeCatchTerminal",
+							"The catch terminal (output) for '" + msgFlowNode.getName() + "' (type: "
+							+ msgFlowNode.getType() + ") is not connected.");
 				}
 
 				if (msgFlowNode.isBuildTreeUsingSchema() == false) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeBuildTree"))
-							.message(
-									"Loss of data types: 'Build tree using XML schema data types' under 'Parser Options' is not set for '"
-											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-											+ ") (see Properties).")
-							.build());
+					createNewIssue(context, inputFile, "MQInputNodeBuildTree",
+							"Loss of data types: 'Build tree using XML schema data types' under 'Parser Options' is not set for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") (see Properties).");
 				}
 
 				if (msgFlowNode.isMixedContentRetainMode() == false) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeRetainMixedContent"))
-									.message(
-											"Possible loss of data: 'Retain mixed content' under 'Parser Options' is not set for '"
-													+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-													+ ") (see Properties).")
-									.build());
+					createNewIssue(context, inputFile, "MQInputNodeRetainMixedContent",
+							"Possible loss of data: 'Retain mixed content' under 'Parser Options' is not set for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") (see Properties).");
 				}
 
 				if (msgFlowNode.isCommentsRetainMode() == false) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder()
-							.ruleKey(RuleKey.of("msgflow", "MQInputNodeRetainComments"))
-							.message("Possible loss of data: 'Retain comments' under 'Parser Options' is not set for '"
-									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-									+ ") (see Properties).")
-							.build());
+					createNewIssue(context, inputFile, "MQInputNodeRetainComments",
+							"Possible loss of data: 'Retain comments' under 'Parser Options' is not set for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") (see Properties).");
 				}
 
 				if (msgFlowNode.isValidateMaster() == false) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeValidation"))
-							.message("'Validate' under 'Validation' is not set to 'Content and Value' for '"
-									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-									+ ") (see Properties).")
-							.build());
+					createNewIssue(context, inputFile, "MQInputNodeValidation",
+							"'Validate' under 'Validation' is not set to 'Content and Value' for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") (see Properties).");
 				}
 
 				if (msgFlowNode.getMessageDomainProperty().equals("")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeMessageDomain"))
-									.message("'Message domain' under 'Input Message Parsing' is not set for '"
-											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-											+ ") (see Properties).")
-									.build());
+					createNewIssue(context, inputFile, "MQInputNodeMessageDomain",
+							"'Message domain' under 'Input Message Parsing' is not set for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") (see Properties).");
 				}
 
-				/*
-				 * The setting of a message set is only checked for the
-				 * following domains: MRM, XMLNSC and DataObject.
-				 */
+				// The setting of a message set is only checked for the
+				// following domains: MRM, XMLNSC and DataObject.
 				if (msgFlowNode.getMessageSetProperty().equals("")
 						&& (msgFlowNode.getMessageDomainProperty().equals("MRM")
 								|| msgFlowNode.getMessageDomainProperty().equals("XMLNSC")
 								|| msgFlowNode.getMessageDomainProperty().equals("DataObject"))) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeMessageSet"))
-							.message("'Message set' under 'Input Message Parsing' is not set for '"
-									+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-									+ ") (see Properties).")
-							.build());
+					createNewIssue(context, inputFile, "MQInputNodeMessageSet",
+							"'Message set' under 'Input Message Parsing' is not set for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") (see Properties).");
 				}
 
 				if (!msgFlowNode.areMonitoringEventsEnabled()) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQInputNodeMonitoringEvents"))
-									.message("There are no monitoring events defined or the "
-											+ "existing events are disabled for '" + msgFlowNode.getName() + "' (type: "
-											+ msgFlowNode.getType() + ") (see Properties).")
-									.build());
+					createNewIssue(context, inputFile, "MQInputNodeMonitoringEvents",
+							"There are no monitoring events defined or the "
+							+ "existing events are disabled for '" + msgFlowNode.getName() + "' (type: "
+							+ msgFlowNode.getType() + ") (see Properties).");
 				}
 
 				if (!((String) msgFlowNode.getProperties().get("queueName")).equals(msgFlowNode.getName())) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQNodeNameMatchesQueueName"))
-									.message("The name of MQ Node '" + msgFlowNode.getName() + "' (type: "
-											+ msgFlowNode.getType() + ") does not match the underlaying queue name.")
-									.build());
+					createNewIssue(context, inputFile, "MQNodeNameMatchesQueueName",
+							"The name of MQ Node '" + msgFlowNode.getName() + "' (type: "
+							+ msgFlowNode.getType() + ") does not match the underlaying queue name.");
 				}
 
 				if (!msgFlowNode.getProperties().get("transactionMode").equals("automatic")) {
-
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "MQNodeTxnMode"))
-							.message("The 'Transaction Mode' property of " + msgFlowNode.getName() + "(type:"
-									+ msgFlowNode.getType() + ") node is not set to Automatic.")
-							.build());
-
+					createNewIssue(context, inputFile, "MQNodeTxnMode",
+							"The 'Transaction Mode' property of " + msgFlowNode.getName() + "(type:"
+							+ msgFlowNode.getType() + ") node is not set to Automatic.");
 				}
 
 				if (msgFlowNode.getMessageDomainProperty().equals("XMLNS")) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "XMLNSCoverXMLNS"))
-							.message("'Message domain' under 'Input Message Parsing' for '" + msgFlowNode.getName()
-									+ "' (type: " + msgFlowNode.getType()
-									+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.")
-							.build());
+					createNewIssue(context, inputFile, "XMLNSCoverXMLNS",
+							"'Message domain' under 'Input Message Parsing' for '" + msgFlowNode.getName()
+							+ "' (type: " + msgFlowNode.getType()
+							+ ") is set as XMLNS. XMLNSC is preferred over XMLNS.");
 				}
 
 				if ((!((String) msgFlowNode.getProperties().get("componentLevel")).isEmpty())
 						&& (((String) msgFlowNode.getProperties().get("componentLevel")).equals("node"))
 						&& (!((String) msgFlowNode.getProperties().get("additionalInstances")).isEmpty())
 						&& (Integer.parseInt((String)(msgFlowNode.getProperties().get("additionalInstances"))) > 0)) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "NodeLevelAdditionalInstances"))
-									.message("Additional Intances defined at the node level for '"
-											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-											+ ").")
-									.build());
+					createNewIssue(context, inputFile, "NodeLevelAdditionalInstances",
+							"Additional Intances defined at the node level for '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType() + ").");
 				}
 				if (!checkMQQueueName((String) msgFlowNode.getProperties().get("queueName"))) {
-					Issuable issuable = perspectives.as(Issuable.class, inputFile);
-					issuable.addIssue(
-							issuable.newIssueBuilder().ruleKey(RuleKey.of("msgflow", "queueNamingConvention"))
-									.message("Naming convention for the queue specified on '"
-											+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
-											+ ") is not correct.")
-									.build());
+					createNewIssue(context, inputFile, "queueNamingConvention",
+							"Naming convention for the queue specified on '"
+							+ msgFlowNode.getName() + "' (type: " + msgFlowNode.getType()
+							+ ") is not correct.");
 				}
-				
 			}
 		}
 	}
 	
 	public static boolean checkMQQueueName(String name) {
-
 		Pattern pattern = Pattern.compile(PATTERN_STRING);
 		return pattern.matcher(name).find();
-
 	}
-
 }
