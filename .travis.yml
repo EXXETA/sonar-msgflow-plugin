@@ -23,3 +23,14 @@ before_cache:
 
 notifications:
   email: false
+
+deploy:
+- provider: releases
+  prerelease: true
+  api_key: "$API_KEY"
+  file_glob: true
+  file:
+  - esql-plugin/target/sonar-msgflow-plugin-*.jar
+  skip_cleanup: true
+  on:
+    tags: true
