@@ -32,7 +32,7 @@ public class MessageMapSensor extends AbstractSensor implements Sensor {
 	@Override
 	public void execute(SensorContext context) {
 		 FileSystem fs = context.fileSystem();		
-		 for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.FLOW_PATH_PATTERNS))) {
+		for (InputFile inputFile : fs.inputFiles(fs.predicates().matchesPathPatterns(MessageFlowPlugin.MAP_PATH_PATTERNS))) {
 			// retrieve the message flow object
 //			if (inputFile.absolutePath().endsWith(".map")) {
 				MessageMap msgMap = MessageFlowProject.getInstance().getMessageMap(inputFile.absolutePath());
