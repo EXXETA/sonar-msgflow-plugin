@@ -6,7 +6,7 @@
 	<groupId>com.exxeta.iss</groupId>
 	<artifactId>sonar-msgflow-plugin</artifactId>
 	<packaging>sonar-plugin</packaging>
-	<version>1.2.0</version>
+	<version>1.3.0-RC1</version>
 
 	<name>SonarQube Message Flow Plugin</name>
 	<description>The SonarQube Message Flow Plugin is a plugin to analyse msgflow files regarding configuration and wiring of message flow nodes for the IBM Integration Bus.</description>
@@ -27,6 +27,13 @@
 			<version>${sonar.buildVersion}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.sonarqube</groupId>
+			<artifactId>sonar-plugin-api-impl</artifactId>
+			<version>${sonar.buildVersion}</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
