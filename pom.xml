@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<sonar.buildVersion>7.9</sonar.buildVersion>
+		<sonar.buildVersion>8.0</sonar.buildVersion>
 		<jdk.min.version>1.7</jdk.min.version>
 		<sslr.version>1.22</sslr.version>
 		<version.shade.plugin>2.4.3</version.shade.plugin>
@@ -188,7 +188,16 @@
 	</licenses>
 	<scm>
 		<url>https://github.com/EXXETA/sonar-msgflow-plugin</url>
+		<connection>scm:git:git@github.com:EXXETA/sonar-msgflow-plugin.git</connection>
 	</scm>
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/EXXETA/sonar-msgflow-plugin/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis</system>
+		<url>https://travis-ci.org/EXXETA/sonar-msgflow-plugin</url>
+	</ciManagement>
 	<developers>
 		<developer>
 			<id>hesc</id>
